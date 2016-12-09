@@ -5,17 +5,17 @@ import javafx.scene.paint.Color;
 
 public class CrossPassenger extends Passenger{
 
-	public CrossPassenger(double x, double y) {
-		super(x, y);
+	public CrossPassenger(double x, double y,double size,Color color) {
+		super(x, y, size, color);
 		// TODO Auto-generated constructor stub
 	}
 
 
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-		gc.setFill(Color.BLACK);		
-		double[] X1 = new double[]{getX()+3,getX()+7,getX()+7,getX()+10,getX()+10,getX()+7,getX()+7,getX()+3,getX()+3,getX(),getX(),getX()+3};
-		double[] Y1 = new double[]{getY(),getY(),getY()+3,getY()+3,getY()+7,getY()+7,getY()+10,getY()+10,getY()+7,getY()+7,getY()+3,getY()+3};
+		gc.setFill(color);		
+		double[] X1 = new double[]{getX()+3/size,getX()+7/size,getX()+7/size,getX()+10/size,getX()+10/size,getX()+7/size,getX()+7/size,getX()+3/size,getX()+3/size,getX(),getX(),getX()+3/size};
+		double[] Y1 = new double[]{getY(),getY(),getY()+3/size,getY()+3/size,getY()+7/size,getY()+7/size,getY()+10/size,getY()+10/size,getY()+7/size,getY()+7/size,getY()+3/size,getY()+3/size};
 		gc.fillPolygon(X1,Y1,12);
 	}
 	
