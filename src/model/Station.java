@@ -1,6 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Station implements IDrawable,IPassengerDrawable{
 	protected double x,y;
@@ -10,7 +13,17 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		this.setY(y);
 	}
 	
-	
+
+	public void draw_passengers(GraphicsContext gc) {
+		// TODO Auto-generated method stub
+		for(Passenger e: passengers){
+			
+			e.draw(gc);
+		}
+	}
+	public int getNumberOfPassengers(){
+		return passengers.size();
+	}
 
 
 	public double getX() {

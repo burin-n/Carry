@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 import javafx.scene.canvas.GraphicsContext;
 
 public class CrossStation extends Station{
@@ -9,7 +11,18 @@ public class CrossStation extends Station{
 		// TODO Auto-generated constructor stub
 	}
 
-
+	public void AddPassenger(){
+		Random R = new Random();
+		int r = R.nextInt(4);
+		Passenger p = null;
+		if(r%4 == 0)p = new SquarePassenger(getX() + 28 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 1) p = new ArcPassenger(getX() + 28 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 2) p = new CrossPassenger(getX() + 28 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 3) p = new TrianglePassenger(getX() + 28 + getNumberOfPassengers()*12, this.y);
+		passengers.add(p);
+		
+	}
+	
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setLineWidth(4.0);
@@ -20,10 +33,6 @@ public class CrossStation extends Station{
 	}
 
 
-	@Override
-	public void draw_passengers(GraphicsContext gc) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 }

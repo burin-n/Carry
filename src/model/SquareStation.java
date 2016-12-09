@@ -10,27 +10,22 @@ public class SquareStation extends Station{
 		super(x, y);
 		// TODO Auto-generated constructor stub
 	}
-
+	public void AddPassenger(){
+		Random R = new Random();
+		int r = R.nextInt(4);
+		Passenger p = null;
+		if(r%4 == 0)p = new SquarePassenger(getX() + 25 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 1) p = new ArcPassenger(getX() + 25 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 2) p = new CrossPassenger(getX() + 25 + getNumberOfPassengers()*12, this.y);
+		else if(r%4 == 3) p = new TrianglePassenger(getX() + 25 + getNumberOfPassengers()*12, this.y);
+		passengers.add(p);
+		
+	}
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setLineWidth(4.0);
 		gc.strokeRect(getX(), getY(), 20, 20);
 	}
-	public void AddPassenger(){
-		//Random R = new Random(4);
-		SquarePassenger Sp = new SquarePassenger(getX() + 25 + getNumberOfPassengers()*5, this.y);
-		passengers.add(Sp);
-		
-	}
-	public int getNumberOfPassengers(){
-		return passengers.size();
-	}
-	@Override
-	public void draw_passengers(GraphicsContext gc) {
-		// TODO Auto-generated method stub
-		for(Passenger e: passengers){
-			
-			e.draw(gc);
-		}
-	}
+
+
 }
