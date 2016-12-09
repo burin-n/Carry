@@ -30,24 +30,24 @@ public class Line {
 		if(horizontalLength>0) l1.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
 		if(inclineLength>0){
 			if(!l1.isEmpty()) 
-				l1.addAll(findIncline(l1.get(l1.size()-1).getKey(), l1.get(l1.size()-1).getValue(), directionx, directiony, inclineLength));
+				l1.addAll(findIncline(l1.get(l1.size()-1).getKey() + directionx, l1.get(l1.size()-1).getValue() + directiony, directionx, directiony, inclineLength-1));
 			else l1.addAll(findIncline(x1, y1, directionx, directiony, inclineLength));
 		}
 		if(verticalLength>0){
 			if(!l1.isEmpty())
-				l1.addAll(findVertical(l1.get(l1.size()-1).getKey(), l1.get(l1.size()-1).getValue(), directiony, verticalLength));
+				l1.addAll(findVertical(l1.get(l1.size()-1).getKey(), l1.get(l1.size()-1).getValue() + directiony, directiony, verticalLength-1));
 			else l1.addAll(findVertical(x1, y1, directiony, verticalLength));
 		}
 		// vertical first
 		if(verticalLength>0) l2.addAll(findVertical(x1, y1, directiony, verticalLength));		
 		if(inclineLength>0){
 			if(!l2.isEmpty())
-				l2.addAll(findIncline(l2.get(l2.size()-1).getKey(), l2.get(l2.size()-1).getValue(), directionx, directiony, inclineLength));
+				l2.addAll(findIncline(l2.get(l2.size()-1).getKey() + directionx, l2.get(l2.size()-1).getValue() + directiony, directionx, directiony, inclineLength-1));
 			else l2.addAll(findIncline(x1, y1, directionx, directiony, inclineLength));
 		}
 		if(horizontalLength>0){
 			if(!l2.isEmpty())
-				l2.addAll(findHorizontal(l2.get(l2.size()-1).getKey(), l2.get(l2.size()-1).getValue(), directionx, horizontalLength));
+				l2.addAll(findHorizontal(l2.get(l2.size()-1).getKey() + directionx, l2.get(l2.size()-1).getValue(), directionx, horizontalLength-1));
 			else l2.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
 		}
 		
@@ -103,7 +103,7 @@ public class Line {
 	
 	public static void main(String[] args){
 		Line l = new Line(Color.GREEN);
-		l.addPoint(1,1,5,6);
+		l.addPoint(1,1,-10,-6);
 	}
 }
 
