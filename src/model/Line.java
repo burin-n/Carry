@@ -9,7 +9,7 @@ import javafx.util.Pair;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class Line implements IDrawble{
+public class Line implements IDrawable{
 	private ArrayList<Pair<Integer,Integer>> points;
 	private Color color;
 	private ArrayList<Pair<Integer,Integer>> pivots;
