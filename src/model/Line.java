@@ -48,6 +48,7 @@ public class Line implements IDrawable{
 		return points;
 	}
 	
+
 	
 	public void addPoint(int x1,int y1,int x2,int y2){
 		ArrayList<Point> l1 = new ArrayList<>();
@@ -106,6 +107,7 @@ public class Line implements IDrawable{
 		
 		new Thread( () ->{
 			boolean isl1=true;
+			System.out.println("new thread");
 			while(true){
 				try {
 					Thread.sleep(100);
@@ -143,18 +145,23 @@ public class Line implements IDrawable{
 					e.printStackTrace();
 				}
 				if(InputUtility.isMouseLeftClicked()){
-					if(isl1)
-						points.addAll(l1);
-					else points.addAll(l2);
-					break;
+						if(InputUtility.isMouseLeftClicked()){
+						if(isl1)
+							points.addAll(l1);
+						else points.addAll(l2);
+						break;
+					}
 				}
 			}
 		}).start();
-		
-		System.out.println(l1);
-		System.out.println(l2);
+		System.out.println("end thread");
+//		System.out.println(l1);
+//		System.out.println(l2);
 	}
 	
+	public void addPoint(int x2,int y2){
+		addPoint(points.get(points.size()-1).getX(),points.get(points.size()-1).getY(),x2,y2);
+	}
 	
 	public void clear() {
 		// TODO Auto-generated method stub

@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 public class InputUtility {
 
 	private static int mouseX, mouseY;
+	private static int lastmouseX,lastmouseY;
 	private static boolean mouseLeftDown, mouseRightDown, mouseOnScreen;
 	private static boolean mouseLeftLastDown, mouseRightLastDown;
 	private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
@@ -97,5 +98,21 @@ public class InputUtility {
 		mouseLeftDown = false;
 		mouseRightDown = false;
 		keyTriggered.clear();
+	}
+
+	public static int getLastmouseX() {
+		return lastmouseX;
+	}
+
+	public static void setLastmouseX(int lastmouseX) {
+		InputUtility.lastmouseX = lastmouseX;
+	}
+
+	public static int getLastmouseY() {
+		return lastmouseY;
+	}
+
+	public static void setLastmouseY(int lastmouseY) {
+		InputUtility.lastmouseY = lastmouseY;
 	}
 }

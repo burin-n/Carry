@@ -1,15 +1,18 @@
 package screen;
 
 import java.awt.im.InputContext;
+import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import model.Line;
+import model.Point;
 import utility.InputUtility;
 
 public class GameScreen extends StackPane{
@@ -58,23 +61,36 @@ public class GameScreen extends StackPane{
 
 	
 	private void addListener(){
-		canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				InputUtility.setMouseX((int) event.getX());
-				InputUtility.setMouseY((int) event.getY());
-				InputUtility.setMouseLeftDown(true);
+				if(event.getButton() == MouseButton.PRIMARY)
+					InputUtility.setMouseLeftDown(true);
+				else{
+					
+					if(!InputUtility.isMouseRightDown()){
+						InputUtility.setLastmouseX((int)event.getX());
+						InputUtility.setLastmouseY((int)event.getY());
+						InputUtility.setMouseRightDown(true);
+					}
+					else{
+						InputUtility.setMouseRightDown(false);						
+						temp.addPoint(InputUtility.getMouseX(), InputUtility.getMouseY());
+					}
+				}
 				System.out.println(event.getX());
 				System.out.println(event.getY());
 			}
 		});
+		canvas.setOnMouseReleased((event)->InputUtility.setMouseLeftDown(false));
 		
 		canvas.setOnMouseMoved((event) -> {
 			InputUtility.setMouseX((int) event.getX());
 			InputUtility.setMouseY((int) event.getY());
 		});
+		
 	}
 	
 }
