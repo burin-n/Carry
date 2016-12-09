@@ -5,16 +5,16 @@ import javafx.scene.paint.Color;
 
 public class SquarePassenger extends Passenger{
 
-	public SquarePassenger(double x, double y) {
-		super(x, y);
+	public SquarePassenger(double x, double y,double size,Color color) {
+		super(x, y, size, color);
 		// TODO Auto-generated constructor stub
 	}
 
 
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-		gc.setFill(Color.BLACK);
-		gc.fillRect(getX(), getY(), 10, 10);
+		gc.setFill(color);
+		gc.fillRect(getX(), getY(), 10/size, 10/size);
 	}
 	
 }
