@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import model.ArcStation;
 import model.CrossStation;
 import model.SquareStation;
+import model.Transporter;
 import model.TriangleStation;
 
 public class Main extends Application{
@@ -41,6 +42,8 @@ public class Main extends Application{
 		TriangleStation Tr = new TriangleStation(100,160);
 		CrossStation Cr = new CrossStation(250,160);
 		ArcStation Ar = new ArcStation(250,100);
+		Transporter Tp = new Transporter(300, 100, Color.RED);
+		Tp.draw(gc);
 		Sq.draw(gc);
 		Tr.draw(gc);
 		Cr.draw(gc);
@@ -48,7 +51,11 @@ public class Main extends Application{
 		Sq.AddPassenger();
 		Sq.AddPassenger();
 		Sq.AddPassenger();
+		Sq.AddPassenger();
+		Sq.AddPassenger();
 		Sq.draw_passengers(gc);
+		Ar.AddPassenger();
+		Ar.AddPassenger();
 		Ar.AddPassenger();
 		Ar.AddPassenger();
 		Ar.AddPassenger();
@@ -56,7 +63,11 @@ public class Main extends Application{
 		Cr.AddPassenger();
 		Cr.AddPassenger();
 		Cr.AddPassenger();
+		Cr.AddPassenger();
+		Cr.AddPassenger();
 		Cr.draw_passengers(gc);
+		Tr.AddPassenger();
+		Tr.AddPassenger();
 		Tr.AddPassenger();
 		Tr.AddPassenger();
 		Tr.AddPassenger();
