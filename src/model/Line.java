@@ -6,12 +6,12 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class Line {
-	//private ArrayList<Pair<Integer,Integer>> points;
-	//private Color color;
+	private ArrayList<Pair<Integer,Integer>> points;
+	private Color color;
 	
 	public Line(Color color){
-	//	this.points = new ArrayList<>();
-		//this.color = color;
+		this.points = new ArrayList<>();
+		this.color = color;
 	}
 	
 	public void addPoint(int x1,int y1,int x2,int y2){
