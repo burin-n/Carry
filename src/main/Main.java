@@ -9,6 +9,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.SquareStation;
 
 public class Main extends Application{
 	
@@ -29,9 +30,11 @@ public class Main extends Application{
 		
 		gc.setFill(Color.WHITESMOKE);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setFill(Color.BLACK);
-		gc.fillOval(400, 400, 100, 100);
-		root.setEffect(new GaussianBlur());
+		//gc.setFill(Color.BLACK);
+		//gc.fillOval(400, 400, 100, 100);
+		SquareStation Sq = new SquareStation(100,100);
+		Sq.draw(gc);
+		//root.setEffect(new GaussianBlur());
 		primaryStage.show();
 		
 	}
