@@ -1,18 +1,33 @@
 package model;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class Line {
+public class Line implements IDrawble{
 	private ArrayList<Pair<Integer,Integer>> points;
 	private Color color;
+	private ArrayList<Pair<Integer,Integer>> pivots;
 	
 	public Line(Color color){
+		this.pivots = new ArrayList<>();
 		this.points = new ArrayList<>();
 		this.color = color;
 	}
+	
+	public void draw(GraphicsContext gc){
+		
+	}
+	
+	public ArrayList<Pair<Integer,Integer>> getPoints(){
+		return points;
+	}
+	
 	
 	public void addPoint(int x1,int y1,int x2,int y2){
 		ArrayList<Pair<Integer,Integer>> l1 = new ArrayList<>();
@@ -26,8 +41,12 @@ public class Line {
 		System.out.println(inclineLength);
 		System.out.println(horizontalLength);
 		System.out.println(verticalLength);
+		
 		// horizontal first
-		if(horizontalLength>0) l1.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
+		if(horizontalLength>0){
+			l1.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
+			pivots.add(e)
+		}
 		if(inclineLength>0){
 			if(!l1.isEmpty()) 
 				l1.addAll(findIncline(l1.get(l1.size()-1).getKey() + directionx, l1.get(l1.size()-1).getValue() + directiony, directionx, directiony, inclineLength-1));
@@ -51,6 +70,7 @@ public class Line {
 			else l2.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
 		}
 		
+	
 		
 		System.out.println(l1);
 		System.out.println(l2);

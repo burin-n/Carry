@@ -1,13 +1,12 @@
 package main;
-
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -29,9 +28,10 @@ public class Main extends Application{
 		
 		gc.setFill(Color.WHITESMOKE);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setFill(Color.BLACK);
-		gc.fillOval(400, 400, 100, 100);
-		root.setEffect(new GaussianBlur());
+		gc.setFill(Color.YELLOW);
+		gc.setLineWidth(20);
+		gc.strokeLine(100, 100, 200, 200);
+		gc.strokeLine(200, 200, 400, 200);
 		primaryStage.show();
 		
 	}
