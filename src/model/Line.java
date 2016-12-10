@@ -26,6 +26,10 @@ public class Line implements IDrawable{
 		this.pivots = new ArrayList<>();
 	}
 	
+	public Color getColor(){
+		return color;
+	}
+	
 	public void draw(GraphicsContext gc){
 		gc.setStroke(color);
 		gc.setLineWidth(10);
