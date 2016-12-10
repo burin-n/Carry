@@ -11,8 +11,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import model.ArcStation;
+import model.CrossStation;
 import model.Line;
 import model.Point;
+import model.SquareStation;
+import model.TriangleStation;
 import utility.InputUtility;
 
 public class GameScreen extends StackPane{
@@ -28,7 +32,6 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-		
 		Line l = new Line(Color.BLUE);
 		temp = l;
 		l.addPoint(200, 300, 400, 700);
