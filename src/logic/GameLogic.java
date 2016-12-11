@@ -3,6 +3,7 @@ package logic;
 import java.util.Random;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 import main.Main;
 import model.ArcStation;
 import model.CrossStation;
@@ -18,14 +19,15 @@ import screen.GameScreen;
 import utility.InputUtility;
 
 public class GameLogic {
-	private GameScreen gs;
 	private int creatingFailCount;
 	private boolean isClickedStation;
 	private Point tp;
+	private final Color[] colorLine= {Color.BLUE,Color.PINK,Color.YELLOW,Color.GREEN};
+	private int numofLines;
 	
 	public GameLogic(GameScreen gs){
-		this.gs = gs;
 		tp = null;
+		numofLines=0;
 		isClickedStation = false;
 		addStation();
 		addStation();
@@ -47,16 +49,32 @@ public class GameLogic {
 						if(InputUtility.isMouseLeftDown()){
 							System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
 							Point clickstation = StationHolder.getInstance().isStation((int)InputUtility.getLastmouseX(),(int)InputUtility.getLastmouseY());
+							System.out.println("hi");
 							if(clickstation != null){
 								if(!isClickedStation){
+									System.out.println("Why");
 									isClickedStation = true;
 									tp = clickstation;
 								}
 								else{
+									System.out.println("chance");
+									boolean iscreated=false;
 									for(Line l : LineHolder.getInstance().getLines()){
-										if(tp.getX() == l.)
-										
+										if( tp.isSamePoint(l.firstPoint()) ){
+											l.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), false);
+											iscreated=true;
+										}
+										else if(tp.isSamePoint(l.lastPoint())){
+											l.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), true);
+											iscreated=true;
+										}
 									}
+									if(!iscreated){
+										Line newL = new Line(colorLine[numofLines]);
+										newL.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), true);
+										LineHolder.getInstance().addLine(newL);
+									}
+									isClickedStation = false;
 								}
 							}
 						}
@@ -126,7 +144,7 @@ public class GameLogic {
 	}
 	
 	private boolean isFreeSpace(int x,int y){
-		return !( isScorebar(x,y) || isControlbar(y) || isStation(x,y) || isOutOfScreen(x, y)) ;	
+		return !( isScorebar(x,y) || isControlbar(y) || isStation(x,y) || isOutOfScreen(x, y) );	
 	}
 	
 	private boolean isScorebar(int x,int y){
@@ -150,5 +168,4 @@ public class GameLogic {
 		return false;
 	}
 	
-
 }

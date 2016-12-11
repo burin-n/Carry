@@ -40,7 +40,8 @@ public class GameScreen extends StackPane{
 		Line l = new Line(Color.BLUE);
 		LineHolder.getInstance().addLine( l );
 		
-		l.addPoint(200, 300, 400, 700);
+		l.addPoint(200, 300, 400, 700, true);
+
 //		l.addPoint(250, 400, 700, 700);
 //		l.addPoint(700, 700, 600, 432);
 	
@@ -119,7 +120,6 @@ public class GameScreen extends StackPane{
 				if(event.getButton() == MouseButton.PRIMARY){
 					InputUtility.setMouseLeftLastDown(true);
 					InputUtility.setMouseLeftDown(true);
-
 				}
 				System.out.println(event.getX());
 				System.out.println(event.getY());
