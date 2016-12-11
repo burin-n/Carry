@@ -6,7 +6,7 @@ import javafx.scene.input.KeyCode;
 public class InputUtility {
 
 	private static int mouseX, mouseY;
-	private static int lastmouseX,lastmouseY;
+	private static double lastmouseX,lastmouseY;
 	private static boolean mouseLeftDown, mouseRightDown, mouseOnScreen;
 	private static boolean mouseLeftLastDown, mouseRightLastDown;
 	private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
@@ -52,21 +52,19 @@ public class InputUtility {
 		InputUtility.mouseOnScreen = mouseOnScreen;
 	}
 
-	public static boolean isMouseLeftClicked() {
-		return mouseLeftDown;
+	public static boolean isMouseLeftLastDown(){
+		return mouseLeftLastDown;
 	}
-
+	
 	public static void setMouseLeftLastDown(boolean v) {
-		/* fill code */
 		InputUtility.mouseLeftLastDown = v;
 	}
 
-	public static boolean isMouseRightClicked() {
-		return mouseRightDown;
+	public static boolean isMouseRightLastDown(){
+		return mouseRightLastDown;
 	}
-
+	
 	public static void setMouseRightLastDown(boolean v) {
-		/* fill code */
 		InputUtility.mouseRightLastDown = v;
 	}
 
@@ -100,19 +98,19 @@ public class InputUtility {
 		keyTriggered.clear();
 	}
 
-	public static int getLastmouseX() {
+	public static double getLastmouseX() {
 		return lastmouseX;
 	}
 
-	public static void setLastmouseX(int lastmouseX) {
-		InputUtility.lastmouseX = lastmouseX;
+	public static void setLastmouseX(double d) {
+		InputUtility.lastmouseX = d;
 	}
 
-	public static int getLastmouseY() {
+	public static double getLastmouseY() {
 		return lastmouseY;
 	}
 
-	public static void setLastmouseY(int lastmouseY) {
+	public static void setLastmouseY(double lastmouseY) {
 		InputUtility.lastmouseY = lastmouseY;
 	}
 }

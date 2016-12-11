@@ -23,18 +23,19 @@ public class StationHolder {
 		return instance;
 	}
 	
-	public boolean isStationNear(int x,int y){
+
+	public Station isStation(int x,int y){
 		for(Station e : stations){
 			if(Math.abs(e.getCenterX() - x) <= gap/2.0 && Math.abs(e.getCenterY() - y) <= gap/2.0)
-				return true;
+				return e;
 		}
-		return false;
+		return null;
 	}
-	public boolean isStation(int x,int y){
+	/*public boolean isStation(int x,int y){
 		for(Station e : stations){
 			if(Math.abs(e.getCenterX() - x) <= 16 && Math.abs(e.getCenterY() - y) <= 16)
 				return true;
 		}
 		return false;
-	}
+	}*/
 }
