@@ -37,9 +37,9 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-		Line l = new Line(Color.BLUE);
+		//Line l = new Line(Color.BLUE);
 
-		LineHolder.getInstance().addLine( l );
+		//LineHolder.getInstance().addLine( l );
 
 		gc.setFill(Color.LIGHTSKYBLUE);
 		gc.fillRect(0, 700, 1024, 68);
@@ -91,8 +91,10 @@ public class GameScreen extends StackPane{
 		
 		LineHolder.getInstance().drawTemp(gc);
 		
-		for(Station e : StationHolder.getInstance().getStations())
+		for(Station e : StationHolder.getInstance().getStations()){
 			e.draw(gc);
+			e.draw_passengers(gc);
+		}
 		
 	}
 	
@@ -125,6 +127,11 @@ public class GameScreen extends StackPane{
 			InputUtility.setMouseX((int) event.getX());
 			InputUtility.setMouseY((int) event.getY());
 		});
+		
+		canvas.setOnKeyPressed((event)->{
+			InputUtility.setKeyPressed(event.getCode(), true);
+		});
+		
 		
 	}
 	

@@ -43,6 +43,9 @@ public class Line implements IDrawable{
 		for(int i=0;i<points.size()-1;i++){
 			gc.strokeLine(points.get(i).getX(), points.get(i).getY(), points.get(i+1).getX(), points.get(i+1).getY());
 		}
+		gc.setFill(color);
+		if(firstPoint()!=null) gc.fillOval(firstPoint().getX()-15, firstPoint().getY()-15, 30, 30);
+		if(lastPoint()!=null) gc.fillOval(lastPoint().getX()-15, lastPoint().getY()-15, 30, 30);
 	}
 	
 	public void drawPale(GraphicsContext gc){
@@ -71,7 +74,7 @@ public class Line implements IDrawable{
 		if(x2!=x1) directionx = (x2-x1)/Math.abs(x2-x1);
 		else directionx = 0;
 		int directiony; 
-		if(y2!=y1) directiony= (y2-y1)/Math.abs(y2-y1);
+		if(y2!=y1) directiony = (y2-y1)/Math.abs(y2-y1);
 		else directiony = 0;
 		int inclineLength = Math.min(Math.abs(x2-x1), Math.abs(y2-y1));
 		int horizontalLength = Math.abs(Math.abs(x2-x1) - inclineLength);
@@ -145,7 +148,12 @@ public class Line implements IDrawable{
 						}
 					}
 				}
+				else{
+					LineHolder.getInstance().setTemp(tl1);
+				}
+				System.out.println(InputUtility.isMouseLeftDown());
 				if(InputUtility.isMouseLeftDown()){
+		
 					if(append){
 						if(isl1)points.addAll(l1);
 						else points.addAll(l2);
@@ -235,7 +243,7 @@ public class Line implements IDrawable{
 	private boolean ccw(Point p, Point q, Point r) {
 		if(p.getX()!=q.getX())
 			if((q.getY()-p.getY())/(q.getX()-p.getX()) < 0)
-				return cross(p.getVector(q), p.getVector(r)) > 0;
+				return cross(p.getVector(q), p.getVector(r)) < 0;
 		return cross(p.getVector(q), p.getVector(r)) < 0; 
 	}
 	

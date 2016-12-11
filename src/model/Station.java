@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -11,7 +11,27 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	public Station(double x, double y){
 		this.setX(x);
 		this.setY(y);
+		
+		Thread t = new Thread(()->{
+			while(true){
+			try {
+					Thread.sleep(3000);
+					Random r = new Random();
+					if( r.nextInt(2) == 1 ){
+						for(int i=0;i< r.nextInt(3)+1;i++){
+							AddPassenger();
+						}
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		ThreadHolder.instance.addThread(t);
+		t.start();
 	}
+	
 	public Passenger dequeuePassengers(){
 		if(this.passengers.size() == 0)return null;
 		
@@ -42,6 +62,8 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	public double getX() {
 		return x;
 	}
+	
+	public abstract void AddPassenger();
 
 
 

@@ -21,31 +21,27 @@ import utility.InputUtility;
 public class GameLogic {
 	private int creatingFailCount;
 	private boolean isClickedStation;
-	private Point tp;
-	private final Color[] colorLine= {Color.BLUE,Color.PINK,Color.YELLOW,Color.GREEN};
-	private int numofLines;
 	private Station st;
+	private int clickedLine;
+	
 	public GameLogic(GameScreen gs){
-		tp = null;
-		numofLines=0;
+		clickedLine = 0;
 		isClickedStation = false;
 		addStation();
 		addStation();
 		addStation();
 		creatingFailCount = 0;
+		
 		Thread controller = new Thread(new Runnable() {
 			
-
 			@Override
 			public void run() {
 				
 				while(true){
 					try {
 					//	System.out.println("Yo");
-						Thread.sleep(100);
-						Platform.runLater(()->{
-
-							
+						Thread.sleep(250);
+						Platform.runLater(()->{							
 							gs.clearScreen();
 							gs.drawArea();
 							gs.draw();		
@@ -53,46 +49,10 @@ public class GameLogic {
 						});
 						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
-							
-							Station clickstation;
-							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-							if(clickstation!=null) System.out.println("sdfasdf");
-							else System.out.println("kuy");
-							if(clickstation != null){
-								
-								if(!isClickedStation){
-
-									isClickedStation = true;
-
-									System.out.println("ccl");
-									st = clickstation;
-								}
-								else{
-
-									/*for(Line l : LineHolder.getInstance().getLines()){
-										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
-											//l.addPoint(x1, y1, x2, y2, append);
-										}
-									}*/
-
-									Line L = new Line(Color.BLUE);
-									System.out.println("line");
-									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
-									LineHolder.getInstance().getLines().add(L);
-
-									clickstation = null;
-
-									isClickedStation = false;
-								}
-							}
-							else {
-								isClickedStation = false;
-								//System.out.println();
-								st = null;
-							}
+							extendLine();
 						}
 
-						else System.out.println("maikao");
+//						else System.out.println("maikao");
 
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
@@ -127,10 +87,11 @@ public class GameLogic {
 			}
 		});
 		
+	
 		ThreadHolder.instance.addThread(creating);
 		ThreadHolder.instance.addThread(controller);
 		
-		creating.start(); controller.start();
+		creating.start(); controller.start(); 
 	}
 
 
@@ -184,6 +145,58 @@ public class GameLogic {
 		if(x<=30 || x>= GameScreen.width-30-30) return true;
 		if(y<=30 || y>= GameScreen.width-30-30) return true;
 		return false;
+	}
+	
+	private void extendLine(){
+		
+		Station clickstation;
+		clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+		if(clickstation!=null) System.out.println("clickstation !null");
+		else System.out.println("kuy");
+		
+		if(clickstation != null && clickedLine != -1){
+			
+			if(!isClickedStation){
+
+				isClickedStation = true;
+
+				System.out.println("ccl");
+				st = clickstation;
+			}
+			else{
+
+				System.out.println("line");
+				Line L = LineHolder.getInstance().getLine(clickedLine);
+				boolean check = false;
+				for(int i=1;i<L.getPoints().size()-1;i++){
+					if(L.getPoints().get(i).isSamePoint(clickstation)) check = true;
+				}
+				if(!check){
+					if( L.getPoints().isEmpty() || L.lastPoint().isSamePoint(st) ){
+						System.out.println("condition 1");
+						L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+					}
+					else if(L.firstPoint().isSamePoint(st)){
+						System.out.println("condition 2");
+						L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),false);
+					}
+					else {
+						System.out.println(st.getCenterX() + " \\ " + st.getCenterY());
+						System.out.println(L.firstPoint() +" \\ " + L.lastPoint());
+					}
+				}
+				st = clickstation;
+				
+				isClickedStation = false;
+			}
+		}
+		else {
+			isClickedStation = false;
+			st = null;
+//			clickedLine = Controller.whichLine?	// if not click station then check if click line controller
+		}
+	
+	
 	}
 	
 }
