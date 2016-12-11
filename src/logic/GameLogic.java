@@ -19,22 +19,23 @@ import screen.GameScreen;
 import utility.InputUtility;
 
 public class GameLogic {
-	private GameScreen gs;
 	private int creatingFailCount;
 	private boolean isClickedStation;
-	private double tx,ty;
+	private Point tp;
+	private final Color[] colorLine= {Color.BLUE,Color.PINK,Color.YELLOW,Color.GREEN};
+	private int numofLines;
 	private Station st;
-	
 	public GameLogic(GameScreen gs){
-		this.gs = gs;
-		tx = ty = 0;
-		st = null;
+		tp = null;
+		numofLines=0;
 		isClickedStation = false;
 		addStation();
 		addStation();
 		addStation();
 		creatingFailCount = 0;
 		Thread controller = new Thread(new Runnable() {
+			
+
 			@Override
 			public void run() {
 				
@@ -50,38 +51,44 @@ public class GameLogic {
 							gs.draw();		
 							
 						});
+
+						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
 							
 							Station clickstation;
 							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-							
+							if(clickstation!=null) System.out.println("sdfasdf");
+							else System.out.println("kuy");
+
 							if(clickstation != null){
+								
 								if(!isClickedStation){
+
 									isClickedStation = true;
+
 									System.out.println("ccl");
 									st = clickstation;
 								}
 								else{
+
 									/*for(Line l : LineHolder.getInstance().getLines()){
 										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
 											//l.addPoint(x1, y1, x2, y2, append);
 										}
 									}*/
+
 									Line L = new Line(Color.BLUE);
 									System.out.println("line");
 									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
 									LineHolder.getInstance().getLines().add(L);
+
+
 									clickstation = null;
-									isClickedStation = false;
-								}
-							}
-							else {
-								isClickedStation = false;
-								//System.out.println();
-								st = null;
-							}
-						}
+
+									clickstation = null;
+
 						else System.out.println("maikao");
+
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -116,7 +123,7 @@ public class GameLogic {
 		});
 		
 		ThreadHolder.instance.addThread(creating);
-	//	ThreadHolder.instance.addThread(controller);
+		ThreadHolder.instance.addThread(controller);
 		
 		creating.start(); controller.start();
 	}
@@ -147,6 +154,7 @@ public class GameLogic {
 		
 	}
 	
+
 	private boolean isFreeSpace(int x,int y){
 		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
 	}
@@ -172,5 +180,4 @@ public class GameLogic {
 		return false;
 	}
 	
-
 }
