@@ -37,9 +37,6 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-		//Line l = new Line(Color.BLUE);
-
-		//LineHolder.getInstance().addLine( l );
 
 		gc.setFill(Color.LIGHTSKYBLUE);
 		gc.fillRect(0, 700, 1024, 68);

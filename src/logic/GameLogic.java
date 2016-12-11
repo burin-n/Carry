@@ -25,7 +25,9 @@ public class GameLogic {
 	private int clickedLine;
 	
 	public GameLogic(GameScreen gs){
+
 		clickedLine = 0;
+
 		isClickedStation = false;
 		addStation();
 		addStation();
@@ -40,6 +42,7 @@ public class GameLogic {
 				while(true){
 					try {
 					//	System.out.println("Yo");
+
 						Thread.sleep(250);
 						Platform.runLater(()->{							
 							gs.clearScreen();
@@ -47,6 +50,7 @@ public class GameLogic {
 							gs.draw();		
 							
 						});
+
 						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
 							extendLine();
@@ -123,7 +127,6 @@ public class GameLogic {
 
 	private boolean isFreeSpace(int x,int y){
 		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
-
 	}
 	
 	private boolean isScorebar(int x,int y){
@@ -147,6 +150,7 @@ public class GameLogic {
 		return false;
 	}
 	
+
 	private void extendLine(){
 		
 		Station clickstation;
