@@ -57,7 +57,12 @@ public class Line implements IDrawable{
 		}
 		gc.setGlobalAlpha(1.0);		
 	}
-	
+	public void ap2(int x1,int y1,int x2,int y2){
+		Point p1 = new Point(x1, y1);
+		Point p2 = new Point(x2, y2);
+		this.getPoints().add(p1);
+		this.getPoints().add(p2);
+	}
 	public ArrayList<Point> getPoints(){
 		return points;
 	}
