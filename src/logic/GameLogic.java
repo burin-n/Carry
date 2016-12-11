@@ -51,6 +51,7 @@ public class GameLogic {
 							gs.draw();		
 							
 						});
+
 						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
 							
@@ -58,6 +59,7 @@ public class GameLogic {
 							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
 							if(clickstation!=null) System.out.println("sdfasdf");
 							else System.out.println("kuy");
+
 							if(clickstation != null){
 								
 								if(!isClickedStation){
@@ -80,17 +82,10 @@ public class GameLogic {
 									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
 									LineHolder.getInstance().getLines().add(L);
 
+
 									clickstation = null;
 
-									isClickedStation = false;
-								}
-							}
-							else {
-								isClickedStation = false;
-								//System.out.println();
-								st = null;
-							}
-						}
+									clickstation = null;
 
 						else System.out.println("maikao");
 
@@ -162,7 +157,6 @@ public class GameLogic {
 
 	private boolean isFreeSpace(int x,int y){
 		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
-
 	}
 	
 	private boolean isScorebar(int x,int y){
