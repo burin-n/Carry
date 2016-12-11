@@ -36,7 +36,7 @@ public class GameLogic {
 						Thread.sleep(1000);
 						Platform.runLater(()->{
 						//	gs.clearScreen();
-							gs.clearElement();
+						 	gs.clearElement();
 							gs.draw();
 						});
 					} catch (InterruptedException e) {
@@ -102,7 +102,7 @@ public class GameLogic {
 	}
 	
 	private boolean isFreeSpace(int x,int y){
-		return !( isScorebar(x,y) || isControlbar(y) || isStation(x,y) || isOutOfScreen(x, y)) ;	
+		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
 	}
 	
 	private boolean isScorebar(int x,int y){
@@ -115,8 +115,8 @@ public class GameLogic {
 		else return false;
 	}
 	
-	private boolean isStation(int x,int y){
-		return StationHolder.getInstance().isStation(x,y);
+	private boolean isStationNear(int x,int y){
+		return StationHolder.getInstance().isStationNear(x,y);
 	}
 	
 	private boolean isOutOfScreen(int x,int y){

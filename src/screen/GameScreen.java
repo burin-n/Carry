@@ -37,15 +37,15 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-//		Line l = new Line(Color.BLUE);
-//		temp = l;
-//		l.addPoint(200, 300, 400, 700);
-//		l.addPoint(250, 400, 700, 700);
-//		l.addPoint(700, 700, 600, 432);
+		Line l = new Line(Color.BLUE);
+		temp = l;
+	//	l.addPoint(200, 300, 400, 700);
+	//	l.addPoint(250, 400, 700, 700);
+	//	l.addPoint(700, 700, 600, 432);
 	
-//		Line l2 = new Line(Color.RED);
-//		l2.addPoint(150, 150, 100, 470);
-//		
+		//Line l2 = new Line(Color.RED);
+		//l2.addPoint(150, 150, 100, 470);
+		
 		//temp2 = l2;
 		gc.setFill(Color.LIGHTSKYBLUE);
 		gc.fillRect(0, 700, 1024, 68);
@@ -75,7 +75,6 @@ public class GameScreen extends StackPane{
 		gc.setFill(Color.WHITESMOKE);
 		//temp.clear();
 	}
-	
 	public void draw(){
 
 		for(Station e : StationHolder.getInstance().getStations())
@@ -84,16 +83,16 @@ public class GameScreen extends StackPane{
 		for(Line l : LineHolder.getInstance().getLines())
 			l.draw(gc);
 		
-		
 	}
 	
 	
 	private void addListener(){
 		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-
+			
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
+				System.out.println("kodd");
 				if(event.getButton() == MouseButton.PRIMARY){
 					InputUtility.setMouseLeftDown(true);
 					System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
@@ -115,7 +114,9 @@ public class GameScreen extends StackPane{
 			}
 		});
 		
-		canvas.setOnMouseReleased((event)->InputUtility.setMouseLeftDown(false));
+		canvas.setOnMouseReleased((event)->{
+			InputUtility.setMouseLeftDown(false);
+		});
 		
 		canvas.setOnMouseMoved((event) -> {
 			InputUtility.setMouseX((int) event.getX());
