@@ -33,7 +33,7 @@ public class StationHolder {
 	}
 	public Station isStation(double d,double f){
 		for(Station e : stations){
-			if(Math.abs(e.getCenterX() - d) <= 16 && Math.abs(e.getCenterY() - f) <= 16)
+			if(Math.abs(e.getCenterX() - d) <= 20 && Math.abs(e.getCenterY() - f) <= 20)
 				return e;
 		}
 		return null;

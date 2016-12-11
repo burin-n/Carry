@@ -24,6 +24,7 @@ public class GameLogic {
 	private boolean isClickedStation;
 	private double tx,ty;
 	private Station st;
+	private int preindex=-1;
 	
 	public GameLogic(GameScreen gs){
 		this.gs = gs;
@@ -52,15 +53,17 @@ public class GameLogic {
 						});
 						int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 						if(index != -1){
-							LineController.getInstance().getSizes()[index]=65;
+							for(int i=0;i<5;i++)LineController.getInstance().getStatus()[i] = false;
+							LineController.getInstance().getStatus()[index] = true;
 							System.out.println(index);
 						}
-						else{
-							for(int i=0;i<5;i++){
-								LineController.getInstance().getSizes()[i]=60;
-							}
-							//System.out.println(index);
+						else {
+							for(int i=0;i<5;i++)LineController.getInstance().getStatus()[i] = false;
+							/*for(int i=0;i<5;i++){
+								LineController.getInstance().getSizes()[i]=20;
+							}*/
 						}
+						preindex = index;
 						index = -1;
 						if(InputUtility.isMouseLeftDown()){
 							
@@ -91,9 +94,11 @@ public class GameLogic {
 								isClickedStation = false;
 								//System.out.println();
 								st = null;
-
 								
-							}
+							
+							}	
+							int index1 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+								if(index1 != -1)LineController.getInstance().getIsUsed()[index1] = true;
 						}
 						
 					} catch (InterruptedException e) {

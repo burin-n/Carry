@@ -16,7 +16,9 @@ public class LineController implements IDrawable{
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Point> centerpoints = new ArrayList<>();
 	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
-	private  int[] sizes = {30,30,30,30,30};
+	private int[] sizes = {20,20,20,20,20};
+	private boolean[] status = {false,false,false,false,false};
+	private boolean[] isUsed = {false,false,false,false,false}; 
 	public LineController(){
 		Point p1 = new Point(350,704);
 		Point p2 = new Point(420,704);
@@ -54,7 +56,12 @@ public class LineController implements IDrawable{
 		
 		for(int i=0;i<5;i++){
 			gc.setFill(colors[i]);
+			
 			int size = getSizes()[i];
+			boolean sta = getStatus()[i];
+			boolean isUsed = getIsUsed()[i];
+			if(sta)size += 15;
+			if(isUsed)size += 20;
 			gc.fillOval(points.get(i).getX() + 30-size/2.0, points.get(i).getY() + 30-size/2.0, size, size);
 			
 		}
@@ -81,13 +88,21 @@ public class LineController implements IDrawable{
 		for(int i=0;i<5;i++){
 		Point p = getCenterPoints().get(i);
 		int size = getSizes()[i];
+		boolean sta = getStatus()[i];
+		boolean isUsed = getIsUsed()[i];
+		if(sta)size += 15;
+		if(isUsed)size += 20;
 			if(Math.abs(p.getX() - x) <= size/2.0 + 5 && Math.abs(p.getY() - y) <= size/2.0 + 5)
 				return i;
 		}
 		return -1;
 	}
+
 	public int[] getSizes(){
 		return this.sizes;
+	}	
+	public boolean[] getStatus(){
+		return this.status;
 	}
 	public ArrayList<Point> getCenterPoints(){
 		return this.centerpoints;
@@ -97,6 +112,9 @@ public class LineController implements IDrawable{
 	}
 	public static LineController getInstance(){
 		return instance;
+	}
+	public boolean[] getIsUsed() {
+		return isUsed;
 	}
 	
 }
