@@ -23,11 +23,11 @@ public class StationHolder {
 		return instance;
 	}
 	
-	public boolean isStation(int x,int y){
+	public Point isStation(int x,int y){
 		for(Station e : stations){
 			if(Math.abs(e.getCenterX() - x) <= gap/2.0 && Math.abs(e.getCenterY() - y) <= gap/2.0)
-				return true;
+				return new Point((int)e.getCenterX(),(int)e.getCenterY());
 		}
-		return false;
+		return null;
 	}
 }

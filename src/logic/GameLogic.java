@@ -2,12 +2,13 @@ package logic;
 
 import java.util.Random;
 
-import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
-
 import javafx.application.Platform;
 import main.Main;
 import model.ArcStation;
 import model.CrossStation;
+import model.Line;
+import model.LineHolder;
+import model.Point;
 import model.SquareStation;
 import model.Station;
 import model.StationHolder;
@@ -19,9 +20,13 @@ import utility.InputUtility;
 public class GameLogic {
 	private GameScreen gs;
 	private int creatingFailCount;
+	private boolean isClickedStation;
+	private Point tp;
 	
 	public GameLogic(GameScreen gs){
 		this.gs = gs;
+		tp = null;
+		isClickedStation = false;
 		addStation();
 		addStation();
 		addStation();
@@ -32,18 +37,37 @@ public class GameLogic {
 				
 				while(true){
 					try {
-						System.out.println("Yo");
-						Thread.sleep(1000);
+					//	System.out.println("Yo");
+						Thread.sleep(100);
 						Platform.runLater(()->{
-						//	gs.clearScreen();
-							gs.clearElement();
-							gs.draw();
+							gs.clearScreen();
+							gs.drawArea();
+							gs.draw();		
 						});
+						if(InputUtility.isMouseLeftDown()){
+							System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
+							Point clickstation = StationHolder.getInstance().isStation((int)InputUtility.getLastmouseX(),(int)InputUtility.getLastmouseY());
+							if(clickstation != null){
+								if(!isClickedStation){
+									isClickedStation = true;
+									tp = clickstation;
+								}
+								else{
+									for(Line l : LineHolder.getInstance().getLines()){
+										if(tp.getX() == l.)
+										
+									}
+								}
+							}
+						}
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 							break;
 					}
+					
+					ThreadHolder.instance.update();
+					InputUtility.postUpdate();
 				}
 			}
 		});
@@ -70,7 +94,7 @@ public class GameLogic {
 		});
 		
 		ThreadHolder.instance.addThread(creating);
-		ThreadHolder.instance.addThread(controller);
+	//	ThreadHolder.instance.addThread(controller);
 		
 		creating.start(); controller.start();
 	}
@@ -116,7 +140,8 @@ public class GameLogic {
 	}
 	
 	private boolean isStation(int x,int y){
-		return StationHolder.getInstance().isStation(x,y);
+		if(StationHolder.getInstance().isStation(x,y) == null) return false;
+		else return true;
 	}
 	
 	private boolean isOutOfScreen(int x,int y){

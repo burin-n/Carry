@@ -52,8 +52,6 @@ public class Line implements IDrawable{
 		return points;
 	}
 	
-
-	
 	public void addPoint(int x1,int y1,int x2,int y2){
 		ArrayList<Point> l1 = new ArrayList<>();
 		ArrayList<Point> l2 = new ArrayList<>();
@@ -148,8 +146,8 @@ public class Line implements IDrawable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(InputUtility.isMouseLeftClicked()){
-						if(InputUtility.isMouseLeftClicked()){
+				if(InputUtility.isMouseLeftDown()){
+						if(InputUtility.isMouseLeftDown()){
 						if(isl1)
 							points.addAll(l1);
 						else points.addAll(l2);
@@ -163,7 +161,7 @@ public class Line implements IDrawable{
 //		System.out.println(l2);
 	}
 	
-	public void addPoint(int x2,int y2){
+	public void addPoint(int x2,int y2,boolean append){
 		addPoint(points.get(points.size()-1).getX(),points.get(points.size()-1).getY(),x2,y2);
 	}
 	
