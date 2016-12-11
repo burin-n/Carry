@@ -40,6 +40,7 @@ public class GameScreen extends StackPane{
 		Line l = new Line(Color.BLUE);
 
 		LineHolder.getInstance().addLine( l );
+
 		gc.setFill(Color.LIGHTSKYBLUE);
 		gc.fillRect(0, 700, 1024, 68);
 		gc.setFill(Color.BLACK);
@@ -105,11 +106,14 @@ public class GameScreen extends StackPane{
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
+
 				//System.out.println("kodd");
 				if(event.getButton() == MouseButton.PRIMARY){
 					InputUtility.setMouseLeftLastDown(true);
 					InputUtility.setMouseLeftDown(true);
+
 				}
+				System.out.println(model.StationHolder.getInstance().isStation(event.getX(), event.getY()));
 				System.out.println(event.getX());
 				System.out.println(event.getY());
 			}

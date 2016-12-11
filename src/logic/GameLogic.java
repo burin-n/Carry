@@ -53,7 +53,6 @@ public class GameLogic {
 						});
 						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
-
 							
 							Station clickstation;
 							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
@@ -62,16 +61,27 @@ public class GameLogic {
 							if(clickstation != null){
 								
 								if(!isClickedStation){
+
 									isClickedStation = true;
+
 									System.out.println("ccl");
 									st = clickstation;
 								}
 								else{
+
+									/*for(Line l : LineHolder.getInstance().getLines()){
+										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
+											//l.addPoint(x1, y1, x2, y2, append);
+										}
+									}*/
+
 									Line L = new Line(Color.BLUE);
 									System.out.println("line");
 									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
 									LineHolder.getInstance().getLines().add(L);
+
 									clickstation = null;
+
 									isClickedStation = false;
 								}
 							}
@@ -81,7 +91,9 @@ public class GameLogic {
 								st = null;
 							}
 						}
-						//else System.out.println("maikao");
+
+						else System.out.println("maikao");
+
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -147,8 +159,10 @@ public class GameLogic {
 		
 	}
 	
+
 	private boolean isFreeSpace(int x,int y){
 		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
+
 	}
 	
 	private boolean isScorebar(int x,int y){
