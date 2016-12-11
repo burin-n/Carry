@@ -38,18 +38,12 @@ public class GameScreen extends StackPane{
 		
 		clearScreen();
 		Line l = new Line(Color.BLUE);
-<<<<<<< HEAD
-		temp = l;
-	//	l.addPoint(200, 300, 400, 700);
-	//	l.addPoint(250, 400, 700, 700);
-	//	l.addPoint(700, 700, 600, 432);
-=======
+
 		LineHolder.getInstance().addLine( l );
 		
 		l.addPoint(200, 300, 400, 700, true);
 //		l.addPoint(250, 400, 700, 700);
 //		l.addPoint(700, 700, 600, 432);
->>>>>>> branch 'master' of https://github.com/freespace0/Carry.git
 	
 		//Line l2 = new Line(Color.RED);
 		//l2.addPoint(150, 150, 100, 470);
