@@ -37,9 +37,10 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-//		Line l = new Line(Color.BLUE);
-//		temp = l;
-//		l.addPoint(200, 300, 400, 700);
+		Line l = new Line(Color.BLUE);
+		LineHolder.getInstance().addLine( l );
+		
+		l.addPoint(200, 300, 400, 700, true);
 //		l.addPoint(250, 400, 700, 700);
 //		l.addPoint(700, 700, 600, 432);
 	
@@ -55,7 +56,7 @@ public class GameScreen extends StackPane{
 		gc.fillRect(724-50, 0, 350, 68);
 		gc.setFill(Color.BLACK);
 		gc.fillText("score&time bar", 800, 30);
-	//	temp.draw(gc);
+		//temp.draw(gc);
 		gc.setGlobalAlpha(0.4);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(30, 30, 1024-60, 768-60);
@@ -64,6 +65,22 @@ public class GameScreen extends StackPane{
 	}
 	public GraphicsContext getGraphicsContext(){
 		return gc;
+	}
+	
+	public void drawArea(){
+		gc.setFill(Color.LIGHTSKYBLUE);
+		gc.fillRect(0, 700, 1024, 68);
+		gc.setFill(Color.BLACK);
+		gc.fillText("control bar", 400, 730);
+		gc.setFill(Color.PINK);
+		gc.fillRect(724-50, 0, 350, 68);
+		gc.setFill(Color.BLACK);
+		gc.fillText("score&time bar", 800, 30);
+		//temp.draw(gc);
+		gc.setGlobalAlpha(0.4);
+		gc.setFill(Color.LIGHTGREEN);
+		gc.fillRect(30, 30, 1024-60, 768-60);
+		gc.setGlobalAlpha(1.0);
 	}
 	
 	public void clearScreen(){
@@ -78,44 +95,37 @@ public class GameScreen extends StackPane{
 	
 	public void draw(){
 
-		for(Station e : StationHolder.getInstance().getStations())
-			e.draw(gc);
-		
 		for(Line l : LineHolder.getInstance().getLines())
 			l.draw(gc);
+		
+		LineHolder.getInstance().drawTemp(gc);
+		
+		for(Station e : StationHolder.getInstance().getStations())
+			e.draw(gc);
 		
 		
 	}
 	
 	
 	private void addListener(){
+		canvas.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
+		canvas.setOnMouseExited((event)->InputUtility.setMouseOnScreen(false));
+		
 		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if(event.getButton() == MouseButton.PRIMARY){
+					InputUtility.setMouseLeftLastDown(true);
 					InputUtility.setMouseLeftDown(true);
-					System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
-				}
-				else{
-					
-					if(!InputUtility.isMouseRightDown()){
-						InputUtility.setLastmouseX((int)event.getX());
-						InputUtility.setLastmouseY((int)event.getY());
-						InputUtility.setMouseRightDown(true);
-					}
-					else{
-						InputUtility.setMouseRightDown(false);						
-						temp.addPoint(InputUtility.getMouseX(), InputUtility.getMouseY());
-					}
 				}
 				System.out.println(event.getX());
 				System.out.println(event.getY());
 			}
 		});
 		
-		canvas.setOnMouseReleased((event)->InputUtility.setMouseLeftDown(false));
+		canvas.setOnMouseReleased((event)->InputUtility.setMouseLeftLastDown(false));
 		
 		canvas.setOnMouseMoved((event) -> {
 			InputUtility.setMouseX((int) event.getX());
