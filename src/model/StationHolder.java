@@ -24,11 +24,17 @@ public class StationHolder {
 	}
 	
 
-	public Point isStation(int x,int y){
+	public boolean isStationNear(int x,int y){
 		for(Station e : stations){
 			if(Math.abs(e.getCenterX() - x) <= gap/2.0 && Math.abs(e.getCenterY() - y) <= gap/2.0)
-				return new Point((int)e.getCenterX(),(int)e.getCenterY());
-
+				return true;
+		}
+		return false;
+	}
+	public Station isStation(double d,double f){
+		for(Station e : stations){
+			if(Math.abs(e.getCenterX() - d) <= 16 && Math.abs(e.getCenterY() - f) <= 16)
+				return e;
 		}
 		return null;
 	}

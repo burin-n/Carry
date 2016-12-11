@@ -10,20 +10,17 @@ import java.util.ArrayList;
 
 public class Line implements IDrawable{
 	private ArrayList<Point> points;
-	private ArrayList<Point> pivots;
 	private Color color;
 	
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
-		this.pivots = new ArrayList<>();
 		this.color = color;
 	}
 	
 	public Line(Color color,ArrayList<Point> points){
 		this.points = new ArrayList<>(points);
 		this.color = color;
-		this.pivots = new ArrayList<>();
 	}
 	
 	public Color getColor(){
@@ -57,7 +54,12 @@ public class Line implements IDrawable{
 		}
 		gc.setGlobalAlpha(1.0);		
 	}
-	
+	public void ap2(int x1,int y1,int x2,int y2){
+		Point p1 = new Point(x1, y1);
+		Point p2 = new Point(x2, y2);
+		this.getPoints().add(p1);
+		this.getPoints().add(p2);
+	}
 	public ArrayList<Point> getPoints(){
 		return points;
 	}
@@ -79,19 +81,17 @@ public class Line implements IDrawable{
 		System.out.println(horizontalLength);
 		System.out.println(verticalLength);
 		
-		//if(pivots.isEmpty()) pivots.add(new Point(x1,y1));
 		
 		// horizontal first
 		if(horizontalLength>0){
 			l1.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
-		//	pivots.add(l1.get(l1.size()-1));
+
 		}
 		if(inclineLength>0){
 			if(!l1.isEmpty()){ 
 				l1.addAll(findIncline(l1.get(l1.size()-1).getX() + directionx, l1.get(l1.size()-1).getY() + directiony, directionx, directiony, inclineLength-1));
 			}
 			else l1.addAll(findIncline(x1, y1, directionx, directiony, inclineLength));
-		//	pivots.add(l1.get(l1.size()-1));
 		}
 		if(verticalLength>0){
 			if(!l1.isEmpty()){
@@ -99,7 +99,6 @@ public class Line implements IDrawable{
 				
 			}
 			else l1.addAll(findVertical(x1, y1, directiony, verticalLength));
-		//	pivots.add(l1.get(l1.size()-1));
 		}
 		
 		// vertical first
@@ -163,60 +162,9 @@ public class Line implements IDrawable{
 		ThreadHolder.instance.addThread(t);
 		t.start();
 		
-		
-//		new Thread( () ->{
-//			boolean isl1=true;
-//			System.out.println("new thread");
-//			while(true){
-//				try {
-//					Thread.sleep(10);
-//					Platform.runLater(()->{
-//						tl1.clear();
-//						tl2.clear();
-//					});
-//					if(x2!=x1){
-//						if(ccw(new Point(x1,y1),new Point(x2,y2), new Point(InputUtility.getMouseX(),InputUtility.getMouseY()))){	
-//							if(directiony/directionx < 0 ){
-//								Platform.runLater(()->tl2.drawPale(Main.gs.getGraphicsContext()));
-//								isl1 = false;
-//							}
-//							else{
-//								Platform.runLater(()->tl1.drawPale(Main.gs.getGraphicsContext()));
-//								isl1 = true;
-//							}
-//						}
-//						else{
-//							if(directiony/directionx < 0 ){ 
-//								Platform.runLater(()->tl1.drawPale(Main.gs.getGraphicsContext()));
-//								isl1 = true;
-//							}
-//							else{
-//								Platform.runLater(()->tl2.drawPale(Main.gs.getGraphicsContext()));
-//								isl1 = false;
-//							}
-//						}
-//					}
-//					else Platform.runLater(()->tl1.drawPale(Main.gs.getGraphicsContext()));
-//					
-//					
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				if(InputUtility.isMouseLeftClicked()){
-//						if(InputUtility.isMouseLeftClicked()){
-//						if(isl1)
-//							points.addAll(l1);
-//						else points.addAll(l2);
-//						break;
-//					}
-//				}
-//			}
-//		}).start();
 		System.out.println("end thread");
-//		System.out.println(l1);
 		System.out.println(points);
-//		System.out.println(l2);
+
 	}
 	
 //	public void addPoint(int x2,int y2){

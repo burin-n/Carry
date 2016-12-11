@@ -24,7 +24,7 @@ public class GameLogic {
 	private Point tp;
 	private final Color[] colorLine= {Color.BLUE,Color.PINK,Color.YELLOW,Color.GREEN};
 	private int numofLines;
-	
+	private Station st;
 	public GameLogic(GameScreen gs){
 		tp = null;
 		numofLines=0;
@@ -34,6 +34,8 @@ public class GameLogic {
 		addStation();
 		creatingFailCount = 0;
 		Thread controller = new Thread(new Runnable() {
+			
+
 			@Override
 			public void run() {
 				
@@ -42,49 +44,51 @@ public class GameLogic {
 					//	System.out.println("Yo");
 						Thread.sleep(100);
 						Platform.runLater(()->{
+
+							
 							gs.clearScreen();
 							gs.drawArea();
 							gs.draw();		
+							
 						});
+						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
-							System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
-							Point clickstation = StationHolder.getInstance().isStation((int)InputUtility.getLastmouseX(),(int)InputUtility.getLastmouseY());
-							System.out.println("hi");
+
+							
+							Station clickstation;
+							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+							if(clickstation!=null) System.out.println("sdfasdf");
+							else System.out.println("kuy");
 							if(clickstation != null){
+								
 								if(!isClickedStation){
-									System.out.println("Why");
 									isClickedStation = true;
-									tp = clickstation;
+									System.out.println("ccl");
+									st = clickstation;
 								}
 								else{
-									System.out.println("chance");
-									boolean iscreated=false;
-									for(Line l : LineHolder.getInstance().getLines()){
-										if( tp.isSamePoint(l.firstPoint()) ){
-											l.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), false);
-											iscreated=true;
-										}
-										else if(tp.isSamePoint(l.lastPoint())){
-											l.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), true);
-											iscreated=true;
-										}
-									}
-									if(!iscreated){
-										Line newL = new Line(colorLine[numofLines]);
-										newL.addPoint(tp.getX(), tp.getY(), clickstation.getX(), clickstation.getY(), true);
-										LineHolder.getInstance().addLine(newL);
-									}
+									Line L = new Line(Color.BLUE);
+									System.out.println("line");
+									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+									LineHolder.getInstance().getLines().add(L);
+									clickstation = null;
 									isClickedStation = false;
 								}
 							}
+							else {
+								isClickedStation = false;
+								//System.out.println();
+								st = null;
+							}
 						}
+						//else System.out.println("maikao");
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 							break;
 					}
 					
-					ThreadHolder.instance.update();
+					//ThreadHolder.instance.update();
 					InputUtility.postUpdate();
 				}
 			}
@@ -112,7 +116,7 @@ public class GameLogic {
 		});
 		
 		ThreadHolder.instance.addThread(creating);
-	//	ThreadHolder.instance.addThread(controller);
+		ThreadHolder.instance.addThread(controller);
 		
 		creating.start(); controller.start();
 	}
@@ -144,7 +148,7 @@ public class GameLogic {
 	}
 	
 	private boolean isFreeSpace(int x,int y){
-		return !( isScorebar(x,y) || isControlbar(y) || isStation(x,y) || isOutOfScreen(x, y) );	
+		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
 	}
 	
 	private boolean isScorebar(int x,int y){
@@ -157,9 +161,9 @@ public class GameLogic {
 		else return false;
 	}
 	
-	private boolean isStation(int x,int y){
-		if(StationHolder.getInstance().isStation(x,y) == null) return false;
-		else return true;
+
+	private boolean isStationNear(int x,int y){
+		return StationHolder.getInstance().isStationNear(x,y);
 	}
 	
 	private boolean isOutOfScreen(int x,int y){
