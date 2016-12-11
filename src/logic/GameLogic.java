@@ -3,6 +3,7 @@ package logic;
 import java.util.Random;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 import main.Main;
 import model.ArcStation;
 import model.CrossStation;
@@ -42,34 +43,52 @@ public class GameLogic {
 					//	System.out.println("Yo");
 						Thread.sleep(100);
 						Platform.runLater(()->{
+
+							
 							gs.clearScreen();
 							gs.drawArea();
 							gs.draw();		
+							
 						});
 						if(InputUtility.isMouseLeftDown()){
-							System.out.println(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY()));
-							Station clickstation = StationHolder.getInstance().isStation((int)InputUtility.getLastmouseX(),(int)InputUtility.getLastmouseY());
+							
+							Station clickstation;
+							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+							
 							if(clickstation != null){
 								if(!isClickedStation){
 									isClickedStation = true;
+									System.out.println("ccl");
 									st = clickstation;
 								}
 								else{
-									for(Line l : LineHolder.getInstance().getLines()){
+									/*for(Line l : LineHolder.getInstance().getLines()){
 										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
-											l.addPoint(x1, y1, x2, y2, append);
+											//l.addPoint(x1, y1, x2, y2, append);
 										}
-									}
+									}*/
+									Line L = new Line(Color.BLUE);
+									System.out.println("line");
+									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+									LineHolder.getInstance().getLines().add(L);
+									clickstation = null;
+									isClickedStation = false;
 								}
 							}
+							else {
+								isClickedStation = false;
+								//System.out.println();
+								st = null;
+							}
 						}
+						else System.out.println("maikao");
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 							break;
 					}
 					
-					ThreadHolder.instance.update();
+					//ThreadHolder.instance.update();
 					InputUtility.postUpdate();
 				}
 			}
@@ -129,7 +148,7 @@ public class GameLogic {
 	}
 	
 	private boolean isFreeSpace(int x,int y){
-		return !( isScorebar(x,y) || isControlbar(y) || isStation(x,y) || isOutOfScreen(x, y)) ;	
+		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
 	}
 	
 	private boolean isScorebar(int x,int y){
@@ -142,9 +161,9 @@ public class GameLogic {
 		else return false;
 	}
 	
-	private boolean isStation(int x,int y){
-		if(StationHolder.getInstance().isStation(x,y) == null) return false;
-		else return true;
+
+	private boolean isStationNear(int x,int y){
+		return StationHolder.getInstance().isStationNear(x,y);
 	}
 	
 	private boolean isOutOfScreen(int x,int y){
