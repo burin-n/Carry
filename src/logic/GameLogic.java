@@ -17,7 +17,7 @@ import model.ThreadHolder;
 import model.TriangleStation;
 import screen.GameScreen;
 import utility.InputUtility;
-
+import controller.*;
 public class GameLogic {
 	private GameScreen gs;
 	private int creatingFailCount;
@@ -50,6 +50,18 @@ public class GameLogic {
 							gs.draw();		
 							
 						});
+						int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+						if(index != -1){
+							LineController.getInstance().getSizes()[index]=65;
+							System.out.println(index);
+						}
+						else{
+							for(int i=0;i<5;i++){
+								LineController.getInstance().getSizes()[i]=60;
+							}
+							//System.out.println(index);
+						}
+						index = -1;
 						if(InputUtility.isMouseLeftDown()){
 							
 							Station clickstation;
@@ -79,9 +91,11 @@ public class GameLogic {
 								isClickedStation = false;
 								//System.out.println();
 								st = null;
+
+								
 							}
 						}
-						else System.out.println("maikao");
+						
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

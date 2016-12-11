@@ -4,6 +4,7 @@ import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Random;
 
+import controller.LineController;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -69,8 +70,7 @@ public class GameScreen extends StackPane{
 	}
 	
 	public void drawArea(){
-		gc.setFill(Color.LIGHTSKYBLUE);
-		gc.fillRect(0, 700, 1024, 68);
+
 		gc.setFill(Color.BLACK);
 		gc.fillText("control bar", 400, 730);
 		gc.setFill(Color.PINK);
@@ -78,6 +78,7 @@ public class GameScreen extends StackPane{
 		gc.setFill(Color.BLACK);
 		gc.fillText("score&time bar", 800, 30);
 		//temp.draw(gc);
+		LineController.getInstance().draw(gc);
 		gc.setGlobalAlpha(0.4);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(30, 30, 1024-60, 768-60);
