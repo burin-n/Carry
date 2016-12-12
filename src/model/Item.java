@@ -4,18 +4,27 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Item {
-	private int number;
+	private static int number;
+	
+	public Item(){
+		number = 3;
+	}
+	
 	public int getNumber(){
-		return this.number;
+		return Item.number;
 	}
+	
 	public void addItem(){
-		this.number++;
+		Item.number++;
 	}
+	
 	public boolean canUse(){
 		if(this.getNumber() == 0)return false;
 		else return true;
 	}
+	
 	public void useItem(){
-		if(canUse())this.number--;
+		if(canUse())Item.number--;
 	}
+	
 }

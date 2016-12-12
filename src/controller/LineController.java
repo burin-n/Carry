@@ -100,12 +100,12 @@ public class LineController implements IDrawable{
 	}
 	public int IndexisLineControl(int x,int y){
 		for(int i=0;i<6;i++){
-		Point p = getCenterPoints().get(i);
-		int size = getSizes()[i];
-		boolean sta = getStatus()[i];
-		boolean isUsed = getIsUsed()[i];
-		if(sta)size += 15;
-		if(isUsed)size += 20;
+			Point p = getCenterPoints().get(i);
+			int size = getSizes()[i];
+			boolean sta = getStatus()[i];
+			boolean isUsed = getIsUsed()[i];
+			if(sta)size += 15;
+			if(isUsed)size += 20;
 			if(Math.abs(p.getX() - x) <= size/2.0 + 5 && Math.abs(p.getY() - y) <= size/2.0 + 5)
 				return i;
 		}

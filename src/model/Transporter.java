@@ -16,6 +16,18 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		setX(x);
 		setY(y);
 		setColor(color);
+	
+		Thread t = new Thread(()->{
+			try {
+				Thread.sleep(100);
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		ThreadHolder.instance.addThread(t);
+		t.start();
 	}
 	
 	@Override

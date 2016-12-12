@@ -15,15 +15,20 @@ public class Line implements IDrawable{
 	private ArrayList<Point> points;
 	private Color color;
 	private ArrayList<Transporter> transpoters; 
+	private boolean isCreateTranFront;
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
+		this.transpoters = new ArrayList<>();
 		this.color = color;
+		isCreateTranFront = true;
 	}
 	
 	public Line(Color color,ArrayList<Point> points){
 		this.points = new ArrayList<>(points);
+		this.transpoters = new ArrayList<>();
 		this.color = color;
+		isCreateTranFront = true;
 	}
 	
 	public Color getColor(){
@@ -123,6 +128,8 @@ public class Line implements IDrawable{
 		Line tl1 = new Line(color,l1);
 		Line tl2 = new Line(color,l2);
 		
+		// thread for catch chooseLineEvent when mouse is clicked
+		// and ESC to cancel creating line
 		Thread t = new Thread( () ->{
 			boolean isl1 = true;
 			while(true){
@@ -283,6 +290,17 @@ public class Line implements IDrawable{
 		}
 		temp.addAll(points);
 		points = new ArrayList<Point>(temp);
+	}
+	
+	public boolean addTransporter(){
+		if(points.isEmpty()){
+			return false;
+		}
+		Transporter tran;
+		if(isCreateTranFront) tran = new Transporter(firstPoint().getX(), firstPoint().getY(), color);
+		else tran = new Transporter(lastPoint().getX(), lastPoint().getY(), color);
+		return true;
+		
 	}
 }
 

@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import main.Main;
 import model.ArcStation;
 import model.CrossStation;
+import model.Item;
 import model.Line;
 import model.LineHolder;
 import model.Point;
@@ -24,19 +25,20 @@ public class GameLogic {
 	private int creatingFailCount;
 	private boolean isClickedStation;
 	private Station st;
-
+	private Item item;
 	private int preindex=-1,index1=-1;
 	public static boolean isGameOver;
+	private boolean isClickedItem;
 	
 	public GameLogic(GameScreen gs){
-		
+		isClickedItem = false;
 		isGameOver = false;
 		isClickedStation = false;
 		addStation();
 		addStation();
 		addStation();
 		creatingFailCount = 0;
-		
+		item = new Item();
 		Thread controller = new Thread(new Runnable() {
 			
 			@Override
@@ -57,6 +59,7 @@ public class GameLogic {
 							});
 	
 								Control();
+								addTransportToLine();
 						}
 						else{
 								gs.drawGameOver();
@@ -259,7 +262,17 @@ public class GameLogic {
 		}
 	}
 	
-	private void addTransportToLine(Color c){
-		
+	private void addTransportToLine(){
+		if(InputUtility.isMouseLeftDown()){
+			if(item.isItem()) isClickedItem = true;
+			else if(item.canUse()){
+				int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+				if(index == -1) return;
+				
+				Line L = LineHolder.getInstance().getLine(LineController.getInstance().getColors()[index]);
+				if(L.addTransporter())
+					item.useItem();
+			}
+		}
 	}
 }
