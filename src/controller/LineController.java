@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import model.IDrawable;
 import model.Line;
 import model.Point;
@@ -16,30 +17,34 @@ public class LineController implements IDrawable{
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Point> centerpoints = new ArrayList<>();
 	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
-	private int[] sizes = {20,20,20,20,20};
-	private boolean[] status = {false,false,false,false,false};
-	private boolean[] isUsed = {false,false,false,false,false}; 
+	private int[] sizes = {20,20,20,20,20,40};
+	private boolean[] status = {false,false,false,false,false,false};
+	private boolean[] isUsed = {false,false,false,false,false,false}; 
 	public LineController(){
 		Point p1 = new Point(350,704);
 		Point p2 = new Point(420,704);
 		Point p3 = new Point(490,704);
 		Point p4 = new Point(560,704);
 		Point p5 = new Point(630,704);
+		Point p6 = new Point(960,704);
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
 		points.add(p4);
 		points.add(p5);
+		points.add(p6);
 		Point cp1 = new Point(350 + 30,704 + 30);
 		Point cp2 = new Point(420 + 30,704 + 30);
 		Point cp3 = new Point(490 + 30,704 + 30);
 		Point cp4 = new Point(560 + 30,704 + 30);
 		Point cp5 = new Point(630 + 30,704 + 30);
+		Point cp6 = new Point(960 + 30,704 + 30);
 		centerpoints.add(cp1);
 		centerpoints.add(cp2);
 		centerpoints.add(cp3);
 		centerpoints.add(cp4);
 		centerpoints.add(cp5);
+		centerpoints.add(cp6);
 	}
 	@Override
 	public void draw(GraphicsContext gc) {
@@ -65,6 +70,13 @@ public class LineController implements IDrawable{
 			gc.fillOval(points.get(i).getX() + 30-size/2.0, points.get(i).getY() + 30-size/2.0, size, size);
 			
 		}
+		gc.setLineWidth(2.0);
+		gc.setFill(Color.BLACK);
+		int size = getSizes()[5];
+		if(getStatus()[5])size+=20;
+		gc.strokeOval(960 + 30-size/2.0, 704 + 30-size/2.0, size, size);
+		gc.setFont(new Font(25));
+		gc.fillText("X", 960+22, 704+40);
 		/*gc.setFill(Color.RED);
 		gc.fillOval(X + 200 + 15, 704 + 15, 30, 30);
 
@@ -85,7 +97,7 @@ public class LineController implements IDrawable{
 		gc.fillOval(X + 580, 704, 60, 60);
 	}
 	public int IndexisLineControl(int x,int y){
-		for(int i=0;i<5;i++){
+		for(int i=0;i<6;i++){
 		Point p = getCenterPoints().get(i);
 		int size = getSizes()[i];
 		boolean sta = getStatus()[i];

@@ -53,18 +53,30 @@ public class GameLogic {
 						});
 						int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 						if(index != -1){
-							for(int i=0;i<5;i++)LineController.getInstance().getStatus()[i] = false;
+							for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
 							LineController.getInstance().getStatus()[index] = true;
 							System.out.println(index);
 						}
 						else {
-							for(int i=0;i<5;i++)LineController.getInstance().getStatus()[i] = false;
+							for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
 							/*for(int i=0;i<5;i++){
 								LineController.getInstance().getSizes()[i]=20;
 							}*/
 						}
 						preindex = index;
 						index = -1;
+						if(InputUtility.isMouseLeftDown()){
+							if(index1 == 5){
+								int index2 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+								if(index2 >= 0 && index2 <= 4){
+									for(Line l: LineHolder.getInstance().getLines()){
+										if(l.getColor() == LineController.getInstance().getColors()[index2])LineHolder.getInstance().getLines().remove(l);
+									}
+								}
+							}
+						}
+						
+						
 						if(InputUtility.isMouseLeftDown()){
 							if(index1 != -1 || isClickedStation){
 									Station clickstation;
