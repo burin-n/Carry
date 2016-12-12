@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 public class LineHolder {
 	private static ArrayList<Line> lines;
 	private static Line temp;
-	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
+	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.MEDIUMPURPLE,Color.DEEPSKYBLUE};
 	private static LineHolder instance = new LineHolder();
 	public LineHolder(){
 		lines = new ArrayList<>();
@@ -53,6 +53,12 @@ public class LineHolder {
 		return lines.get(index);
 	}
 	
+	public synchronized Line getLine(Color color){
+		for(Line l : lines)
+			if(l.getColor() == color)
+				return l;
+		return null;
+	}
 	public synchronized void drawTemp(GraphicsContext gc){
 		if(temp != null){
 			temp.drawPale(gc);

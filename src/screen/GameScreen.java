@@ -11,10 +11,13 @@ import com.sun.javafx.tk.Toolkit;
  
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,16 +34,16 @@ import model.StationHolder;
 import model.TriangleStation;
 import utility.InputUtility;
 
-public class GameScreen extends StackPane{
+public class GameScreen extends Scene{
 	private Canvas canvas;
-	private GraphicsContext gc;
+	public static GraphicsContext gc;
 
 	public static final int width=1024,heigth=768;
 	
-	public GameScreen(int width,int heigth){
-		
+	public GameScreen(Pane parent,int width,int heigth){
+		super(parent);
 		this.canvas = new Canvas(width,heigth);
-		this.getChildren().add(canvas);
+		parent.getChildren().add(canvas);
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
@@ -59,16 +62,17 @@ public class GameScreen extends StackPane{
 		gc.setFill(Color.PINK);
 		gc.fillRect(724-50, 0, 1024-724+50, 68);
 		gc.setFill(Color.BLACK);
-		LineController.getInstance().draw(gc);
+		
 		gc.setGlobalAlpha(0.4);
 		gc.setFill(Color.LIGHTGREEN);
-		gc.fillRect(30, 30, 1024-60, 768-60);
+		gc.fillRect(30, 30, 1024-80, 768-60);
 		gc.setGlobalAlpha(1.0);
 		
 	}
 	
 	public void drawBar(GraphicsContext gc){
 		Scorebar.getInstance().draw(gc);
+		LineController.getInstance().draw(gc);
 	}
 	
 	public void clearScreen(){
@@ -78,7 +82,7 @@ public class GameScreen extends StackPane{
 	
 	public void clearElement(){
 		gc.setFill(Color.WHITESMOKE);
-		//temp.clear();
+		//temp.clear(); 
 	}
 	public void draw(){
 
@@ -109,10 +113,10 @@ public class GameScreen extends StackPane{
 	}
 	
 	private void addListener(){
-		canvas.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
-		canvas.setOnMouseExited((event)->InputUtility.setMouseOnScreen(false));
+		this.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
+		this.setOnMouseExited((event)->InputUtility.setMouseOnScreen(false));
 		
-		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
@@ -125,24 +129,30 @@ public class GameScreen extends StackPane{
 
 				}
 				else InputUtility.setMouseRightDown(true);
-				System.out.println(model.StationHolder.getInstance().isStation(event.getX(), event.getY()));
+				System.out.println("object on screen:"+model.StationHolder.getInstance().isStation(event.getX(), event.getY()));
 				System.out.println(event.getX());
 				System.out.println(event.getY());
 			}
 		});
 
-		canvas.setOnMouseReleased((event)->InputUtility.setMouseLeftLastDown(false));
+		this.setOnMouseReleased((MouseEvent event)->InputUtility.setMouseLeftLastDown(false));
 		
-		canvas.setOnMouseMoved((event) -> {
+		this.setOnMouseMoved((MouseEvent event) -> {
 			InputUtility.setMouseX((int) event.getX());
 			InputUtility.setMouseY((int) event.getY());
 		});
 		
-		canvas.setOnKeyPressed((event)->{
+		
+		this.setOnKeyPressed((KeyEvent event)->{
+			System.out.println("keycode:"+event.getCode());
 			InputUtility.setKeyPressed(event.getCode(), true);
+			InputUtility.setKeyTriggered(event.getCode(), true);
 		});
 		
-		
+		this.setOnKeyReleased((KeyEvent event)->{
+			InputUtility.setKeyPressed(event.getCode(), false);	
+			System.out.println("abcddfefsadf");
+		});
 	}
 	
 

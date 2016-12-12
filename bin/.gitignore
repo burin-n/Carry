@@ -1,3 +1,14 @@
-/screen/
-/model/
+/.classpath
+/.project
+/.settings/
+/clock.png
+/controller/
+/greeting
+/log.txt
 /logic/
+/main/
+/model/
+/people.png
+/screen/
+/utility/
+/waiting.png

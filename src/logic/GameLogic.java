@@ -47,12 +47,11 @@ public class GameLogic {
 					try {
 					//	System.out.println("Yo");
 
-//<<<<<<< HEAD
-						Thread.sleep(100);
+						Thread.sleep(125);
 						if(!isGameOver){
 							Platform.runLater(()->{						
 								gs.clearScreen();
-								gs.drawArea();
+								//gs.drawArea();
 								gs.drawBar(gs.getGraphicsContext());
 								gs.draw();
 								Scorebar.getInstance().updateTime();
@@ -66,7 +65,7 @@ public class GameLogic {
 								break;
 						}
 
-//>>>>>>> origin/Fbranch
+
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -117,7 +116,7 @@ public class GameLogic {
 				creatingFailCount ++;
 				return ;
 			}
-			x = r.nextInt(GameScreen.width-30);
+			x = r.nextInt(GameScreen.width-50);
 			y = r.nextInt(GameScreen.heigth-30);
 			c++;
 		}while(!isFreeSpace(x,y));
@@ -138,7 +137,7 @@ public class GameLogic {
 	}
 	
 	private boolean isScorebar(int x,int y){
-		if( x>= 674 && x<=1024 && y>=0 && y<=68) return true;
+		if( x>= 600 && x<=1024 && y>=0 && y<=72) return true;
 		else return false;
 	}
 	
@@ -153,7 +152,7 @@ public class GameLogic {
 	}
 	
 	private boolean isOutOfScreen(int x,int y){
-		if(x<=30 || x>= GameScreen.width-30-30) return true;
+		if(x<=30 || x>= GameScreen.width-30-30-50) return true;
 		if(y<=30 || y>= GameScreen.width-30-30) return true;
 		return false;
 	}
@@ -227,10 +226,13 @@ public class GameLogic {
 								Line L;
 								if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false && st != clickstation){
 									System.out.println("cre");
-									LineController.getInstance().getIsUsed()[index1] = true;
 									L = new Line(LineController.getInstance().getColors()[index1]);
 									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
-									LineHolder.getInstance().getLines().add(L);
+									LineHolder.getInstance().addLine(L);
+//									if(LineController.getInstance().getIsUsed()[index1] == true){
+//										System.out.println("created line");
+//										LineHolder.getInstance().getLines().add(L);
+//									}
 								}
 								
 								
