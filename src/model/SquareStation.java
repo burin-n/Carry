@@ -38,6 +38,11 @@ public class SquareStation extends Station{
 		// TODO Auto-generated method stub
 		return y + 10;
 	}
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Square";
+	}
 
 
 }

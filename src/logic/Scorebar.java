@@ -11,14 +11,14 @@ import javafx.scene.text.Font;
 public class Scorebar {
 	
 	private static Scorebar instance = new Scorebar();
-	private int score,time,day=0;
+	private static int score,time,day=0;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
 	private Image clock,people;
 	
 	
 	public Scorebar(){
 		
-		setScore(9999);
+		setScore(0);
 		setTime(0);
 		people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
 		clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));

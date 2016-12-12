@@ -42,6 +42,11 @@ public class TriangleStation extends Station{
 		// TODO Auto-generated method stub
 		return y + 11;
 	}
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Triangle";
+	}
 
 
 

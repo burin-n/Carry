@@ -45,6 +45,12 @@ public class ArcStation extends Station{
 		return y+10.5;
 	}
 
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Arc";
+	}
+
 
 
 }

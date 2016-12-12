@@ -86,8 +86,10 @@ public class GameScreen extends Scene{
 	}
 	public void draw(){
 
-		for(Line l : LineHolder.getInstance().getLines())
+		for(Line l : LineHolder.getInstance().getLines()){
 			l.draw(gc);
+			l.drawTrans(gc);
+		}
 		
 		LineHolder.getInstance().drawTemp(gc);
 		

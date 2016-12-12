@@ -18,5 +18,12 @@ public class CrossPassenger extends Passenger{
 		double[] Y1 = new double[]{getY(),getY(),getY()+3/size,getY()+3/size,getY()+7/size,getY()+7/size,getY()+10/size,getY()+10/size,getY()+7/size,getY()+7/size,getY()+3/size,getY()+3/size};
 		gc.fillPolygon(X1,Y1,12);
 	}
+
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Cross";
+	}
 	
 }

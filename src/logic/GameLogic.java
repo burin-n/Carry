@@ -34,9 +34,10 @@ public class GameLogic {
 		isClickedItem = false;
 		isGameOver = false;
 		isClickedStation = false;
-		addStation();
-		addStation();
-		addStation();
+		addStation("Square");
+		addStation("Arc");
+		addStation("Cross");
+		addStation("Triangle");
 		creatingFailCount = 0;
 		item = new Item();
 		Thread controller = new Thread(new Runnable() {
@@ -59,7 +60,7 @@ public class GameLogic {
 							});
 	
 								Control();
-								addTransportToLine();
+								//addTransportToLine();
 						}
 						else{
 								gs.drawGameOver();
@@ -133,6 +134,28 @@ public class GameLogic {
 		StationHolder.getInstance().addStation(newStation);
 	}
 	
+	public void addStation(String type){
+		Random r = new Random();
+		int x,y,c=0;
+		do{
+			if(c>=1000) {
+				System.out.println("fail");
+				creatingFailCount ++;
+				return ;
+			}
+			x = r.nextInt(GameScreen.width-50);
+			y = r.nextInt(GameScreen.heigth-30);
+			c++;
+		}while(!isFreeSpace(x,y));
+		Station newStation;
+		if(type.compareTo("Square") == 0) newStation = new SquareStation(x-10, y-10);
+		else if(type.compareTo("Arc")== 0) newStation = new ArcStation(x-10, y-10);
+		else if(type.compareTo("Cross") == 0) newStation = new CrossStation(x, y);
+		else newStation = new TriangleStation(x, y);
+		
+		StationHolder.getInstance().addStation(newStation);
+	}
+	
 
 	private boolean isFreeSpace(int x,int y){
 		return !( isScorebar(x,y) || isControlbar(y) || isStationNear(x,y) || isOutOfScreen(x, y)) ;	
@@ -182,7 +205,7 @@ public class GameLogic {
 				
 				if(index1 == 5){ // delete line
 					int index2 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
-					if(index2 >= 0 && index2 <= 4){
+					if(index2 >= 0 && index2 <= 4){ // find which line to delete
 						for(Line l: LineHolder.getInstance().getLines()){
 							if(l.getColor() == LineController.getInstance().getColors()[index2]){
 							 	LineHolder.getInstance().getLines().remove(l);
@@ -194,7 +217,7 @@ public class GameLogic {
 				}
 				else if(index1 == 6){ // add transporter to line
 					int index3 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
-					if(index3 >= 0 && index3 <= 4){
+					if(index3 >= 0 && index3 <= 4){ // find which line to add transporter
 						for(Line l: LineHolder.getInstance().getLines()){
 							if(l.getColor() == LineController.getInstance().getColors()[index3]){
 							 	addTransportToLine(l);
@@ -272,20 +295,10 @@ public class GameLogic {
 	
 		}
 	
-	
-
-	private void addTransportToLine(){
-		if(InputUtility.isMouseLeftDown()){
-			if(item.isItem()) isClickedItem = true;
-			else if(item.canUse()){
-				int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
-				if(index == -1) return;
-				
-				Line L = LineHolder.getInstance().getLine(LineController.getInstance().getColors()[index]);
-				if(L.addTransporter())
-					item.useItem();
-			}
-		}
-
+	private void addTransportToLine(Line l){
+		if(item.canUse())
+			if(l.addTransporter()) 
+				item.useItem();
+		
 	}
 }

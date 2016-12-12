@@ -107,4 +107,5 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	
 	public abstract double getCenterX();
 	public abstract double getCenterY();
+	public abstract String getType();
 }

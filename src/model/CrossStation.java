@@ -45,6 +45,12 @@ public class CrossStation extends Station{
 		return y+12;
 	}
 
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Cross";
+	}
+
 
 
 	

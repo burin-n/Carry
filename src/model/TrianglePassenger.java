@@ -18,5 +18,12 @@ public class TrianglePassenger extends Passenger{
 		double[] Y = new double[]{getY(),getY()+10/size,getY()+10/size};
 		gc.fillPolygon(X,Y,3);
 	}
+
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Triangle";
+	}
 	
 }

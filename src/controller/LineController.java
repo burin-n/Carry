@@ -103,15 +103,6 @@ public class LineController implements IDrawable{
 		gc.fillOval(X + 580, 704, 60, 60);*/
 	}
 	public int IndexisLineControl(int x,int y){
-//<<<<<<< HEAD
-//		for(int i=0;i<6;i++){
-//			Point p = getCenterPoints().get(i);
-//			int size = getSizes()[i];
-//			boolean sta = getStatus()[i];
-//			boolean isUsed = getIsUsed()[i];
-//			if(sta)size += 15;
-//			if(isUsed)size += 20;
-//=======
 		for(int i=0;i<7;i++){
 		Point p = getCenterPoints().get(i);
 		int size = getSizes()[i];
@@ -136,7 +127,9 @@ public class LineController implements IDrawable{
 		System.out.println(Integer.toString(item.getNumber()));
 		Font font = new Font(20);
 		gc.setFont(font);
-		gc.fillText(Integer.toString(item.getNumber()), 295, 764);
+		int f=0;
+		if(getStatus()[6])f=10;
+		gc.fillText(Integer.toString(item.getNumber()), 295+f, 764+f/5);
 		//gc.setFill(Color.WHITESMOKE);
 	}
 	public int[] getSizes(){
@@ -170,5 +163,15 @@ public class LineController implements IDrawable{
 				isUsed[i] = set;
 			}
 		}
+	}
+	
+	public int getColorIndex(Color c){
+		int index=0;
+		for(Color color : colors){
+			if(c == color)
+				break;
+			else index++;
+		}
+		return index;
 	}
 }

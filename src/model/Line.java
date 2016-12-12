@@ -1,8 +1,10 @@
 package model;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import logic.Scorebar;
 import screen.GameScreen;
 import utility.InputUtility;
 
@@ -14,19 +16,19 @@ import controller.LineController;
 public class Line implements IDrawable{
 	private ArrayList<Point> points;
 	private Color color;
-	private ArrayList<Transporter> transpoters; 
+	private ArrayList<Transporter> transporters; 
 	private boolean isCreateTranFront;
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
-		this.transpoters = new ArrayList<>();
+		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
 	}
 	
 	public Line(Color color,ArrayList<Point> points){
 		this.points = new ArrayList<>(points);
-		this.transpoters = new ArrayList<>();
+		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
 	}
@@ -46,6 +48,7 @@ public class Line implements IDrawable{
 	}
 	
 	public void draw(GraphicsContext gc){
+		gc.setGlobalAlpha(1.0);
 		gc.setStroke(color);
 		gc.setLineWidth(10);
 		for(int i=0;i<points.size()-1;i++){
@@ -290,6 +293,9 @@ public class Line implements IDrawable{
 		}
 		temp.addAll(points);
 		points = new ArrayList<Point>(temp);
+		for(Transporter tr : transporters){
+			tr.positionIndex+=temp.size();
+		}
 	}
 	
 	public boolean addTransporter(){
@@ -297,10 +303,85 @@ public class Line implements IDrawable{
 			return false;
 		}
 		Transporter tran;
-		if(isCreateTranFront) tran = new Transporter(firstPoint().getX(), firstPoint().getY(), color);
-		else tran = new Transporter(lastPoint().getX(), lastPoint().getY(), color);
+		if(isCreateTranFront){
+			tran = new Transporter(firstPoint().getX(), firstPoint().getY(), color, 1);
+			tran.positionIndex = 0;
+		}
+		else{
+			tran = new Transporter(lastPoint().getX(), lastPoint().getY(), color, -1);
+			tran.positionIndex = points.size()-1;
+		}
+		isCreateTranFront = !isCreateTranFront;
+		transporters.add(tran);
+		
+		Thread t = new Thread(()->{
+			while(true){
+				try {
+					Thread.sleep(100);
+					Platform.runLater(()->{
+						tran.setX(points.get(tran.positionIndex).getX());
+						tran.setY(points.get(tran.positionIndex).getY());
+					});
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					break;
+				}
+
+				// moving
+				for(int i=0;i<Transporter.speed;i++){
+					Station st = StationHolder.getInstance().isStation(tran.x, tran.y);
+					if(st!=null){ // passing station	
+						// drop people
+						for(int j=tran.passengers.size()-1 ; j>=0 ;j--){
+							if(tran.passengers.get(j).getType().compareTo(st.getType()) == 0){
+								tran.drop(j);
+								Scorebar.getInstance().setScore(Scorebar.getInstance().getScore()+1);
+								break;
+							}
+						}
+						// get people
+						if(!tran.isFull() && st.getNumberOfPassengers()>0){
+							tran.addPassenger(st.dequeuePassengers());
+							break;
+						}
+					}
+					
+					// moving
+					tran.positionIndex+=tran.direction;
+					if(tran.positionIndex<0){
+						tran.positionIndex = 0;
+						tran.direction = 1;
+					}
+					else if(tran.positionIndex>=points.size()){
+						tran.positionIndex = points.size()-1;
+						tran.direction = -1;
+					}
+				}
+				
+								
+				
+			}	
+		});
+		
+		ThreadHolder.instance.addTransThread(LineController.getInstance().getColorIndex(color), t);
+		t.start();
 		return true;
 		
+	}
+	
+	
+	public void drawTrans(GraphicsContext gc){
+		gc.setFill(color);
+		gc.setGlobalAlpha(1.0);
+		for(Transporter e : transporters){
+			e.draw(gc);
+			e.draw_passengers(gc);
+		}
+	}
+	
+	public int length(){
+		return points.size();
 	}
 }
 

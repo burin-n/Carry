@@ -46,4 +46,6 @@ public abstract class Passenger implements IDrawable{
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	public abstract String getType();
 }

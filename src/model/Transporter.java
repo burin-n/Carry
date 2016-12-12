@@ -9,42 +9,40 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	protected double x,y;
 	protected int direction;
 	protected Color color; 
+	protected static final int size=50;
+	protected int positionIndex;
+	protected static final int speed=5;
+	
 	ArrayList<Passenger> passengers = new ArrayList<>();
 	
-	public Transporter(double x,double y,Color color) {
+	public Transporter(double x,double y,Color color,int direction) {
 		// TODO Auto-generated constructor stub
 		setX(x);
 		setY(y);
 		setColor(color);
-	
-		Thread t = new Thread(()->{
-			try {
-				Thread.sleep(100);
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-		ThreadHolder.instance.addThread(t);
-		t.start();
+		setDirection(direction);
+		
 	}
 	
 	@Override
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setFill(color);
-		gc.fillOval(getX(), getY(), 20, 20);
+		gc.fillOval(getX()-size/2, getY()-size/2, size, size);
+		gc.setStroke(Color.BLACK);
+		gc.setLineWidth(2);
+		gc.strokeOval(getX()-size/2, getY()-size/2, size, size);
+		gc.setGlobalAlpha(0.5);
+		gc.setFill(Color.WHITE);
+		gc.fillOval(getX()-size/2, getY()-size/2, size, size);
+		gc.setGlobalAlpha(1.0);
 	}
-	
 	public void addPassenger(Passenger p){
-		int n = getNumberOfPassengers();
-		p.setX(getX()+5+7.5*(n%2));
-		p.setY(getY()+5+7.5*(n/2));
 		p.setSize(2);
 		p.setColor(this.getColor().deriveColor(50, 100, 100, 50));
 		passengers.add(p);
 	}
+	
 	public int getNumberOfPassengers(){
 		return passengers.size();
 	}
@@ -61,10 +59,10 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	public Color getColor(){
 		return this.color;
 	}
-	public void setX(double x){
+	public synchronized void setX(double x){
 		this.x = x;
 	}
-	public void setY(double y){
+	public synchronized void setY(double y){
 		this.y = y;
 	}
 	public double getX(){
@@ -75,11 +73,29 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	}
 
 	@Override
+
 	public void draw_passengers(GraphicsContext gc) {
 		// TODO Auto-generated method stub
+		int n = 0;
 		for(Passenger p : passengers){
+			p.setX(getX()+5+7.5*(n%2));
+			p.setY(getY()+5+7.5*(n/2));
+			n++;
 			p.draw(gc);
 		}
+	}
+	
+	public boolean isAddPassenger(){
+		return false;
+		
+	}
+	
+	public boolean isFull(){
+		return passengers.size()>=4;
+	}
+	
+	public void drop(int index){
+		passengers.remove(index);
 	}
 	
 }

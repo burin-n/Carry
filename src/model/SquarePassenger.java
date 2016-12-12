@@ -16,5 +16,12 @@ public class SquarePassenger extends Passenger{
 		gc.setFill(color);
 		gc.fillRect(getX(), getY(), 10/size, 10/size);
 	}
+
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return "Square";
+	}
 	
 }
