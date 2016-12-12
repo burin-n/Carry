@@ -2,6 +2,8 @@ package logic;
 
 import java.util.Random;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import main.Main;
@@ -23,10 +25,11 @@ public class GameLogic {
 	private boolean isClickedStation;
 	private Station st;
 	private int clickedLine;
+	public static boolean isGameOver;
 	
 	public GameLogic(GameScreen gs){
 		clickedLine = 2;
-
+		isGameOver = false;
 		isClickedStation = false;
 		addStation();
 		addStation();
@@ -42,26 +45,34 @@ public class GameLogic {
 					try {
 					//	System.out.println("Yo");
 
-						Thread.sleep(250);
-						Platform.runLater(()->{							
-							gs.clearScreen();
-							gs.drawArea();
-							gs.drawBar(gs.getGraphicsContext());
-							gs.draw();
-							Scorebar.getInstance().updateTime();
-						});
-
-						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
-						if(InputUtility.isMouseLeftDown()){
-							extendLine();
-						}
-						else if(InputUtility.isMouseRightDown()){
-							
-							Station e =StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-							if(e!=null) System.out.println("Logic"+e.getCenterX()+":"+e.getCenterY());
-							else System.out.println("this point is nothing");
-						}
-//						else System.out.println("maikao");
+						Thread.sleep(100);
+					
+							if(!isGameOver){
+								Platform.runLater(()->{						
+									gs.clearScreen();
+									gs.drawArea();
+									gs.drawBar(gs.getGraphicsContext());
+									gs.draw();
+									Scorebar.getInstance().updateTime();
+								});
+		
+								if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
+								if(InputUtility.isMouseLeftDown()){
+									extendLine();
+								}
+								else if(InputUtility.isMouseRightDown()){
+									
+									Station e =StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+									if(e!=null) System.out.println("Logic"+e.getCenterX()+":"+e.getCenterY());
+									else System.out.println("this point is nothing");
+								}
+		//						else System.out.println("maikao");
+							}
+							else{
+								gs.drawGameOver();
+								ThreadHolder.instance.stopAll();
+								break;
+							}
 
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
@@ -71,6 +82,7 @@ public class GameLogic {
 					
 					//ThreadHolder.instance.update();
 					InputUtility.postUpdate();
+					
 				}
 			}
 		});
@@ -91,7 +103,6 @@ public class GameLogic {
 						e.printStackTrace();
 						break;
 					}
-			
 				}
 			}
 		});
@@ -100,7 +111,7 @@ public class GameLogic {
 		ThreadHolder.instance.addThread(creating);
 		ThreadHolder.instance.addThread(controller);
 		
-		creating.start(); controller.start(); 
+		creating.start(); controller.start();  
 	}
 
 
@@ -126,7 +137,6 @@ public class GameLogic {
 		else newStation = new TriangleStation(x, y);
 		
 		StationHolder.getInstance().addStation(newStation);
-		
 	}
 	
 
@@ -205,7 +215,6 @@ public class GameLogic {
 			st = null;
 //			clickedLine = Controller.whichLine?	// if not click station then check if click line controller
 		}
-	
 	
 	}
 	

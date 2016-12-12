@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthColorChooserUI;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 

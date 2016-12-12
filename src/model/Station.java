@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import logic.GameLogic;
 
 public abstract class Station implements IDrawable,IPassengerDrawable{
 	protected double x,y;
 	protected ArrayList<Passenger> passengers = new ArrayList<>();
+	protected boolean isCrowded;
+	protected double crowdedState;
+	
 	public Station(double x, double y){
 		this.setX(x);
+		crowdedState = 0.0;
 		this.setY(y);
-		
+		isCrowded = false;
 		Thread t = new Thread(()->{
 			while(true){
 			try {
@@ -22,6 +28,12 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 							AddPassenger();
 						}
 					}
+					if(passengers.size()>5 ) GameLogic.isGameOver = true;
+					else if( passengers.size() > 4 ) isCrowded = true;
+					else{
+						crowdedState = 0.0;
+						isCrowded = false;
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -31,6 +43,16 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		ThreadHolder.instance.addThread(t);
 		t.start();
 	}
+	
+	public void drawCrowded(GraphicsContext gc){
+		if(!isCrowded ) return;
+		gc.setGlobalAlpha(crowdedState);
+		gc.setFill(Color.BLACK);
+		gc.fillOval(getCenterX()-40, getCenterY()-40, 80, 80);
+		gc.setGlobalAlpha(1.0);
+		crowdedState = crowdedState >= 0.5 ? 0.05 : crowdedState + 0.05;
+	}
+	
 	
 	public Passenger dequeuePassengers(){
 		if(this.passengers.size() == 0)return null;
