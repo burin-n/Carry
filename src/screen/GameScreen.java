@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import controller.LineController;
+
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
+ 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -13,6 +17,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import logic.Scorebar;
 import model.ArcStation;
 import model.CrossStation;
 import model.Line;
@@ -27,8 +34,7 @@ import utility.InputUtility;
 public class GameScreen extends StackPane{
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private Line temp;
-	private Line temp2;
+
 	public static final int width=1024,heigth=768;
 	
 	public GameScreen(int width,int heigth){
@@ -38,31 +44,8 @@ public class GameScreen extends StackPane{
 		gc = canvas.getGraphicsContext2D();
 		
 		clearScreen();
-		//Line l = new Line(Color.BLUE);
 
-//		/LineHolder.getInstance().addLine( l );
 		
-//		l.addPoint(200, 300, 400, 700, true);
-//		l.addPoint(250, 400, 700, 700);
-//		l.addPoint(700, 700, 600, 432);
-	
-		//Line l2 = new Line(Color.RED);
-		//l2.addPoint(150, 150, 100, 470);
-		
-		//temp2 = l2;
-		gc.setFill(Color.LIGHTSKYBLUE);
-		gc.fillRect(0, 700, 1024, 68);
-		gc.setFill(Color.BLACK);
-		gc.fillText("control bar", 400, 730);
-		gc.setFill(Color.PINK);
-		gc.fillRect(724-50, 0, 350, 68);
-		gc.setFill(Color.BLACK);
-		gc.fillText("score&time bar", 800, 30);
-		//temp.draw(gc);
-		gc.setGlobalAlpha(0.4);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.fillRect(30, 30, 1024-60, 768-60);
-		gc.setGlobalAlpha(1.0);
 		addListener();
 	}
 	public GraphicsContext getGraphicsContext(){
@@ -72,17 +55,20 @@ public class GameScreen extends StackPane{
 	public void drawArea(){
 
 		gc.setFill(Color.BLACK);
-		gc.fillText("control bar", 400, 730);
+		//gc.fillText("control bar", 400, 730);
 		gc.setFill(Color.PINK);
-		gc.fillRect(724-50, 0, 350, 68);
+		gc.fillRect(724-50, 0, 1024-724+50, 68);
 		gc.setFill(Color.BLACK);
-		gc.fillText("score&time bar", 800, 30);
-		//temp.draw(gc);
 		LineController.getInstance().draw(gc);
 		gc.setGlobalAlpha(0.4);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(30, 30, 1024-60, 768-60);
 		gc.setGlobalAlpha(1.0);
+		
+	}
+	
+	public void drawBar(GraphicsContext gc){
+		Scorebar.getInstance().draw(gc);
 	}
 	
 	public void clearScreen(){
@@ -101,11 +87,26 @@ public class GameScreen extends StackPane{
 		
 		LineHolder.getInstance().drawTemp(gc);
 		
-		for(Station e : StationHolder.getInstance().getStations())
+		for(Station e : StationHolder.getInstance().getStations()){
+			e.drawCrowded(gc);
 			e.draw(gc);
+			e.draw_passengers(gc);
+		}
 		
 	}
 	
+	public void drawGameOver(){
+		gc.setGlobalAlpha(0.5);
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, GameScreen.width, GameScreen.heigth);
+		FontLoader fontLoader= Toolkit.getToolkit().getFontLoader();
+		gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,50));
+		double font_width= fontLoader.computeStringWidth("Game Over", gc.getFont());
+		double font_height= fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
+		gc.setFill(Color.WHITE);
+		gc.setGlobalAlpha(1.0);
+		gc.fillText("Game Over", GameScreen.width/2 - font_width/2, GameScreen.heigth/2 - font_height/2);
+	}
 	
 	private void addListener(){
 		canvas.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
@@ -116,12 +117,14 @@ public class GameScreen extends StackPane{
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("kodd");
+
+				//System.out.println("kodd");
 				if(event.getButton() == MouseButton.PRIMARY){
 					InputUtility.setMouseLeftLastDown(true);
 					InputUtility.setMouseLeftDown(true);
-					
+
 				}
+				else InputUtility.setMouseRightDown(true);
 				System.out.println(model.StationHolder.getInstance().isStation(event.getX(), event.getY()));
 				System.out.println(event.getX());
 				System.out.println(event.getY());
@@ -134,6 +137,11 @@ public class GameScreen extends StackPane{
 			InputUtility.setMouseX((int) event.getX());
 			InputUtility.setMouseY((int) event.getY());
 		});
+		
+		canvas.setOnKeyPressed((event)->{
+			InputUtility.setKeyPressed(event.getCode(), true);
+		});
+		
 		
 	}
 	

@@ -31,4 +31,14 @@ public class Point {
 	public String toString(){
 		return x +":"+ y;
 	}
+	
+	public boolean isSamePoint(Point x){
+		if(x.getX() == this.x && x.getY() == this.y) return true;
+		else return false;
+	}
+	
+	public boolean isSamePoint(Station x){
+		if((int)x.getCenterX() == this.x && (int)x.getCenterY() == this.y) return true;
+		return false;
+	}
 }

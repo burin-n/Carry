@@ -11,15 +11,15 @@ public class StationHolder {
 		stations = new ArrayList<>();
 	}
 	
-	public void addStation(Station e){
+	public synchronized void addStation(Station e){
 		stations.add(e);
 	}
 	
-	public ArrayList<Station> getStations(){
+	public synchronized ArrayList<Station> getStations(){
 		return stations;
 	}
 	
-	public static StationHolder getInstance(){
+	public synchronized static StationHolder getInstance(){
 		return instance;
 	}
 	
