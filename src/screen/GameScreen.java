@@ -12,6 +12,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import logic.Scorebar;
 import model.ArcStation;
 import model.CrossStation;
 import model.Line;
@@ -26,8 +27,7 @@ import utility.InputUtility;
 public class GameScreen extends StackPane{
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private Line temp;
-	private Line temp2;
+
 	public static final int width=1024,heigth=768;
 	
 	public GameScreen(int width,int heigth){
@@ -38,19 +38,8 @@ public class GameScreen extends StackPane{
 		
 		clearScreen();
 
-		gc.setFill(Color.LIGHTSKYBLUE);
-		gc.fillRect(0, 700, 1024, 68);
-		gc.setFill(Color.BLACK);
-		gc.fillText("control bar", 400, 730);
-		gc.setFill(Color.PINK);
-		gc.fillRect(724-50, 0, 350, 68);
-		gc.setFill(Color.BLACK);
-		gc.fillText("score&time bar", 800, 30);
-		//temp.draw(gc);
-		gc.setGlobalAlpha(0.4);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.fillRect(30, 30, 1024-60, 768-60);
-		gc.setGlobalAlpha(1.0);
+		//draw();
+		
 		addListener();
 	}
 	public GraphicsContext getGraphicsContext(){
@@ -61,15 +50,20 @@ public class GameScreen extends StackPane{
 		gc.setFill(Color.LIGHTSKYBLUE);
 		gc.fillRect(0, 700, 1024, 68);
 		gc.setFill(Color.BLACK);
-		gc.fillText("control bar", 400, 730);
+		//gc.fillText("control bar", 400, 730);
 		gc.setFill(Color.PINK);
-		gc.fillRect(724-50, 0, 350, 68);
+		gc.fillRect(724-50, 0, 1024-724+50, 68);
 		gc.setFill(Color.BLACK);
-		gc.fillText("score&time bar", 800, 30);
+		//gc.fillText("score&time bar", 800, 30);
 		gc.setGlobalAlpha(0.4);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(30, 30, 1024-60, 768-60);
 		gc.setGlobalAlpha(1.0);
+		
+	}
+	
+	public void drawBar(GraphicsContext gc){
+		Scorebar.getInstance().draw(gc);
 	}
 	
 	public void clearScreen(){
@@ -95,7 +89,6 @@ public class GameScreen extends StackPane{
 		
 	}
 	
-	
 	private void addListener(){
 		canvas.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
 		canvas.setOnMouseExited((event)->InputUtility.setMouseOnScreen(false));
@@ -112,6 +105,7 @@ public class GameScreen extends StackPane{
 					InputUtility.setMouseLeftDown(true);
 
 				}
+				else InputUtility.setMouseRightDown(true);
 				System.out.println(model.StationHolder.getInstance().isStation(event.getX(), event.getY()));
 				System.out.println(event.getX());
 				System.out.println(event.getY());

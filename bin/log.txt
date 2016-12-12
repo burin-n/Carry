@@ -1,0 +1,10 @@
+fucking huge
+
+1. add line,station,thread holder
+2. adjust & debug Station draw
+3. creating station thread every 5 sec
+4. temporally area for controller bar and score bar
+5. creating getCenter position for Station abstract
+6. add GameLogic na ja baby
+7. etc
+jum mai dai la

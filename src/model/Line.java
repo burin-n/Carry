@@ -151,7 +151,7 @@ public class Line implements IDrawable{
 				else{
 					LineHolder.getInstance().setTemp(tl1);
 				}
-				System.out.println(InputUtility.isMouseLeftDown());
+				//System.out.println(InputUtility.isMouseLeftDown());
 				if(InputUtility.isMouseLeftDown()){
 		
 					if(append){

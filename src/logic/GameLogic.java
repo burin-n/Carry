@@ -25,8 +25,7 @@ public class GameLogic {
 	private int clickedLine;
 	
 	public GameLogic(GameScreen gs){
-
-		clickedLine = 0;
+		clickedLine = 2;
 
 		isClickedStation = false;
 		addStation();
@@ -47,15 +46,21 @@ public class GameLogic {
 						Platform.runLater(()->{							
 							gs.clearScreen();
 							gs.drawArea();
-							gs.draw();		
-							
+							gs.drawBar(gs.getGraphicsContext());
+							gs.draw();
+							Scorebar.getInstance().updateTime();
 						});
 
 						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
 						if(InputUtility.isMouseLeftDown()){
 							extendLine();
 						}
-
+						else if(InputUtility.isMouseRightDown()){
+							
+							Station e =StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+							if(e!=null) System.out.println("Logic"+e.getCenterX()+":"+e.getCenterY());
+							else System.out.println("this point is nothing");
+						}
 //						else System.out.println("maikao");
 
 					} catch (InterruptedException e) {
@@ -167,6 +172,7 @@ public class GameLogic {
 				System.out.println("ccl");
 				st = clickstation;
 			}
+			
 			else{
 
 				System.out.println("line");
@@ -185,7 +191,7 @@ public class GameLogic {
 						L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),false);
 					}
 					else {
-						System.out.println(st.getCenterX() + " \\ " + st.getCenterY());
+						System.out.println((int)st.getCenterX() + " \\ " + (int)st.getCenterY());
 						System.out.println(L.firstPoint() +" \\ " + L.lastPoint());
 					}
 				}

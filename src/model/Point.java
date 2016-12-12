@@ -38,7 +38,7 @@ public class Point {
 	}
 	
 	public boolean isSamePoint(Station x){
-		if(x.getCenterX() == this.x && x.getCenterY() == this.y) return true;
+		if((int)x.getCenterX() == this.x && (int)x.getCenterY() == this.y) return true;
 		return false;
 	}
 }
