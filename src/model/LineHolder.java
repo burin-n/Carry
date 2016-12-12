@@ -6,47 +6,54 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class LineHolder {
-	private static LineHolder instance = new LineHolder();
 	private static ArrayList<Line> lines;
 	private static Line temp;
-	
+	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
+	private static LineHolder instance = new LineHolder();
 	public LineHolder(){
 		lines = new ArrayList<>();
+		/*for(int i=0;i<5;i++)
+			addLine(new Line(colors[i]));
+		 */
 		temp = null;
 	}
 	
-	public void addLine(Line l){
+	public synchronized void addLine(Line l){
 		lines.add(l);
 	}
 	
-	public void setTemp(Line l){
+	public synchronized void setTemp(Line l){
 		temp = l;
 	}
 	
-	public void removeTemp(){
+	public synchronized void removeTemp(){
 		temp = null;
 	}
 	
-	public Line getTemp(){
+	public synchronized Line getTemp(){
 		return temp;
 	}
 	
 	
-	public void removeLine(Color c){
+	public synchronized void removeLine(Color c){
 		for(Line l : lines){
 			if(l.getColor() == c) lines.remove(l);
 		}
 	}
 
-	public static LineHolder getInstance(){
+	public synchronized static LineHolder getInstance(){
 		return instance;
 	}
 
-	public ArrayList<Line> getLines() {
+	public synchronized ArrayList<Line> getLines() {
 		return lines;
 	}
 	
-	public void drawTemp(GraphicsContext gc){
+	public synchronized Line getLine(int index){
+		return lines.get(index);
+	}
+	
+	public synchronized void drawTemp(GraphicsContext gc){
 		if(temp != null){
 			temp.drawPale(gc);
 		}

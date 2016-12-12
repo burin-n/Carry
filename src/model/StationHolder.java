@@ -11,15 +11,15 @@ public class StationHolder {
 		stations = new ArrayList<>();
 	}
 	
-	public void addStation(Station e){
+	public synchronized void addStation(Station e){
 		stations.add(e);
 	}
 	
-	public ArrayList<Station> getStations(){
+	public synchronized ArrayList<Station> getStations(){
 		return stations;
 	}
 	
-	public static StationHolder getInstance(){
+	public synchronized static StationHolder getInstance(){
 		return instance;
 	}
 	
@@ -33,9 +33,8 @@ public class StationHolder {
 	}
 	public Station isStation(double d,double f){
 		for(Station e : stations){
-			if(Math.abs(e.getCenterX() - d) <= 16 && Math.abs(e.getCenterY() - f) <= 16)
+			if(Math.abs(e.getCenterX() - d) <= 20 && Math.abs(e.getCenterY() - f) <= 20)
 				return e;
-
 		}
 		return null;
 	}

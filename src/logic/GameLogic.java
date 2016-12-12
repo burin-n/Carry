@@ -2,6 +2,8 @@ package logic;
 
 import java.util.Random;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import main.Main;
@@ -17,78 +19,54 @@ import model.ThreadHolder;
 import model.TriangleStation;
 import screen.GameScreen;
 import utility.InputUtility;
-
+import controller.*;
 public class GameLogic {
 	private int creatingFailCount;
 	private boolean isClickedStation;
-	private Point tp;
-	private final Color[] colorLine= {Color.BLUE,Color.PINK,Color.YELLOW,Color.GREEN};
-	private int numofLines;
 	private Station st;
+
+	private int preindex=-1,index1=-1;
+	private int clickedLine;
+	public static boolean isGameOver;
+	
 	public GameLogic(GameScreen gs){
-		tp = null;
-		numofLines=0;
+		clickedLine = 2;
+		isGameOver = false;
 		isClickedStation = false;
 		addStation();
 		addStation();
 		addStation();
 		creatingFailCount = 0;
+		
 		Thread controller = new Thread(new Runnable() {
 			
-
 			@Override
 			public void run() {
 				
 				while(true){
 					try {
 					//	System.out.println("Yo");
+
+//<<<<<<< HEAD
 						Thread.sleep(100);
-						Platform.runLater(()->{
+						if(!isGameOver){
+							Platform.runLater(()->{						
+								gs.clearScreen();
+								gs.drawArea();
+								gs.drawBar(gs.getGraphicsContext());
+								gs.draw();
+								Scorebar.getInstance().updateTime();
+							});
+	
+								Control();
+						}
+						else{
+								gs.drawGameOver();
+								ThreadHolder.instance.stopAll();
+								break;
+						}
 
-							
-							gs.clearScreen();
-							gs.drawArea();
-							gs.draw();		
-							
-						});
-
-						if(InputUtility.isMouseLeftDown()) System.out.println("Clicked");
-						if(InputUtility.isMouseLeftDown()){
-							
-							Station clickstation;
-							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-							if(clickstation!=null) System.out.println("sdfasdf");
-							else System.out.println("kuy");
-
-							if(clickstation != null){
-								
-								if(!isClickedStation){
-
-									isClickedStation = true;
-
-									System.out.println("ccl");
-									st = clickstation;
-								}
-								else{
-
-									/*for(Line l : LineHolder.getInstance().getLines()){
-										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
-											//l.addPoint(x1, y1, x2, y2, append);
-										}
-									}*/
-
-									Line L = new Line(Color.BLUE);
-									System.out.println("line");
-									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
-									LineHolder.getInstance().getLines().add(L);
-
-
-									clickstation = null;
-
-									clickstation = null;
-
-						else System.out.println("maikao");
-
+//>>>>>>> origin/Fbranch
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -97,6 +75,7 @@ public class GameLogic {
 					
 					//ThreadHolder.instance.update();
 					InputUtility.postUpdate();
+					
 				}
 			}
 		});
@@ -117,15 +96,15 @@ public class GameLogic {
 						e.printStackTrace();
 						break;
 					}
-			
 				}
 			}
 		});
 		
+	
 		ThreadHolder.instance.addThread(creating);
 		ThreadHolder.instance.addThread(controller);
 		
-		creating.start(); controller.start();
+		creating.start(); controller.start();  
 	}
 
 
@@ -151,7 +130,6 @@ public class GameLogic {
 		else newStation = new TriangleStation(x, y);
 		
 		StationHolder.getInstance().addStation(newStation);
-		
 	}
 	
 
@@ -178,6 +156,106 @@ public class GameLogic {
 		if(x<=30 || x>= GameScreen.width-30-30) return true;
 		if(y<=30 || y>= GameScreen.width-30-30) return true;
 		return false;
+	}
+	
+
+	private void Control(){
+		
+			int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+			if(index != -1){
+				for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
+				LineController.getInstance().getStatus()[index] = true;
+				System.out.println(index);
+			}
+			else {
+				for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
+				/*for(int i=0;i<5;i++){
+					LineController.getInstance().getSizes()[i]=20;
+				}*/
+			} 
+			//Delete
+			
+			
+			preindex = index;
+			index = -1;
+			if(InputUtility.isMouseLeftDown()){
+				if(index1 == 5){
+					int index2 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+					if(index2 >= 0 && index2 <= 4){
+						for(Line l: LineHolder.getInstance().getLines()){
+							if(l.getColor() == LineController.getInstance().getColors()[index2]){
+							 	LineHolder.getInstance().getLines().remove(l);
+							 	LineController.getInstance().getIsUsed()[index2] = false;
+							 	break;
+							}
+						}
+				}
+
+			}
+			
+			
+			if(InputUtility.isMouseLeftDown()){
+				if(index1 != -1 || isClickedStation){
+						Station clickstation;
+						clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+						
+						if(clickstation != null){
+							if(!isClickedStation){
+								isClickedStation = true;
+								System.out.println("ccl");
+								st = clickstation;
+							}
+							else{
+								int check = 0;
+								for(Line l : LineHolder.getInstance().getLines()){
+								
+										if(l.getColor() != LineController.getInstance().getColors()[index1])continue;
+											if(((int)st.getCenterX() == l.firstPoint().getX()) && ((int)st.getCenterY() == l.firstPoint().getY())){
+												//l.addPoint(x1, y1, x2, y2, append);
+												check = 1;
+												System.out.println("tor");
+												l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),false);
+											}
+									
+										if(((int)st.getCenterX() == l.lastPoint().getX()) && ((int)st.getCenterY() == l.lastPoint().getY())){
+											//l.addPoint(x1, y1, x2, y2, append);
+											check = 1;
+											System.out.println("tor");
+											l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+										}
+								}
+								Line L;
+								if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false && st != clickstation){
+									System.out.println("cre");
+									LineController.getInstance().getIsUsed()[index1] = true;
+									L = new Line(LineController.getInstance().getColors()[index1]);
+									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+									LineHolder.getInstance().getLines().add(L);
+								}
+								
+								
+								clickstation = null;
+								isClickedStation = false;
+							}
+						}
+						else {
+							isClickedStation = false;
+							//System.out.println();
+							st = null;
+							
+						
+						}
+				}	
+				Station clickstation;
+				clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+				if(clickstation == null){
+					
+					index1 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+					
+				}
+			}
+	
+		}
 	}
 	
 }
