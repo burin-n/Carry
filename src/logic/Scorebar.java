@@ -1,6 +1,9 @@
 package logic;
 
+import controller.LineController;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -55,12 +58,20 @@ public class Scorebar {
 		else 
 			gc.fillText(""+score, 750, 48);
 		gc.fillText(days[day], 947, 48);
-			
+		//gc.strokeRect(934, 70, 90, 30);
+		//gc.setFill(Color.LIGHTGREEN);
+		//gc.fillRect(934, 70.5, time*(2.25), 29);
 	}
 	
 	public synchronized void updateTime(){
 		if(time==20){
 			day = (day+1)%7;
+			if(day == 6){
+				LineController.getInstance().getItem().addItem();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Sunday !!! \n You got an item.");
+				alert.show();
+			}
 			time = 0;
 		}	
 		else time++;

@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.IDrawable;
+import model.Item;
 import model.Line;
 import model.Point;
 import model.Station;
@@ -18,6 +19,7 @@ public class LineController implements IDrawable{
 	private ArrayList<Point> centerpoints = new ArrayList<>();
 	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
 	private int[] sizes = {20,20,20,20,20,40};
+	private Item item;
 	private boolean[] status = {false,false,false,false,false,false};
 	private boolean[] isUsed = {false,false,false,false,false,false}; 
 	public LineController(){
@@ -27,6 +29,7 @@ public class LineController implements IDrawable{
 		Point p4 = new Point(560,704);
 		Point p5 = new Point(630,704);
 		Point p6 = new Point(960,704);
+		item = new Item();
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
@@ -53,11 +56,10 @@ public class LineController implements IDrawable{
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0, 700, 1024, 68);
 		
-		gc.setFill(Color.BLACK);
-		gc.fillOval(X + 30, 704, 60, 60);
+		/*gc.setFill(Color.BLACK);
+		gc.fillOval(X + 30, 704, 60, 60);*/
 
-		gc.setFill(Color.BLACK);
-		gc.fillOval(X + 100, 704, 60, 60);
+		drawItem(gc);
 		
 		for(int i=0;i<5;i++){
 			gc.setFill(colors[i]);
@@ -93,8 +95,8 @@ public class LineController implements IDrawable{
 		gc.fillOval(X + 480, 704, 60, 60);*/
 		
 
-		gc.setFill(Color.BLACK);
-		gc.fillOval(X + 580, 704, 60, 60);
+		/*gc.setFill(Color.BLACK);
+		gc.fillOval(X + 580, 704, 60, 60);*/
 	}
 	public int IndexisLineControl(int x,int y){
 		for(int i=0;i<6;i++){
@@ -108,8 +110,22 @@ public class LineController implements IDrawable{
 				return i;
 		}
 		return -1;
+		
 	}
-
+	public void drawItem(GraphicsContext gc){
+		//gc.setFill(Color.BLACK);
+		gc.setLineWidth(2.0);
+		gc.setFill(Color.BLACK);
+		int size = getSizes()[5];
+		if(getStatus()[5])size+=20;
+		gc.strokeOval(250 + 30-size/2.0, 704 + 30-size/2.0, size, size);
+		gc.fillOval(250+30-size/4, 704+30-size/4,size/2,size/2);
+		System.out.println(Integer.toString(item.getNumber()));
+		Font font = new Font(20);
+		gc.setFont(font);
+		gc.fillText(Integer.toString(item.getNumber()), 295, 764);
+		//gc.setFill(Color.WHITESMOKE);
+	}
 	public int[] getSizes(){
 		return this.sizes;
 	}	
@@ -130,6 +146,9 @@ public class LineController implements IDrawable{
 	}
 	public boolean[] getIsUsed() {
 		return isUsed;
+	}
+	public Item getItem(){
+		return item;
 	}
 	
 }

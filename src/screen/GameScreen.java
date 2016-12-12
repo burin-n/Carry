@@ -87,6 +87,7 @@ public class GameScreen extends StackPane{
 		
 		LineHolder.getInstance().drawTemp(gc);
 		
+		
 		for(Station e : StationHolder.getInstance().getStations()){
 			e.drawCrowded(gc);
 			e.draw(gc);
@@ -107,7 +108,6 @@ public class GameScreen extends StackPane{
 		gc.setGlobalAlpha(1.0);
 		gc.fillText("Game Over", GameScreen.width/2 - font_width/2, GameScreen.heigth/2 - font_height/2);
 	}
-	
 	private void addListener(){
 		canvas.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
 		canvas.setOnMouseExited((event)->InputUtility.setMouseOnScreen(false));

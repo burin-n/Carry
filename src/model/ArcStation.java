@@ -2,6 +2,7 @@ package model;
 
 import java.util.Random;
 
+import controller.LineController;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
@@ -11,6 +12,7 @@ public class ArcStation extends Station{
 	public ArcStation(double x, double y) {
 		super(x, y);
 		// TODO Auto-generated constructor stub
+
 	}
 
 	public void AddPassenger(){
