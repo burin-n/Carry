@@ -18,10 +18,10 @@ public class LineController implements IDrawable{
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Point> centerpoints = new ArrayList<>();
 	private static final Color[] colors = {Color.ORANGERED,Color.YELLOW,Color.HOTPINK,Color.MEDIUMPURPLE,Color.DEEPSKYBLUE};
-	private int[] sizes = {20,20,20,20,20,40};
+	private int[] sizes = {20,20,20,20,20,40,40};
 	private Item item;
-	private boolean[] status = {false,false,false,false,false,false};
-	private boolean[] isUsed = {false,false,false,false,false,false}; 
+	private boolean[] status = {false,false,false,false,false,false,false};
+	private boolean[] isUsed = {false,false,false,false,false,false,false}; 
 	public LineController(){
 		Point p1 = new Point(350,704);
 		Point p2 = new Point(420,704);
@@ -29,6 +29,7 @@ public class LineController implements IDrawable{
 		Point p4 = new Point(560,704);
 		Point p5 = new Point(630,704);
 		Point p6 = new Point(960,704);
+		Point p7 = new Point(250,704);
 		item = new Item();
 		points.add(p1);
 		points.add(p2);
@@ -36,18 +37,21 @@ public class LineController implements IDrawable{
 		points.add(p4);
 		points.add(p5);
 		points.add(p6);
+		points.add(p7);
 		Point cp1 = new Point(350 + 30,704 + 30);
 		Point cp2 = new Point(420 + 30,704 + 30);
 		Point cp3 = new Point(490 + 30,704 + 30);
 		Point cp4 = new Point(560 + 30,704 + 30);
 		Point cp5 = new Point(630 + 30,704 + 30);
 		Point cp6 = new Point(960 + 30,704 + 30);
+		Point cp7 = new Point(250 + 30,704 + 30);
 		centerpoints.add(cp1);
 		centerpoints.add(cp2);
 		centerpoints.add(cp3);
 		centerpoints.add(cp4);
 		centerpoints.add(cp5);
 		centerpoints.add(cp6);
+		centerpoints.add(cp7);
 	}
 	@Override
 	public void draw(GraphicsContext gc) {
@@ -99,13 +103,22 @@ public class LineController implements IDrawable{
 		gc.fillOval(X + 580, 704, 60, 60);*/
 	}
 	public int IndexisLineControl(int x,int y){
-		for(int i=0;i<6;i++){
-			Point p = getCenterPoints().get(i);
-			int size = getSizes()[i];
-			boolean sta = getStatus()[i];
-			boolean isUsed = getIsUsed()[i];
-			if(sta)size += 15;
-			if(isUsed)size += 20;
+//<<<<<<< HEAD
+//		for(int i=0;i<6;i++){
+//			Point p = getCenterPoints().get(i);
+//			int size = getSizes()[i];
+//			boolean sta = getStatus()[i];
+//			boolean isUsed = getIsUsed()[i];
+//			if(sta)size += 15;
+//			if(isUsed)size += 20;
+//=======
+		for(int i=0;i<7;i++){
+		Point p = getCenterPoints().get(i);
+		int size = getSizes()[i];
+		boolean sta = getStatus()[i];
+		boolean isUsed = getIsUsed()[i];
+		if(sta)size += 15;
+		if(isUsed)size += 20;
 			if(Math.abs(p.getX() - x) <= size/2.0 + 5 && Math.abs(p.getY() - y) <= size/2.0 + 5)
 				return i;
 		}
@@ -116,8 +129,8 @@ public class LineController implements IDrawable{
 		//gc.setFill(Color.BLACK);
 		gc.setLineWidth(2.0);
 		gc.setFill(Color.BLACK);
-		int size = getSizes()[5];
-		if(getStatus()[5])size+=20;
+		int size = getSizes()[6];
+		if(getStatus()[6])size+=20;
 		gc.strokeOval(250 + 30-size/2.0, 704 + 30-size/2.0, size, size);
 		gc.fillOval(250+30-size/4, 704+30-size/4,size/2,size/2);
 		System.out.println(Integer.toString(item.getNumber()));

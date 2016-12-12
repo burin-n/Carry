@@ -164,23 +164,23 @@ public class GameLogic {
 		
 			int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 			if(index != -1){
-				for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
+				for(int i=0;i<7;i++)LineController.getInstance().getStatus()[i] = false;
 				LineController.getInstance().getStatus()[index] = true;
 				System.out.println(index);
 			}
 			else {
-				for(int i=0;i<6;i++)LineController.getInstance().getStatus()[i] = false;
+				for(int i=0;i<7;i++)LineController.getInstance().getStatus()[i] = false;
 				/*for(int i=0;i<5;i++){
 					LineController.getInstance().getSizes()[i]=20;
 				}*/
 			} 
-			//Delete
 			
 			
 			preindex = index;
 			index = -1;
 			if(InputUtility.isMouseLeftDown()){
-				if(index1 == 5){
+				
+				if(index1 == 5){ // delete line
 					int index2 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 					if(index2 >= 0 && index2 <= 4){
 						for(Line l: LineHolder.getInstance().getLines()){
@@ -190,9 +190,20 @@ public class GameLogic {
 							 	break;
 							}
 						}
+					}
 				}
-
+				else if(index1 == 6){ // add transporter to line
+					int index3 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+					if(index3 >= 0 && index3 <= 4){
+						for(Line l: LineHolder.getInstance().getLines()){
+							if(l.getColor() == LineController.getInstance().getColors()[index3]){
+							 	addTransportToLine(l);
+							}
+						}
+					}
+				}
 			}
+			
 			
 			
 			if(InputUtility.isMouseLeftDown()){
@@ -260,8 +271,9 @@ public class GameLogic {
 			}
 	
 		}
-	}
 	
+	
+
 	private void addTransportToLine(){
 		if(InputUtility.isMouseLeftDown()){
 			if(item.isItem()) isClickedItem = true;
@@ -274,5 +286,6 @@ public class GameLogic {
 					item.useItem();
 			}
 		}
+
 	}
 }
