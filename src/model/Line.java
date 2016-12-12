@@ -1,17 +1,20 @@
 package model;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import main.Main;
+import screen.GameScreen;
 import utility.InputUtility;
 
 import java.util.ArrayList;
+
+import controller.LineController;
 
 
 public class Line implements IDrawable{
 	private ArrayList<Point> points;
 	private Color color;
-	
+	private ArrayList<Transporter> transpoters; 
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
@@ -44,8 +47,8 @@ public class Line implements IDrawable{
 			gc.strokeLine(points.get(i).getX(), points.get(i).getY(), points.get(i+1).getX(), points.get(i+1).getY());
 		}
 		gc.setFill(color);
-		if(firstPoint()!=null) gc.fillOval(firstPoint().getX()-15, firstPoint().getY()-15, 30, 30);
-		if(lastPoint()!=null) gc.fillOval(lastPoint().getX()-15, lastPoint().getY()-15, 30, 30);
+		if(firstPoint()!=null) gc.fillOval(firstPoint().getX()-23, firstPoint().getY()-23, 46, 46);
+		if(lastPoint()!=null) gc.fillOval(lastPoint().getX()-23, lastPoint().getY()-23, 46, 46);
 	}
 	
 	public void drawPale(GraphicsContext gc){
@@ -124,7 +127,7 @@ public class Line implements IDrawable{
 			boolean isl1 = true;
 			while(true){
 				try {
-					Thread.sleep(100);
+					Thread.sleep(75);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -153,7 +156,7 @@ public class Line implements IDrawable{
 				}
 				//System.out.println(InputUtility.isMouseLeftDown());
 				if(InputUtility.isMouseLeftDown()){
-		
+					System.out.println("mouse down in Line");
 					if(append){
 						if(isl1)points.addAll(l1);
 						else points.addAll(l2);
@@ -163,15 +166,41 @@ public class Line implements IDrawable{
 						else addFront(l2);					
 					}
 					LineHolder.getInstance().removeTemp();
+					for(int i=0 ; i<LineController.getInstance().getColors().length ; i++ ){
+						if( color == LineController.getInstance().getColors()[i] ){
+							System.out.println("line founded in Line");
+							LineController.getInstance().getIsUsed()[i] = true;
+						}
+					}
+
 					break;
 				}
+				
+				else if(InputUtility.getKeyPressed(KeyCode.ESCAPE)){
+					System.out.println("ESC down in Line");
+					LineHolder.getInstance().removeTemp();
+					for(int i=LineController.getInstance().getColors().length-1 ; i >= 0; i-- ){
+						if( color == LineController.getInstance().getColors()[i] ){
+							System.out.println("line founded in Line");
+							Line L = LineHolder.getInstance().getLine(color);
+							if(L != null && L.getPoints().size()==0 ){
+								LineHolder.getInstance().removeLine(color);
+								LineController.getInstance().getIsUsed()[i] = false;	
+							}
+							break;
+						}
+					}				
+					
+					break;
+				}
+				
 			}			
 		});
 		ThreadHolder.instance.addThread(t);
 		t.start();
 		
 		System.out.println("end thread");
-		System.out.println(points);
+		System.out.println("points:" + points);
 
 	}
 	
@@ -182,7 +211,7 @@ public class Line implements IDrawable{
 	
 	public void clear() {
 		// TODO Auto-generated method stub
-		GraphicsContext gc = Main.gs.getGraphicsContext();
+		GraphicsContext gc = GameScreen.gc;
 		gc.setLineWidth(10);
 		gc.setStroke(Color.WHITESMOKE);
 		gc.setGlobalAlpha(1.0);

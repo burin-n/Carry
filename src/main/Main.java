@@ -35,14 +35,15 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-
+		StackPane root = new StackPane();
 	//	instance = this;
 		this.primaryStage = primaryStage;
-		gs = new GameScreen(width,heigth);
+		gs = new GameScreen(root,width,heigth);
 		gl = new GameLogic(gs);
-		Scene scene = new Scene(gs);
+		
+		//Scene scene = new Scene(gs);
 		primaryStage.setResizable(false);
-		primaryStage.setScene(scene);				
+		primaryStage.setScene(gs);				
 		
 		primaryStage.show();
 		

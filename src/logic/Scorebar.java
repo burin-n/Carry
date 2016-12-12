@@ -18,10 +18,10 @@ public class Scorebar {
 	
 	public Scorebar(){
 		
-		setScore(90099999);
+		setScore(9999);
 		setTime(0);
-		people = new Image(ClassLoader.getSystemResourceAsStream("people.png"));
-		clock = new Image(ClassLoader.getSystemResourceAsStream("clock.png"));
+		people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
+		clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));
 	}
 
 	public synchronized int getScore() {

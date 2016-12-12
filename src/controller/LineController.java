@@ -17,7 +17,7 @@ public class LineController implements IDrawable{
 	private static LineController instance = new LineController();
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Point> centerpoints = new ArrayList<>();
-	private static final Color[] colors = {Color.RED,Color.YELLOW,Color.PINK,Color.PURPLE,Color.BLUE};
+	private static final Color[] colors = {Color.ORANGERED,Color.YELLOW,Color.HOTPINK,Color.MEDIUMPURPLE,Color.DEEPSKYBLUE};
 	private int[] sizes = {20,20,20,20,20,40};
 	private Item item;
 	private boolean[] status = {false,false,false,false,false,false};
@@ -150,5 +150,12 @@ public class LineController implements IDrawable{
 	public Item getItem(){
 		return item;
 	}
-	
+
+	public void setIsUsed(Color c,boolean set){
+		for(int i=0;i<colors.length;i++){
+			if(c == colors[i]){
+				isUsed[i] = set;
+			}
+		}
+	}
 }
