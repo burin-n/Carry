@@ -3,7 +3,6 @@ package model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import main.Main;
 import screen.GameScreen;
 import utility.InputUtility;
 
@@ -15,7 +14,7 @@ import controller.LineController;
 public class Line implements IDrawable{
 	private ArrayList<Point> points;
 	private Color color;
-	
+	private ArrayList<Transporter> transpoters; 
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
@@ -183,12 +182,15 @@ public class Line implements IDrawable{
 					for(int i=LineController.getInstance().getColors().length-1 ; i >= 0; i-- ){
 						if( color == LineController.getInstance().getColors()[i] ){
 							System.out.println("line founded in Line");
-							LineController.getInstance().getIsUsed()[i] = false;
+							Line L = LineHolder.getInstance().getLine(color);
+							if(L != null && L.getPoints().size()==0 ){
+								LineHolder.getInstance().removeLine(color);
+								LineController.getInstance().getIsUsed()[i] = false;	
+							}
 							break;
 						}
 					}				
-					Line L = LineHolder.getInstance().getLine(color);
-					if(L != null && L.getPoints().size()==0 ) LineHolder.getInstance().removeLine(color);
+					
 					break;
 				}
 				

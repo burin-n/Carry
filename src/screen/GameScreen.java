@@ -77,7 +77,7 @@ public class GameScreen extends Scene{
 	
 	public void clearScreen(){
 		gc.setFill(Color.WHITESMOKE);
-		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.fillRect(0, 0, canvas.getWidth()+10, canvas.getHeight());
 	}
 	
 	public void clearElement(){

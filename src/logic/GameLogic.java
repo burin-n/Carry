@@ -26,11 +26,10 @@ public class GameLogic {
 	private Station st;
 
 	private int preindex=-1,index1=-1;
-	private int clickedLine;
 	public static boolean isGameOver;
 	
 	public GameLogic(GameScreen gs){
-		clickedLine = 2;
+		
 		isGameOver = false;
 		isClickedStation = false;
 		addStation();
@@ -260,4 +259,7 @@ public class GameLogic {
 		}
 	}
 	
+	private void addTransportToLine(Color c){
+		
+	}
 }
