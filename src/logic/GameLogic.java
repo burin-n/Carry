@@ -24,7 +24,7 @@ public class GameLogic {
 	private boolean isClickedStation;
 	private double tx,ty;
 	private Station st;
-	private int preindex=-1;
+	private int preindex=-1,index1=-1;
 	
 	public GameLogic(GameScreen gs){
 		this.gs = gs;
@@ -66,39 +66,64 @@ public class GameLogic {
 						preindex = index;
 						index = -1;
 						if(InputUtility.isMouseLeftDown()){
-							
+							if(index1 != -1 || isClickedStation){
+									Station clickstation;
+									clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+									
+									if(clickstation != null){
+										if(!isClickedStation){
+											isClickedStation = true;
+											System.out.println("ccl");
+											st = clickstation;
+										}
+										else{
+											int check = 0;
+											for(Line l : LineHolder.getInstance().getLines()){
+											
+													if(l.getColor() != LineController.getInstance().getColors()[index1])continue;
+														if(((int)st.getCenterX() == l.firstPoint().getX()) && ((int)st.getCenterY() == l.firstPoint().getY())){
+															//l.addPoint(x1, y1, x2, y2, append);
+															check = 1;
+															System.out.println("tor");
+															l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),false);
+														}
+												
+													if(((int)st.getCenterX() == l.lastPoint().getX()) && ((int)st.getCenterY() == l.lastPoint().getY())){
+														//l.addPoint(x1, y1, x2, y2, append);
+														check = 1;
+														System.out.println("tor");
+														l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+													}
+											}
+											Line L;
+											if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false){
+												System.out.println("cre");
+												LineController.getInstance().getIsUsed()[index1] = true;
+												L = new Line(LineController.getInstance().getColors()[index1]);
+												L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+												LineHolder.getInstance().getLines().add(L);
+											}
+											
+											
+											clickstation = null;
+											isClickedStation = false;
+										}
+									}
+									else {
+										isClickedStation = false;
+										//System.out.println();
+										st = null;
+										
+									
+									}
+							}	
 							Station clickstation;
 							clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-							
-							if(clickstation != null){
-								if(!isClickedStation){
-									isClickedStation = true;
-									System.out.println("ccl");
-									st = clickstation;
-								}
-								else{
-									/*for(Line l : LineHolder.getInstance().getLines()){
-										if((st.getX() == l.firstPoint().getX()) && (st.getY() == l.firstPoint().getY())){
-											//l.addPoint(x1, y1, x2, y2, append);
-										}
-									}*/
-									Line L = new Line(Color.BLUE);
-									System.out.println("line");
-									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
-									LineHolder.getInstance().getLines().add(L);
-									clickstation = null;
-									isClickedStation = false;
-								}
-							}
-							else {
-								isClickedStation = false;
-								//System.out.println();
-								st = null;
+							if(clickstation == null){
 								
-							
-							}	
-							int index1 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
-								if(index1 != -1)LineController.getInstance().getIsUsed()[index1] = true;
+								index1 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
+								
+							}
 						}
 						
 					} catch (InterruptedException e) {

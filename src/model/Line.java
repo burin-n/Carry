@@ -305,7 +305,6 @@ public class Line implements IDrawable{
 		temp.addAll(points);
 		points = new ArrayList<Point>(temp);
 	}
-	
 }
 
 	

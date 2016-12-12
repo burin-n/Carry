@@ -113,6 +113,9 @@ public class LineController implements IDrawable{
 	public static LineController getInstance(){
 		return instance;
 	}
+	public Color[] getColors(){
+		return this.colors;
+	}
 	public boolean[] getIsUsed() {
 		return isUsed;
 	}
