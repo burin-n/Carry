@@ -187,12 +187,13 @@ public class GameLogic {
 							 	break;
 							}
 						}
+					}
 				}
 				else if(index1 == 6){
 					int index3 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 					if(index3 >= 0 && index3 <= 4){
 						for(Line l: LineHolder.getInstance().getLines()){
-							if(l.getColor() == LineController.getInstance().getColors()[index2]){
+							if(l.getColor() == LineController.getInstance().getColors()[index3]){
 							 	addTransportToLine(l);
 							}
 						}
@@ -267,7 +268,7 @@ public class GameLogic {
 			}
 	
 		}
-	}
+	
 	
 	private void addTransportToLine(Line l){
 		
