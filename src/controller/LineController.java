@@ -127,7 +127,9 @@ public class LineController implements IDrawable{
 		System.out.println(Integer.toString(item.getNumber()));
 		Font font = new Font(20);
 		gc.setFont(font);
-		gc.fillText(Integer.toString(item.getNumber()), 295, 764);
+		int f=0;
+		if(getStatus()[6])f=10;
+		gc.fillText(Integer.toString(item.getNumber()), 295+f, 764+f/5);
 		//gc.setFill(Color.WHITESMOKE);
 	}
 	public int[] getSizes(){
