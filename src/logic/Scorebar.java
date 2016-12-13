@@ -14,10 +14,10 @@ public class Scorebar {
 	private static int score,time,day=0;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
 	private Image clock,people;
-	
+	private int numberOfCrowded;
 	
 	public Scorebar(){
-		
+		setNumberOfCrowded(0);
 		setScore(0);
 		setTime(0);
 		people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
@@ -80,4 +80,13 @@ public class Scorebar {
 	public static Scorebar getInstance(){
 		return instance;
 	}
+
+	public int getNumberOfCrowded() {
+		return numberOfCrowded;
+	}
+
+	public void setNumberOfCrowded(int numberOfCrowded) {
+		this.numberOfCrowded = numberOfCrowded;
+	}
+
 }
