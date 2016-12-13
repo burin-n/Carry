@@ -14,6 +14,7 @@ public class SquarePassenger extends Passenger{
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setFill(color);
+		gc.setGlobalAlpha(1);
 		gc.fillRect(getX(), getY(), 10/size, 10/size);
 	}
 

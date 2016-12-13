@@ -1,20 +1,13 @@
 /.classpath
 /.project
 /.settings/
-/clock.png
+/clock-clipart.png
 /controller/
 /greeting
+/humanwalk-clipart.png
 /log.txt
 /logic/
-<<<<<<< HEAD
-/controller/
-=======
 /main/
 /model/
-/people.png
 /screen/
 /utility/
-/waiting.png
-/clock-clipart.png
-/humanwalk-clipart.png
->>>>>>> branch 'master' of https://github.com/freespace0/Carry.git

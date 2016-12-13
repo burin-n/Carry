@@ -15,6 +15,8 @@ public class ArcPassenger extends Passenger{
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setFill(color);
+
+		gc.setGlobalAlpha(1);
 		gc.fillArc(getX()-5, getY(), 20/size, 21/size, 55, 70, ArcType.ROUND);
 	}
 

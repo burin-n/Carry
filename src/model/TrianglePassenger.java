@@ -14,6 +14,8 @@ public class TrianglePassenger extends Passenger{
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		gc.setFill(color);		
+
+		gc.setGlobalAlpha(1);
 		double[] X = new double[]{getX()+5/size,getX()+10/size,getX()};
 		double[] Y = new double[]{getY(),getY()+10/size,getY()+10/size};
 		gc.fillPolygon(X,Y,3);

@@ -38,8 +38,8 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		gc.setGlobalAlpha(1.0);
 	}
 	public void addPassenger(Passenger p){
-		p.setSize(2);
-		p.setColor(this.getColor().deriveColor(50, 100, 100, 50));
+		p.setSize(1);
+		p.setColor(Color.DARKSLATEGRAY);
 		passengers.add(p);
 	}
 	
@@ -78,8 +78,8 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		// TODO Auto-generated method stub
 		int n = 0;
 		for(Passenger p : passengers){
-			p.setX(getX()+5+7.5*(n%2));
-			p.setY(getY()+5+7.5*(n/2));
+			p.setX(getX()-12+15*(n%2));
+			p.setY(getY()-12+15*(n/2));
 			n++;
 			p.draw(gc);
 		}
