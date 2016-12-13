@@ -2,9 +2,9 @@ package logic;
 
 import java.util.Random;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import javafx.application.Platform;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import main.Main;
 import model.ArcStation;
@@ -27,9 +27,9 @@ public class GameLogic {
 	private Station prevStation;
 	private Station clickStation;
 	private Item item;
-	private int preindex=-1,index1=-1;
+	private int preindex=-1,index1=-1,status,prestatus;
 	public static boolean isGameOver;
-	
+	private AudioClip sound;
 	
 	public GameLogic(GameScreen gs){
 		isGameOver = false;
@@ -38,6 +38,9 @@ public class GameLogic {
 		addStation("Arc");
 		addStation("Cross");
 		addStation("Triangle");
+		setStatus(0);
+		prestatus = 0;
+		playSound(Scorebar.getInstance().getNumberOfCrowded());
 		creatingFailCount = 0;
 		item = new Item();
 		Thread controller = new Thread(new Runnable() {
@@ -184,7 +187,20 @@ public class GameLogic {
 	
 
 	private void Control(){
-		
+			int count = 0;
+			for(Station s: StationHolder.getInstance().getStations()){
+				if(s.isClowded())count++;
+			}
+			
+			if(count == 0)status = 0;
+			else status = 1;
+		    if(status != prestatus){
+		    	//stopSound();
+		    	sound.stop();
+		    	playSound(getStatus());
+		    }
+		    prestatus = getStatus();
+			
 			int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 			if(index != -1){
 				for(int i=0;i<7;i++)LineController.getInstance().getStatus()[i] = false;
@@ -300,6 +316,33 @@ public class GameLogic {
 			if(l.addTransporter()) 
 				item.useItem();
 		
+	}
+	private void playSound(int status){
+		
+		if(status == 0)setSound(new AudioClip(ClassLoader.getSystemResource("normal.mp3").toString()));
+		else setSound(new AudioClip(ClassLoader.getSystemResource("exciting.mp3").toString()));
+		
+		getSound().play();
+	}
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+
+	public AudioClip getSound() {
+		return sound;
+	}
+
+
+	public void setSound(AudioClip sound) {
+		this.sound = sound;
 	}
 	
 	

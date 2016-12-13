@@ -8,6 +8,7 @@ import java.util.Set;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import logic.GameLogic;
+import logic.Scorebar;
 
 public abstract class Station implements IDrawable,IPassengerDrawable{
 	protected double x,y;
@@ -37,9 +38,13 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 						}
 					}
 					if(passengers.size()>7 ) GameLogic.isGameOver = /*true*/false;
-					else if( passengers.size() > 4 ) isCrowded = true;
+					else if( passengers.size() > 4 ){
+						//Scorebar.getInstance().setNumberOfCrowded(Scorebar.getInstance().getNumberOfCrowded()+1);
+						isCrowded = true;
+					}
 					else{
 						crowdedState = 0.0;
+						//Scorebar.getInstance().setNumberOfCrowded(Scorebar.getInstance().getNumberOfCrowded()-1);
 						isCrowded = false;
 					}
 				} catch (InterruptedException e) {
@@ -134,6 +139,8 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		}
 		return canGo;
 	}
-
+	public boolean isClowded(){
+		return isCrowded;
+	}
 	public abstract void recievePeople(Passenger p);
 }
