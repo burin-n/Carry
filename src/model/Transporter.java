@@ -43,7 +43,7 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		passengers.add(p);
 	}
 	
-	public int getNumberOfPassengers(){
+	public synchronized int getNumberOfPassengers(){
 		return passengers.size();
 	}
 
@@ -90,11 +90,11 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		
 	}
 	
-	public boolean isFull(){
+	public synchronized boolean isFull(){
 		return passengers.size()>=4;
 	}
 	
-	public void drop(int index){
+	public synchronized void drop(int index){
 		passengers.remove(index);
 	}
 	

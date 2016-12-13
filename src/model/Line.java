@@ -352,11 +352,11 @@ public class Line implements IDrawable{
 									Scorebar.getInstance().setScore(Scorebar.getInstance().getScore()+1);
 									break;
 								}
-								System.out.println("tid hear rai");
+								System.out.println(color.toString()+":tid hear rai");
 							}
 							else if(st.canGo(tran.passengers.get(j).getType())){
 								//transfer people
-								System.out.println("pen kuy rai");
+								System.out.println(color.toString()+":pen kuy rai");
 								tran.transfer(j,st);
 								break;
 							}
@@ -404,7 +404,7 @@ public class Line implements IDrawable{
 		return points.size();
 	}
 	
-	private void addStationTypeToLine(Station s1,Station s2){
+	private synchronized void addStationTypeToLine(Station s1,Station s2){
 		//TODO
 		canGo.add(s1.getType());
 		canGo.add(s2.getType());

@@ -62,7 +62,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	}
 	
 	
-	public Passenger dequeuePassengers(){
+	public synchronized Passenger dequeuePassengers(){
 		if(this.passengers.size() == 0)return null;
 		
 		Passenger temp = this.passengers.get(0);
@@ -84,7 +84,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 			e.draw(gc);
 		}
 	}
-	public int getNumberOfPassengers(){
+	public synchronized int getNumberOfPassengers(){
 		return passengers.size();
 	}
 
