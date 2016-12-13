@@ -2,7 +2,7 @@ package logic;
 
 import java.util.Random;
 
-
+import exception.SoundNotFoundException;
 import javafx.application.Platform;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
