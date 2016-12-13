@@ -18,6 +18,10 @@ public class Item {
 		Item.number++;
 	}
 	
+	public void addItem(int n){
+		Item.number+=n;
+	}
+	
 	public boolean canUse(){
 		if(this.getNumber() == 0)return false;
 		else return true;

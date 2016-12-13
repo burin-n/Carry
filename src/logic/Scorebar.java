@@ -64,7 +64,7 @@ public class Scorebar {
 	}
 	
 	public synchronized void updateTime(){
-		if(time==20){
+		if(time==50){
 			day = (day+1)%7;
 			if(day == 6){
 				LineController.getInstance().getItem().addItem();

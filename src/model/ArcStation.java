@@ -17,12 +17,11 @@ public class ArcStation extends Station{
 
 	public void AddPassenger(){
 		Random R = new Random();
-		int r = R.nextInt(4);
+		int r = R.nextInt(3);
 		Passenger p = null;
-		if(r%4 == 0)p = new SquarePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
-		else if(r%4 == 1)p = new ArcPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
-		else if(r%4 == 2)p = new CrossPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
-		else if(r%4 == 3)p = new TrianglePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		if(r%3 == 0)p = new SquarePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		else if(r%3 == 1)p = new CrossPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		else if(r%3 == 2)p = new TrianglePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
 		
 		passengers.add(p);
 	}
@@ -52,16 +51,30 @@ public class ArcStation extends Station{
 	}
 
 	@Override
-	public void recievePeople(Passenger p) {
+	public synchronized void recievePeople(Passenger p) {
 		// TODO Auto-generated method stub
 		Passenger newP=null;
 		if(p.getType().compareTo("Square") == 0 ) newP = new SquarePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
 		else if(p.getType().compareTo("Arc") == 0 ) newP = new ArcPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
 		else if(p.getType().compareTo("Cross") == 0) newP = new CrossPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
 		else if(p.getType().compareTo("Triangle") == 0 )newP = new TrianglePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
-		passengers.add(newP);
+		if(newP==null) System.out.println("recievePeople:null");
+		else System.out.println("recievePeople:mainull");
+		tempPassengers.add(newP);
 	}
 
+	
+	public synchronized void updateRecievePeople(){
+		for(Passenger p : tempPassengers){
+			Passenger newP=null;
+			if(p.getType().compareTo("Square") == 0 ) newP = new SquarePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+			else if(p.getType().compareTo("Arc") == 0 ) newP = new ArcPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+			else if(p.getType().compareTo("Cross") == 0) newP = new CrossPassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+			else if(p.getType().compareTo("Triangle") == 0 )newP = new TrianglePassenger(getX() + 30.5 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+			passengers.add(newP);
+		}
+		tempPassengers.clear();
+	}
 
 
 }

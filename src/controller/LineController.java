@@ -17,7 +17,7 @@ public class LineController implements IDrawable{
 	private static LineController instance = new LineController();
 	private ArrayList<Point> points = new ArrayList<>();
 	private ArrayList<Point> centerpoints = new ArrayList<>();
-	private static final Color[] colors = {Color.ORANGERED,Color.YELLOW,Color.HOTPINK,Color.MEDIUMPURPLE,Color.DEEPSKYBLUE};
+	private static final Color[] colors = {Color.ORANGERED,Color.YELLOW,Color.HOTPINK,Color.MEDIUMPURPLE,Color.DEEPSKYBLUE,Color.BLACK,Color.BLACK};
 	private int[] sizes = {20,20,20,20,20,40,40};
 	private Item item;
 	private boolean[] status = {false,false,false,false,false,false,false};

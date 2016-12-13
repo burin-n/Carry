@@ -38,4 +38,9 @@ public class StationHolder {
 		}
 		return null;
 	}
+	
+	public void updateStation(){
+		for(Station e : stations)
+			e.updateRecievePeople();
+	}
 }

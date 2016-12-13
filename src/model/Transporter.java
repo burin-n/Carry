@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -13,7 +14,7 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	protected int positionIndex;
 	protected static final int speed=5;
 	
-	ArrayList<Passenger> passengers = new ArrayList<>();
+	protected CopyOnWriteArrayList<Passenger> passengers = new CopyOnWriteArrayList<>();
 	
 	public Transporter(double x,double y,Color color,int direction) {
 		// TODO Auto-generated constructor stub
@@ -21,7 +22,6 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		setY(y);
 		setColor(color);
 		setDirection(direction);
-		
 	}
 	
 	@Override
@@ -99,7 +99,10 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	}
 	
 	public synchronized void transfer(int index, Station st){
-		st.recievePeople(passengers.remove(index));
+		
+		Passenger p = passengers.remove(index);
+		System.out.println("kuy her " + p.getType() + "size = " + passengers.size());
+		st.recievePeople(p);
 	}
 	
 }

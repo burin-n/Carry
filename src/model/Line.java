@@ -309,6 +309,8 @@ public class Line implements IDrawable{
 		}
 	}
 	
+	// below these is transport
+	
 	public boolean addTransporter(){
 		if(points.isEmpty()){
 			return false;
@@ -326,6 +328,7 @@ public class Line implements IDrawable{
 		transporters.add(tran);
 		
 		Thread t = new Thread(()->{
+			int state = 0,count=0;
 			while(true){
 				try {
 					Thread.sleep(100);
@@ -340,11 +343,15 @@ public class Line implements IDrawable{
 				}
 
 				// moving
+				
 				for(int i=0;i<Transporter.speed;i++){
 					Station st = StationHolder.getInstance().isStation(tran.x, tran.y);
-					if(st!=null){ // canGo station	
-						// is can drop or transfer people?d
-						for(int j=tran.passengers.size()-1 ; j>=0 ;j--){
+					int j = 0; // use j as state controller
+					if(st!=null && state <2 ){ // canGo station	
+						// is can drop or transfer people?
+						count=0;
+						for(j=tran.passengers.size()-1 ; j>=0 && state == 0 ;j--){ // state 0 represent droping people
+							
 							if(canGo(tran.passengers.get(j).getType())){
 								// drop people
 								if(tran.passengers.get(j).getType().compareTo(st.getType()) == 0){
@@ -356,17 +363,19 @@ public class Line implements IDrawable{
 							}
 							else if(st.canGo(tran.passengers.get(j).getType())){
 								//transfer people
-								System.out.println(color.toString()+":pen kuy rai");
+								System.out.println(color.toString()+":pen kuy rai:"+tran.passengers.get(j).getType());
 								tran.transfer(j,st);
+								System.out.println("size:"+tran.passengers.size());
 								break;
 							}
 						}
-
+						if(j == -1) state = 1;  // if doesn't drop any people then change state to loading people
 						// get people
-						if(!tran.isFull() && st.getNumberOfPassengers()>0){
+						if(!tran.isFull() && st.getNumberOfPassengers()>0 && state == 1){
 							tran.addPassenger(st.dequeuePassengers());
 							break;
 						}
+						else state = 2;
 					}
 					
 					// moving
@@ -379,9 +388,14 @@ public class Line implements IDrawable{
 						tran.positionIndex = points.size()-1;
 						tran.direction = -1;
 					}
+					count++;
+					if(count==7) {
+						count=0;
+						state = 0;
+					}
 				}
 
-			}	
+			}
 		}); // end thread
 		
 		ThreadHolder.instance.addTransThread(LineController.getInstance().getColorIndex(color), t);
@@ -412,6 +426,10 @@ public class Line implements IDrawable{
 	
 	public boolean canGo(String type){
 		return canGo.contains(type);
+	}
+	
+	public int getNumberTransporter(){
+		return transporters.size();
 	}
 }
 

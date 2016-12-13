@@ -57,6 +57,7 @@ public class GameLogic {
 								gs.drawBar(gs.getGraphicsContext());
 								gs.draw();
 								Scorebar.getInstance().updateTime();
+								StationHolder.getInstance().updateStation();
 							});
 	
 								Control();
@@ -91,7 +92,7 @@ public class GameLogic {
 				while(creatingFailCount <= 10){
 					System.out.println("creating station");
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(10000);
 						Platform.runLater(() -> addStation() );
 					} catch (InterruptedException e) {
 					// 	TODO Auto-generated catch block
@@ -208,7 +209,8 @@ public class GameLogic {
 					if(index2 >= 0 && index2 <= 4){ // find which line to delete
 						for(Line l: LineHolder.getInstance().getLines()){
 							if(l.getColor() == LineController.getInstance().getColors()[index2]){
-							 	LineHolder.getInstance().getLines().remove(l);
+								item.addItem(l.getNumberTransporter());
+								LineHolder.getInstance().getLines().remove(l);
 							 	LineController.getInstance().getIsUsed()[index2] = false;
 							 	break;
 							}

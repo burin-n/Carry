@@ -1,9 +1,10 @@
 package model;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -11,14 +12,17 @@ import logic.GameLogic;
 
 public abstract class Station implements IDrawable,IPassengerDrawable{
 	protected double x,y;
-	protected ArrayList<Passenger> passengers;
+	//protected ArrayList<Passenger> passengers;
+	protected CopyOnWriteArrayList<Passenger> passengers;
+	protected CopyOnWriteArrayList<Passenger> tempPassengers;
 	protected boolean isCrowded;
 	protected double crowdedState;
 	protected Set<Color> lines;
 	
 	public Station(double x, double y){
 		lines = new HashSet<>();
-		passengers = new ArrayList<>();
+		passengers = new CopyOnWriteArrayList<Passenger>();
+		tempPassengers = new CopyOnWriteArrayList<>();
 		this.setX(x);
 		this.setY(y);
 		
@@ -29,7 +33,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		Thread t = new Thread(()->{
 			while(true){
 			try {
-					Thread.sleep(3000);
+					Thread.sleep(10000);
 					Random r = new Random();
 					if( r.nextInt(2) == 1 ){
 						for(int i=0;i< r.nextInt(3)+1;i++){
@@ -136,4 +140,5 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	}
 
 	public abstract void recievePeople(Passenger p);
+	public abstract void updateRecievePeople();
 }
