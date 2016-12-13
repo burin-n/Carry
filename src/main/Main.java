@@ -44,7 +44,7 @@ public class Main extends Application{
 		//Scene scene = new Scene(gs);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(gs);				
-		
+		primaryStage.setTitle("Carry");
 		primaryStage.show();
 		
 	}

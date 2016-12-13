@@ -48,7 +48,7 @@ public class GameLogic {
 			
 			@Override
 			public void run() {
-				
+				int state=0;
 				while(true){
 					try {
 					//	System.out.println("Yo");
@@ -69,11 +69,11 @@ public class GameLogic {
 						}
 						else{
 								gs.drawGameOver();
-								ThreadHolder.instance.stopAll();
 								if(Resources.isFoundGameOver()){
 									getSound().stop();
 									Resources.soundGameOver.play();
 								}
+								ThreadHolder.instance.stopAll();
 								break;
 						}
 

@@ -87,7 +87,6 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	
 	public boolean isAddPassenger(){
 		return false;
-		
 	}
 	
 	public synchronized boolean isFull(){

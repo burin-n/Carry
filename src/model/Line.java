@@ -360,11 +360,9 @@ public class Line implements IDrawable{
 									Scorebar.getInstance().setScore(Scorebar.getInstance().getScore()+1);
 									break;
 								}
-								System.out.println(color.toString()+":tid hear rai");
 							}
 							else if(st.canGo(tran.passengers.get(j).getType())){
 								//transfer people
-								System.out.println(color.toString()+":pen kuy rai:"+tran.passengers.get(j).getType());
 								tran.transfer(j,st);
 								System.out.println("size:"+tran.passengers.size());
 								break;

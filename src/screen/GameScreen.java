@@ -102,19 +102,29 @@ public class GameScreen extends Scene{
 	}
 	
 	public void drawGameOver(){
-		gc.setGlobalAlpha(0.5);
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, GameScreen.width, GameScreen.heigth);
-		FontLoader fontLoader= Toolkit.getToolkit().getFontLoader();
-		gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,50));
-		double font_width= fontLoader.computeStringWidth("Game Over", gc.getFont());
-		double font_height= fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
-		gc.setFill(Color.WHITE);
-		gc.setGlobalAlpha(1.0);
-		gc.fillText("Game Over", GameScreen.width/2 - font_width/2, GameScreen.heigth/2 - font_height/2);
-		gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,20));
-		gc.fillText("Ekkalak Leelasornchai", 750, 650);
-		gc.fillText("Burin Naowarat",750,680);
+		new Thread(()->{
+			for(int i=0;i<30;i++){
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				gc.setGlobalAlpha(0.03);
+				gc.setFill(Color.BLACK);
+				gc.fillRect(0, 0, GameScreen.width, GameScreen.heigth);
+				FontLoader fontLoader= Toolkit.getToolkit().getFontLoader();
+				gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,50));
+				double font_width= fontLoader.computeStringWidth("Game Over", gc.getFont());
+				double font_height= fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
+				gc.setFill(Color.WHITE);
+				gc.setGlobalAlpha(1.0);
+				gc.fillText("Game Over", GameScreen.width/2 - font_width/2, GameScreen.heigth/2 - font_height/2);
+				gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,20));
+				gc.fillText("Ekkalak Leelasornchai 5830622421", 700, 650);
+				gc.fillText("Burin Naowarat 5831034621",700,680);
+			}
+		}).start();
 	}
 	private void addListener(){
 		this.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
