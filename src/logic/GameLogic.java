@@ -24,14 +24,14 @@ import controller.*;
 public class GameLogic {
 	private int creatingFailCount;
 	private boolean isClickedStation;
-	private Station st;
+	private Station prevStation;
+	private Station clickStation;
 	private Item item;
 	private int preindex=-1,index1=-1;
 	public static boolean isGameOver;
-	private boolean isClickedItem;
+	
 	
 	public GameLogic(GameScreen gs){
-		isClickedItem = false;
 		isGameOver = false;
 		isClickedStation = false;
 		addStation("Square");
@@ -231,39 +231,42 @@ public class GameLogic {
 			
 			if(InputUtility.isMouseLeftDown()){
 				if(index1 != -1 || isClickedStation){
-						Station clickstation;
-						clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+//						Station clickstation;
+						clickStation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
 						
-						if(clickstation != null){
+						if(clickStation != null){
 							if(!isClickedStation){
 								isClickedStation = true;
 								System.out.println("ccl");
-								st = clickstation;
+								prevStation = clickStation;
 							}
 							else{
 								int check = 0;
 								for(Line l : LineHolder.getInstance().getLines()){
 								
 										if(l.getColor() != LineController.getInstance().getColors()[index1])continue;
-											if(((int)st.getCenterX() == l.firstPoint().getX()) && ((int)st.getCenterY() == l.firstPoint().getY())){
+											if(((int)prevStation.getCenterX() == l.firstPoint().getX()) && ((int)prevStation.getCenterY() == l.firstPoint().getY())){
 												//l.addPoint(x1, y1, x2, y2, append);
 												check = 1;
 												System.out.println("tor");
-												l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),false);
+												//l.addPoint((int)prevStation.getCenterX(), (int)prevStation.getCenterY(), (int)clickStation.getCenterX(), (int)clickStation.getCenterY(),false);
+												l.addPoint(prevStation, clickStation, false);
 											}
 									
-										if(((int)st.getCenterX() == l.lastPoint().getX()) && ((int)st.getCenterY() == l.lastPoint().getY())){
+										if(((int)prevStation.getCenterX() == l.lastPoint().getX()) && ((int)prevStation.getCenterY() == l.lastPoint().getY())){
 											//l.addPoint(x1, y1, x2, y2, append);
 											check = 1;
 											System.out.println("tor");
-											l.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+											//l.addPoint((int)prevStation.getCenterX(), (int)prevStation.getCenterY(), (int)clickStation.getCenterX(), (int)clickStation.getCenterY(),true);
+											l.addPoint(prevStation, clickStation, true);
 										}
 								}
 								Line L;
-								if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false && st != clickstation){
+								if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false && prevStation != clickStation){
 									System.out.println("cre");
 									L = new Line(LineController.getInstance().getColors()[index1]);
-									L.addPoint((int)st.getCenterX(), (int)st.getCenterY(), (int)clickstation.getCenterX(), (int)clickstation.getCenterY(),true);
+									//L.addPoint((int)prevStation.getCenterX(), (int)prevStation.getCenterY(), (int)clickStation.getCenterX(), (int)clickStation.getCenterY(),true);
+									L.addPoint(prevStation, clickStation, true);
 									LineHolder.getInstance().addLine(L);
 //									if(LineController.getInstance().getIsUsed()[index1] == true){
 //										System.out.println("created line");
@@ -272,21 +275,21 @@ public class GameLogic {
 								}
 								
 								
-								clickstation = null;
+								clickStation = null;
 								isClickedStation = false;
 							}
 						}
 						else {
 							isClickedStation = false;
 							//System.out.println();
-							st = null;
+							prevStation = null;
 							
 						
 						}
 				}	
-				Station clickstation;
-				clickstation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
-				if(clickstation == null){
+	
+				clickStation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
+				if(clickStation == null){
 					
 					index1 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 					
@@ -301,4 +304,6 @@ public class GameLogic {
 				item.useItem();
 		
 	}
+	
+	
 }

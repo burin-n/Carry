@@ -18,12 +18,14 @@ public class Line implements IDrawable{
 	private Color color;
 	private ArrayList<Transporter> transporters; 
 	private boolean isCreateTranFront;
+	protected boolean[] isPass;
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
 		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
+		
 	}
 	
 	public Line(Color color,ArrayList<Point> points){
@@ -31,6 +33,8 @@ public class Line implements IDrawable{
 		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
+		this.isPass = new boolean[5];
+		for(int i=0;i<5;i++) isPass[i] = false;
 	}
 	
 	public Color getColor(){
@@ -78,7 +82,10 @@ public class Line implements IDrawable{
 		return points;
 	}
 	
-	public void addPoint(int x1,int y1,int x2,int y2,boolean append){
+	//public void addPoint(int x1,int y1,int x2,int y2,boolean append){
+	public void addPoint(Station s1,Station s2, boolean append){
+		int x1 = (int)s1.getCenterX(), y1 = (int)s1.getCenterY();
+		int x2 = (int)s2.getCenterX(), y2 = (int)s2.getCenterY();
 		ArrayList<Point> l1 = new ArrayList<>();
 		ArrayList<Point> l2 = new ArrayList<>();
 		int directionx;
@@ -182,7 +189,7 @@ public class Line implements IDrawable{
 							LineController.getInstance().getIsUsed()[i] = true;
 						}
 					}
-
+					addStationTypeToLine();
 					break;
 				}
 				
@@ -382,6 +389,10 @@ public class Line implements IDrawable{
 	
 	public int length(){
 		return points.size();
+	}
+	
+	private void addStationTypeToLine(){
+		
 	}
 }
 
