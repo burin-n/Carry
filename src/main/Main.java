@@ -51,8 +51,10 @@ public class Main extends Application{
 	
 	public void stop(){
 		ThreadHolder.instance.stopAll();
-		ThreadHolder.instance.check();
 		ThreadHolder.instance.update();
-		System.out.println(ThreadHolder.instance.getThreads().size());
+		gl.getController().interrupt();
+		gl.stopSound();
+		System.out.println("controller interrupt:"+gl.getController().isInterrupted());
+		ThreadHolder.instance.check();
 	}
 }

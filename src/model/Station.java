@@ -54,6 +54,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					break;
 				}
 			}
 		});

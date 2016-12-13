@@ -20,8 +20,13 @@ public class Scorebar {
 		setNumberOfCrowded(0);
 		setScore(0);
 		setTime(0);
-		people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
-		clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));
+			try{
+				people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
+				clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 	}
 
 	public synchronized int getScore() {

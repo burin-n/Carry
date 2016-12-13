@@ -302,14 +302,15 @@ public class Line implements IDrawable{
 		for(int i=t.size()-1 ; i>=0 ;i--){
 			temp.add(t.get(i));
 		}
+		int mov = temp.size();
 		temp.addAll(points);
 		points = new ArrayList<Point>(temp);
 		for(Transporter tr : transporters){
-			tr.positionIndex+=temp.size();
+			tr.positionIndex+=mov;
 		}
 	}
 	
-	// below these is transport
+	// below these is transport -------------------------------------------------------------------------------------
 	
 	public boolean addTransporter(){
 		if(points.isEmpty()){

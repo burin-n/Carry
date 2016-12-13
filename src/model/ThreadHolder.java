@@ -25,14 +25,21 @@ public class ThreadHolder {
 	
 	public void update(){
 		for(Thread e: threads)
-			if(!e.isAlive())
+			if(e.isInterrupted())
 				threads.remove(e);
 	}
 	
 	public void check(){
+		int num =0;
 		for(Thread e : threads){
-			System.out.println(e.isInterrupted());
+			if(e.isAlive()) num++;
 		}
+		for(ArrayList<Thread> e : transThread){
+			for(Thread t : e)
+				if(t.isAlive()) num++;
+		}
+		
+		System.out.println(num);
 	}
 	
 	public void stopAll(){

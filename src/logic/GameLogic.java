@@ -29,6 +29,7 @@ public class GameLogic {
 	private Item item;
 	private int preindex=-1,index1=-1,status,prestatus;
 	public static boolean isGameOver;
+	private Thread controller;
 	private AudioClip sound;
 	
 	public GameLogic(GameScreen gs){
@@ -43,7 +44,7 @@ public class GameLogic {
 		playSound(Scorebar.getInstance().getNumberOfCrowded());
 		creatingFailCount = 0;
 		item = new Item();
-		Thread controller = new Thread(new Runnable() {
+		controller = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -76,7 +77,9 @@ public class GameLogic {
 					} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							Thread.interrupted();
 							break;
+							
 					}
 					
 					//ThreadHolder.instance.update();
@@ -347,5 +350,11 @@ public class GameLogic {
 		this.sound = sound;
 	}
 	
+	public Thread getController(){
+		return controller;
+	}
 	
+	public void stopSound(){
+		sound.stop();
+	}
 }
