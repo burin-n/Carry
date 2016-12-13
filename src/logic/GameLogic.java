@@ -207,6 +207,9 @@ public class GameLogic {
 		    	if(sound!=null) sound.stop();
 		    	playSound(getStatus());
 		    }
+		    else if(sound!=null){
+		    	if(!sound.isPlaying()) sound.play();
+		    }
 		    prestatus = getStatus();
 			
 			int index = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
