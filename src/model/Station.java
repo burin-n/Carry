@@ -34,15 +34,15 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		Thread t = new Thread(()->{
 			while(true){
 			try {
-					Thread.sleep(12000);
+					Thread.sleep(8000);
 					Random r = new Random();
 					if( r.nextInt(2) == 1 ){
 						for(int i=0;i< r.nextInt(3)+1;i++){
 							AddPassenger();
 						}
 					}
-					if(passengers.size()>7 ) GameLogic.isGameOver = true;//false;
-					else if( passengers.size() > 4 ){
+					if(passengers.size()>9 ) GameLogic.isGameOver = true;//false;
+					else if( passengers.size() > 5 ){
 						isCrowded = true;
 					}
 					else{

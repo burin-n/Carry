@@ -70,6 +70,10 @@ public class GameLogic {
 						else{
 								gs.drawGameOver();
 								ThreadHolder.instance.stopAll();
+								if(Resources.isFoundGameOver()){
+									getSound().stop();
+									Resources.soundGameOver.play();
+								}
 								break;
 						}
 
@@ -98,7 +102,7 @@ public class GameLogic {
 				while(creatingFailCount <= 10){
 					System.out.println("creating station");
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(15000);
 						Platform.runLater(() -> addStation() );
 					} catch (InterruptedException e) {
 					// 	TODO Auto-generated catch block

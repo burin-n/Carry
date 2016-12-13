@@ -8,13 +8,14 @@ import javafx.scene.media.AudioClip;
 public class Resources {
 	public static Resources instance = new Resources();
 	public static Image clock,people;
-	public static AudioClip soundNormal,soundExcited,soundClick;
+	public static AudioClip soundNormal,soundExcited,soundClick,soundGameOver;
+	
 	private static boolean isFoundHuman;
-
 	private static boolean isFoundClock;
 	private static boolean isFoundExciting;
 	private static boolean isFoundNormal;
 	private static boolean isFoundClick;
+	private static boolean isFoundGameOver;
 	
 	
 	public Resources(){
@@ -40,8 +41,8 @@ public class Resources {
 			// TODO: handle exception
 			if(e.getCode()%10 == 0) soundClick = new AudioClip(ClassLoader.getSystemResource("click-sound.mp3").toString()); 
 			if((e.getCode()/10)%10==0)soundExcited = new AudioClip(ClassLoader.getSystemResource("exciting.mp3").toString());
-			if(e.getCode()/100 == 0 ) soundNormal = new AudioClip(ClassLoader.getSystemResource("normal.mp3").toString());
-			
+			if((e.getCode()/100)%10 == 0 ) soundNormal = new AudioClip(ClassLoader.getSystemResource("normal.mp3").toString());
+			if(e.getCode()/1000 ==0 ) soundGameOver = new AudioClip(ClassLoader.getSystemResource("GameOver.mp3").toString());
 			e.printStackTrace();
 		}
 		catch (Exception e) {
@@ -70,14 +71,17 @@ public class Resources {
 		if(ClassLoader.getSystemResource("exciting.mp3")!=null) isFoundExciting = true;
 		if(ClassLoader.getSystemResource("normal.mp3")!=null) isFoundNormal = true;
 		if(ClassLoader.getSystemResource("click-sound.mp3")!=null) isFoundClick = true;
+		if(ClassLoader.getSystemResource("GameOver.mp3")!=null) isFoundGameOver = true;
 		int code = 0;
 		if(!isFoundClick) code += 1;
 		if(!isFoundExciting) code += 10;
 		if(!isFoundNormal) code += 100;
+		if(!isFoundGameOver)  code+= 1000;
 		if(code!=0) throw new SoundNotFoundException(code);
 		soundExcited = new AudioClip(ClassLoader.getSystemResource("exciting.mp3").toString());
 		soundNormal = new AudioClip(ClassLoader.getSystemResource("normal.mp3").toString());
 		soundClick = new AudioClip(ClassLoader.getSystemResource("click-sound.mp3").toString());
+		soundGameOver = new AudioClip(ClassLoader.getSystemResource("GameOver.mp3").toString());
 	}
 	
 	public static boolean isFoundHuman() {
@@ -98,4 +102,9 @@ public class Resources {
 	public static boolean isFoundClick() {
 		return isFoundClick;
 	}
+
+	public static boolean isFoundGameOver() {
+		return isFoundGameOver;
+	}
+
 }

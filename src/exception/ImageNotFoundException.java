@@ -11,14 +11,14 @@ public class ImageNotFoundException extends Exception{
 	public ImageNotFoundException(int code){
 		this.code = code;
 		if(code==0){
-			System.out.println("humanwalk-clipart.png is not found");
+			System.err.println("humanwalk-clipart.png is not found");
 			
 		}
 		else if(code==1){
-			System.out.println("clock-clipart.png is not found");
+			System.err.println("clock-clipart.png is not found");
 		}
 		else
-			System.out.println("all images are not found");
+			System.err.println("all images are not found");
 	
 	}
 	
