@@ -1,34 +1,52 @@
 package logic;
 
-import controller.LineController;
+import java.io.File;
+
+import exception.ImageNotFoundException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class Scorebar {
 	
 	private static Scorebar instance = new Scorebar();
 	private static int score,time,day=0;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
-	private Image clock,people;
+	public static Image clock,people;
 	private int numberOfCrowded;
-	
+	private boolean[] isFoundImage = {false,false};
 	public Scorebar(){
+		clock = null;
+		people = null;
 		setNumberOfCrowded(0);
 		setScore(0);
 		setTime(0);
 			try{
-				people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
-				clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));
+				loader();
 			}
-			catch(Exception e){
+			catch(ImageNotFoundException e){
 				e.printStackTrace();
 			}
 	}
 
+	private void loader() throws ImageNotFoundException{
+		if(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png")!=null) isFoundImage[0] = true;
+		if(ClassLoader.getSystemResourceAsStream("clock-clipart.png")!=null) isFoundImage[1] = true; 
+	
+		if(isFoundImage[0] == false ){
+			if(isFoundImage[1] == false ) throw new ImageNotFoundException(2);
+			else throw new ImageNotFoundException(0);
+		}
+		else if(isFoundImage[1] == false) throw new ImageNotFoundException(1);
+		Scorebar.clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));	
+		Scorebar.people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
+	}
+	
 	public synchronized int getScore() {
 		return score;
 	}
@@ -46,8 +64,16 @@ public class Scorebar {
 	}
 	
 	public void draw(GraphicsContext gc){
-		gc.drawImage(clock, 870	, 4, 60, 60);
-		gc.drawImage(people, 680, 4, 60, 60);
+		
+		gc.setGlobalAlpha(1);
+		gc.setFont(Font.font("Tahoma",FontPosture.ITALIC,20));
+		gc.setFill(Color.BLACK);
+		if(isFoundImage[0] ) gc.drawImage(people, 680, 4, 60, 60);
+		else gc.fillText("Score:", 690, 45);
+		if(isFoundImage[1] ) gc.drawImage(clock, 870, 4, 60, 60);
+		else gc.fillText("Day:", 880, 45);
+		
+		
 		gc.setFill(Color.DIMGREY);
 		gc.setFont(Font.font("Tahoma",32));
 		if(score<10)
@@ -67,6 +93,7 @@ public class Scorebar {
 		//gc.setFill(Color.LIGHTGREEN);
 		//gc.fillRect(934, 70.5, time*(2.25), 29);
 	}
+
 	
 	public synchronized void updateTime(){
 		if(time==50){
@@ -74,7 +101,7 @@ public class Scorebar {
 			if(day == 6){
 				LineController.getInstance().getItem().addItem();
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Sunday !!! \n You got an item.");
+				alert.setContentText("Sunday !!! \n You got a Transporter.");
 				alert.show();
 			}
 			time = 0;
@@ -93,5 +120,7 @@ public class Scorebar {
 	public void setNumberOfCrowded(int numberOfCrowded) {
 		this.numberOfCrowded = numberOfCrowded;
 	}
-
+	public boolean isFoundImage(){
+		return isFoundImage[0] && isFoundImage[1];
+	}
 }

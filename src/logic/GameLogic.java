@@ -20,7 +20,7 @@ import model.ThreadHolder;
 import model.TriangleStation;
 import screen.GameScreen;
 import utility.InputUtility;
-import controller.*;
+
 public class GameLogic {
 	private int creatingFailCount;
 	private boolean isClickedStation;

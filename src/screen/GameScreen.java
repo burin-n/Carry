@@ -4,8 +4,6 @@ import java.awt.im.InputContext;
 import java.util.ArrayList;
 import java.util.Random;
 
-import controller.LineController;
-
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
  
@@ -22,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import logic.LineController;
 import logic.Scorebar;
 import model.ArcStation;
 import model.CrossStation;

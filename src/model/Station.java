@@ -41,14 +41,12 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 							AddPassenger();
 						}
 					}
-					if(passengers.size()>7 ) GameLogic.isGameOver = /*true*/false;
+					if(passengers.size()>7 ) GameLogic.isGameOver = true;//false;
 					else if( passengers.size() > 4 ){
-						//Scorebar.getInstance().setNumberOfCrowded(Scorebar.getInstance().getNumberOfCrowded()+1);
 						isCrowded = true;
 					}
 					else{
 						crowdedState = 0.0;
-						//Scorebar.getInstance().setNumberOfCrowded(Scorebar.getInstance().getNumberOfCrowded()-1);
 						isCrowded = false;
 					}
 				} catch (InterruptedException e) {

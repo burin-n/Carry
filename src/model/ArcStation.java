@@ -2,10 +2,10 @@ package model;
 
 import java.util.Random;
 
-import controller.LineController;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import logic.LineController;
 
 public class ArcStation extends Station{
 

@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import logic.LineController;
 import logic.Scorebar;
 import screen.GameScreen;
 import utility.InputUtility;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import controller.LineController;
 
 
 public class Line implements IDrawable{
