@@ -67,7 +67,7 @@ public class Line implements IDrawable{
 	public void drawPale(GraphicsContext gc){
 		gc.setStroke(color);
 		gc.setLineWidth(10);
-		gc.setGlobalAlpha(0.08);
+		gc.setGlobalAlpha(0.05);
 		for(int i=0;i<points.size()-1;i++){
 			gc.strokeLine(points.get(i).getX(), points.get(i).getY(), points.get(i+1).getX(), points.get(i+1).getY());
 		}
@@ -309,7 +309,8 @@ public class Line implements IDrawable{
 		}
 	}
 	
-	// below these is transport -------------------------------------------------------------------------------------
+	//***********************************************************************************************************************
+	// below these is transport ---------------------------------------------------------------------------------------------
 	
 	public boolean addTransporter(){
 		if(points.isEmpty()){

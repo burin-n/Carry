@@ -34,7 +34,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		Thread t = new Thread(()->{
 			while(true){
 			try {
-					Thread.sleep(10000);
+					Thread.sleep(12000);
 					Random r = new Random();
 					if( r.nextInt(2) == 1 ){
 						for(int i=0;i< r.nextInt(3)+1;i++){

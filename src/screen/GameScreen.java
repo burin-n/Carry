@@ -112,6 +112,9 @@ public class GameScreen extends Scene{
 		gc.setFill(Color.WHITE);
 		gc.setGlobalAlpha(1.0);
 		gc.fillText("Game Over", GameScreen.width/2 - font_width/2, GameScreen.heigth/2 - font_height/2);
+		gc.setFont(Font.font("Tohoma",FontPosture.ITALIC,20));
+		gc.fillText("Ekkalak Leelasornchai", 750, 650);
+		gc.fillText("Burin Naowarat",750,680);
 	}
 	private void addListener(){
 		this.setOnMouseEntered((event)->InputUtility.setMouseOnScreen(true));
@@ -152,7 +155,7 @@ public class GameScreen extends Scene{
 		
 		this.setOnKeyReleased((KeyEvent event)->{
 			InputUtility.setKeyPressed(event.getCode(), false);	
-			System.out.println("abcddfefsadf");
+			System.out.println("key release");
 		});
 	}
 	

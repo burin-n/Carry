@@ -200,7 +200,7 @@ public class GameLogic {
 			else status = 1;
 		    if(status != prestatus){
 		    	//stopSound();
-		    	sound.stop();
+		    	if(sound!=null) sound.stop();
 		    	playSound(getStatus());
 		    }
 		    prestatus = getStatus();
@@ -222,7 +222,10 @@ public class GameLogic {
 			preindex = index;
 			index = -1;
 			if(InputUtility.isMouseLeftDown()){
-				
+				if(StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY())!=null ||
+						index1 != -1){
+					playSoundClick();
+				}
 				if(index1 == 5){ // delete line
 					int index2 = LineController.getInstance().IndexisLineControl(InputUtility.getMouseX(), InputUtility.getMouseY());
 					if(index2 >= 0 && index2 <= 4){ // find which line to delete
@@ -251,8 +254,9 @@ public class GameLogic {
 			
 			
 			if(InputUtility.isMouseLeftDown()){
-				if(index1 != -1 || isClickedStation){
-
+			
+				if((index1 <5 && index1>=0 )|| isClickedStation){
+						
 						clickStation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
 						
 						if(clickStation != null){
@@ -324,10 +328,10 @@ public class GameLogic {
 	}
 	private void playSound(int status){
 		
-		if(status == 0)setSound(new AudioClip(ClassLoader.getSystemResource("normal.mp3").toString()));
-		else setSound(new AudioClip(ClassLoader.getSystemResource("exciting.mp3").toString()));
-		
-		getSound().play();
+		if(status == 0)setSound(Resources.soundNormal);
+		else setSound(Resources.soundExcited);
+		if(getSound()!=null)
+			getSound().play();
 	}
 
 
@@ -356,5 +360,10 @@ public class GameLogic {
 	
 	public void stopSound(){
 		sound.stop();
+	}
+	
+	public void playSoundClick(){
+		if(Resources.isFoundClick()) 
+			Resources.soundClick.play();
 	}
 }

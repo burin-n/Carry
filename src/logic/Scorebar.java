@@ -17,35 +17,15 @@ public class Scorebar {
 	private static Scorebar instance = new Scorebar();
 	private static int score,time,day=0;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
-	public static Image clock,people;
 	private int numberOfCrowded;
-	private boolean[] isFoundImage = {false,false};
+
 	public Scorebar(){
-		clock = null;
-		people = null;
+
 		setNumberOfCrowded(0);
 		setScore(0);
 		setTime(0);
-			try{
-				loader();
-			}
-			catch(ImageNotFoundException e){
-				e.printStackTrace();
-			}
 	}
 
-	private void loader() throws ImageNotFoundException{
-		if(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png")!=null) isFoundImage[0] = true;
-		if(ClassLoader.getSystemResourceAsStream("clock-clipart.png")!=null) isFoundImage[1] = true; 
-	
-		if(isFoundImage[0] == false ){
-			if(isFoundImage[1] == false ) throw new ImageNotFoundException(2);
-			else throw new ImageNotFoundException(0);
-		}
-		else if(isFoundImage[1] == false) throw new ImageNotFoundException(1);
-		Scorebar.clock = new Image(ClassLoader.getSystemResourceAsStream("clock-clipart.png"));	
-		Scorebar.people = new Image(ClassLoader.getSystemResourceAsStream("humanwalk-clipart.png"));
-	}
 	
 	public synchronized int getScore() {
 		return score;
@@ -68,9 +48,9 @@ public class Scorebar {
 		gc.setGlobalAlpha(1);
 		gc.setFont(Font.font("Tahoma",FontPosture.ITALIC,20));
 		gc.setFill(Color.BLACK);
-		if(isFoundImage[0] ) gc.drawImage(people, 680, 4, 60, 60);
+		if(Resources.isFoundHuman() ) gc.drawImage(Resources.people, 680, 4, 60, 60);
 		else gc.fillText("Score:", 690, 45);
-		if(isFoundImage[1] ) gc.drawImage(clock, 870, 4, 60, 60);
+		if(Resources.isFoundClock() ) gc.drawImage(Resources.clock, 870, 4, 60, 60);
 		else gc.fillText("Day:", 880, 45);
 		
 		
@@ -119,8 +99,5 @@ public class Scorebar {
 
 	public void setNumberOfCrowded(int numberOfCrowded) {
 		this.numberOfCrowded = numberOfCrowded;
-	}
-	public boolean isFoundImage(){
-		return isFoundImage[0] && isFoundImage[1];
 	}
 }

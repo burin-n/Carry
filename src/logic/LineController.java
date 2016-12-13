@@ -124,7 +124,7 @@ public class LineController implements IDrawable{
 		if(getStatus()[6])size+=20;
 		gc.strokeOval(250 + 30-size/2.0, 704 + 30-size/2.0, size, size);
 		gc.fillOval(250+30-size/4, 704+30-size/4,size/2,size/2);
-		System.out.println(Integer.toString(item.getNumber()));
+		//System.out.println(Integer.toString(item.getNumber()));
 		Font font = new Font(20);
 		gc.setFont(font);
 		int f=0;
