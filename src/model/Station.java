@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -9,15 +11,21 @@ import logic.GameLogic;
 
 public abstract class Station implements IDrawable,IPassengerDrawable{
 	protected double x,y;
-	protected ArrayList<Passenger> passengers = new ArrayList<>();
+	protected ArrayList<Passenger> passengers;
 	protected boolean isCrowded;
 	protected double crowdedState;
+	protected Set<Color> lines;
 	
 	public Station(double x, double y){
+		lines = new HashSet<>();
+		passengers = new ArrayList<>();
 		this.setX(x);
-		crowdedState = 0.0;
 		this.setY(y);
+		
+		
+		crowdedState = 0.0;
 		isCrowded = false;
+		
 		Thread t = new Thread(()->{
 			while(true){
 			try {
@@ -108,4 +116,24 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 	public abstract double getCenterX();
 	public abstract double getCenterY();
 	public abstract String getType();
+	
+	public void addLine(Color c){
+		//TODO rew rew
+		lines.add(c);
+	}
+	
+	public void removeLine(Color l){
+		//TODO naja
+		lines.remove(l);
+	}
+	
+	public boolean canGo(String type){
+		boolean canGo = false;
+		for(Color c : lines){
+			 canGo = canGo || LineHolder.getInstance().getLine(c).canGo(type);
+		}
+		return canGo;
+	}
+
+	public abstract void recievePeople(Passenger p);
 }

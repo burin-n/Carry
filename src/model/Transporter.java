@@ -98,4 +98,8 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 		passengers.remove(index);
 	}
 	
+	public synchronized void transfer(int index, Station st){
+		st.recievePeople(passengers.remove(index));
+	}
+	
 }

@@ -47,6 +47,16 @@ public class TriangleStation extends Station{
 		// TODO Auto-generated method stub
 		return "Triangle";
 	}
+	@Override
+	public void recievePeople(Passenger p) {
+		// TODO Auto-generated method stub
+		Passenger newP = null;
+		if(p.getType().compareTo("Square") == 0 ) newP = new SquarePassenger(getX() + 22 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		else if(p.getType().compareTo("Arc") == 0) newP = new ArcPassenger(getX() + 22 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		else if(p.getType().compareTo("Cross") == 0) newP = new CrossPassenger(getX() + 22 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		else if(p.getType().compareTo("Triangle") == 0 ) newP = new TrianglePassenger(getX() + 22 + getNumberOfPassengers()*12, this.y,1,Color.BLACK);
+		passengers.add(newP);
+	}
 
 
 

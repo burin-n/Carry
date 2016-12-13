@@ -9,6 +9,9 @@ import screen.GameScreen;
 import utility.InputUtility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import controller.LineController;
 
@@ -18,14 +21,14 @@ public class Line implements IDrawable{
 	private Color color;
 	private ArrayList<Transporter> transporters; 
 	private boolean isCreateTranFront;
-	protected boolean[] isPass;
+	Set<String> canGo;
 	
 	public Line(Color color){
 		this.points = new ArrayList<>();
 		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
-		
+		canGo = new HashSet<String>();
 	}
 	
 	public Line(Color color,ArrayList<Point> points){
@@ -33,8 +36,7 @@ public class Line implements IDrawable{
 		this.transporters = new ArrayList<>();
 		this.color = color;
 		isCreateTranFront = true;
-		this.isPass = new boolean[5];
-		for(int i=0;i<5;i++) isPass[i] = false;
+		canGo = new HashSet<String>();
 	}
 	
 	public Color getColor(){
@@ -189,7 +191,9 @@ public class Line implements IDrawable{
 							LineController.getInstance().getIsUsed()[i] = true;
 						}
 					}
-					addStationTypeToLine();
+					s1.addLine(color);
+					s2.addLine(color);
+					addStationTypeToLine(s1,s2);
 					break;
 				}
 				
@@ -338,15 +342,26 @@ public class Line implements IDrawable{
 				// moving
 				for(int i=0;i<Transporter.speed;i++){
 					Station st = StationHolder.getInstance().isStation(tran.x, tran.y);
-					if(st!=null){ // passing station	
-						// drop people
+					if(st!=null){ // canGo station	
+						// is can drop or transfer people?d
 						for(int j=tran.passengers.size()-1 ; j>=0 ;j--){
-							if(tran.passengers.get(j).getType().compareTo(st.getType()) == 0){
-								tran.drop(j);
-								Scorebar.getInstance().setScore(Scorebar.getInstance().getScore()+1);
+							if(canGo(tran.passengers.get(j).getType())){
+								// drop people
+								if(tran.passengers.get(j).getType().compareTo(st.getType()) == 0){
+									tran.drop(j);
+									Scorebar.getInstance().setScore(Scorebar.getInstance().getScore()+1);
+									break;
+								}
+								System.out.println("tid hear rai");
+							}
+							else if(st.canGo(tran.passengers.get(j).getType())){
+								//transfer people
+								System.out.println("pen kuy rai");
+								tran.transfer(j,st);
 								break;
 							}
 						}
+
 						// get people
 						if(!tran.isFull() && st.getNumberOfPassengers()>0){
 							tran.addPassenger(st.dequeuePassengers());
@@ -365,11 +380,9 @@ public class Line implements IDrawable{
 						tran.direction = -1;
 					}
 				}
-				
-								
-				
+
 			}	
-		});
+		}); // end thread
 		
 		ThreadHolder.instance.addTransThread(LineController.getInstance().getColorIndex(color), t);
 		t.start();
@@ -391,8 +404,14 @@ public class Line implements IDrawable{
 		return points.size();
 	}
 	
-	private void addStationTypeToLine(){
-		
+	private void addStationTypeToLine(Station s1,Station s2){
+		//TODO
+		canGo.add(s1.getType());
+		canGo.add(s2.getType());
+	}
+	
+	public boolean canGo(String type){
+		return canGo.contains(type);
 	}
 }
 
