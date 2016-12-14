@@ -1,3 +1,8 @@
+/* Write by
+ * Ekkalak Leelasornchai 5830622421 
+ * Burin Naowarat 5831034621
+ * Progmeth project
+ */ 
 package model;
 
 import javafx.application.Platform;
@@ -87,14 +92,18 @@ public class Line implements IDrawable{
 	public void addPoint(Station s1,Station s2, boolean append){
 		int x1 = (int)s1.getCenterX(), y1 = (int)s1.getCenterY();
 		int x2 = (int)s2.getCenterX(), y2 = (int)s2.getCenterY();
-		ArrayList<Point> l1 = new ArrayList<>();
-		ArrayList<Point> l2 = new ArrayList<>();
+		
+		ArrayList<Point> l1 = new ArrayList<>(); // for temp line
+		ArrayList<Point> l2 = new ArrayList<>(); // for temp line
+		
+		// use direction for extends line
 		int directionx;
-		if(x2!=x1) directionx = (x2-x1)/Math.abs(x2-x1);
+		if(x2!=x1) directionx = (x2-x1)/Math.abs(x2-x1); // not divide by zero
 		else directionx = 0;
 		int directiony; 
-		if(y2!=y1) directiony = (y2-y1)/Math.abs(y2-y1);
+		if(y2!=y1) directiony = (y2-y1)/Math.abs(y2-y1); // not divide by zero
 		else directiony = 0;
+		
 		int inclineLength = Math.min(Math.abs(x2-x1), Math.abs(y2-y1));
 		int horizontalLength = Math.abs(Math.abs(x2-x1) - inclineLength);
 		int verticalLength = Math.abs(Math.abs(y2-y1) - inclineLength);
@@ -136,12 +145,14 @@ public class Line implements IDrawable{
 			else l2.addAll(findHorizontal(x1, y1, directionx, horizontalLength));
 		}
 		
+		// create temp line
 		Line tl1 = new Line(color,l1);
 		Line tl2 = new Line(color,l2);
 		
 		// thread for catch chooseLineEvent when mouse is clicked
 		// and ESC to cancel creating line
-		Thread t = new Thread( () ->{
+		
+		Thread t = new Thread( () ->{ // thread for selecting which line to create
 			boolean isl1 = true;
 			while(true){
 				try {
@@ -152,6 +163,7 @@ public class Line implements IDrawable{
 					break;
 				}
 				if(x2!=x1){
+					//find ccw or cw mouse pointer is to displacement line between station 
 					if(ccw(new Point(x1,y1),new Point(x2,y2), new Point(InputUtility.getMouseX(),InputUtility.getMouseY()))){	
 						if(directiony/directionx < 0 ){
 							LineHolder.getInstance().setTemp(tl2); isl1 = false;
@@ -173,7 +185,7 @@ public class Line implements IDrawable{
 					LineHolder.getInstance().setTemp(tl1);
 				}
 				//System.out.println(InputUtility.isMouseLeftDown());
-				if(InputUtility.isMouseLeftDown()){
+				if(InputUtility.isMouseLeftDown()){ // catch clickig event for select line then extends/create
 					System.out.println("mouse down in Line");
 					if(append){
 						if(isl1)points.addAll(l1);
@@ -196,7 +208,7 @@ public class Line implements IDrawable{
 					break;
 				}
 				
-				else if(InputUtility.getKeyPressed(KeyCode.ESCAPE)){
+				else if(InputUtility.getKeyPressed(KeyCode.ESCAPE)){ // esc to cancel creating line
 					System.out.println("ESC down in Line");
 					LineHolder.getInstance().removeTemp();
 					for(int i=LineController.getInstance().getColors().length-1 ; i >= 0; i-- ){

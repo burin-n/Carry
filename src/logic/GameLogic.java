@@ -1,3 +1,8 @@
+/* Write by
+ * Ekkalak Leelasornchai 5830622421 
+ * Burin Naowarat 5831034621
+ * Progmeth project
+ */ 
 package logic;
 
 import java.util.Random;
@@ -262,19 +267,19 @@ public class GameLogic {
 			
 			if(InputUtility.isMouseLeftDown()){
 			
-				if((index1 <5 && index1>=0 )|| isClickedStation){
+				if((index1 <5 && index1>=0 )|| isClickedStation){ // check click line on line controller
 						
 						clickStation = StationHolder.getInstance().isStation(InputUtility.getMouseX(), InputUtility.getMouseY());
 						
-						if(clickStation != null){
-							if(!isClickedStation){
+						if(clickStation != null){  // is click station
+							if(!isClickedStation){ // is clicked station? 
 								isClickedStation = true;
 								System.out.println("ccl");
 								prevStation = clickStation;
 							}
-							else{
+							else{ // clicked station before then connect previous to current 
 								int check = 0;
-								for(Line l : LineHolder.getInstance().getLines()){
+								for(Line l : LineHolder.getInstance().getLines()){  // select create new line or extend ?
 								
 										if(l.getColor() != LineController.getInstance().getColors()[index1])continue;
 											if(((int)prevStation.getCenterX() == l.firstPoint().getX()) && ((int)prevStation.getCenterY() == l.firstPoint().getY())){

@@ -1,3 +1,8 @@
+/* Write by
+ * Ekkalak Leelasornchai 5830622421 
+ * Burin Naowarat 5831034621
+ * Progmeth project
+ */ 
 package model;
 
 
@@ -31,7 +36,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		crowdedState = 0.0;
 		isCrowded = false;
 		
-		Thread t = new Thread(()->{
+		Thread t = new Thread(()->{ // thread for creating passenger
 			while(true){
 			try {
 					Thread.sleep(8000);
