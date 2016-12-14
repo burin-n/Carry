@@ -135,10 +135,13 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 		lines.remove(l);
 	}
 	
-	public boolean canGo(String type){
+	public synchronized boolean canGo(String type){
 		boolean canGo = false;
 		for(Color c : lines){
-			 canGo = canGo || LineHolder.getInstance().getLine(c).canGo(type);
+			Line l = LineHolder.getInstance().getLine(c);
+			if(l != null){ 
+				canGo = canGo || l.canGo(type);
+			}
 		}
 		return canGo;
 	}

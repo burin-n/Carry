@@ -59,6 +59,7 @@ public class LineHolder {
 				return l;
 		return null;
 	}
+	
 	public synchronized void drawTemp(GraphicsContext gc){
 		if(temp != null){
 			temp.drawPale(gc);

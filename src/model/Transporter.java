@@ -100,7 +100,7 @@ public class Transporter implements IDrawable,IPassengerDrawable{
 	public synchronized void transfer(int index, Station st){
 		
 		Passenger p = passengers.remove(index);
-		System.out.println("kuy her " + p.getType() + "size = " + passengers.size());
+		System.out.println("In transport " + p.getType() + "size = " + passengers.size());
 		st.recievePeople(p);
 	}
 	
