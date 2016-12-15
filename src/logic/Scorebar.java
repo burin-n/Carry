@@ -18,9 +18,9 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 public class Scorebar {
-	
+	private static int level = 1;
 	private static Scorebar instance = new Scorebar();
-	private static int score,time,day=0;
+	private static int score,time,day=0,week=1;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
 	private int numberOfCrowded;
 
@@ -73,7 +73,7 @@ public class Scorebar {
 			gc.fillText(""+score, 760, 48);
 		else 
 			gc.fillText(""+score, 750, 48);
-		gc.fillText(days[day], 947, 48);
+		gc.fillText(days[day%7], 947, 48);
 		//gc.strokeRect(934, 70, 90, 30);
 		//gc.setFill(Color.LIGHTGREEN);
 		//gc.fillRect(934, 70.5, time*(2.25), 29);
@@ -81,17 +81,32 @@ public class Scorebar {
 
 	
 	public synchronized void updateTime(){
+		int tlevel = level;
 		if(time==30){
-			day = (day+1)%7;
-			if(day == 6){
+			day++;
+			if(day%7 == 6){
+				week++;
 				LineController.getInstance().getItem().addItem();
+				// change level
+				if(week == 3 ) level ++;
+				else if(week == 13) level++;
+				else if(week == 18) level++;
+				else if(week == 22) level++;
+				//else if(week > 22 && (day-1)%3==0 ) level++;	
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Sunday !!! \n You got a Transporter.");
+				alert.setHeaderText(null);
+				alert.setTitle(null);
+				if(tlevel!=level) alert.setContentText("Week "+week + "\nYou reach level "+level+"!!!\nYou got a new Transporter."); 
+				else alert.setContentText("Week "+week + "\n You got a new Transporter.");
 				alert.show();
+				
+				
 			}
 			time = 0;
 		}	
 		else time++;
+		
+
 	}
 	
 	public static Scorebar getInstance(){
@@ -104,5 +119,9 @@ public class Scorebar {
 
 	public void setNumberOfCrowded(int numberOfCrowded) {
 		this.numberOfCrowded = numberOfCrowded;
+	}
+
+	public int getlevel(){
+		return level;
 	}
 }

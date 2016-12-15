@@ -42,7 +42,7 @@ public abstract class Station implements IDrawable,IPassengerDrawable{
 					Thread.sleep(8000);
 					Random r = new Random();
 					if( r.nextInt(2) == 1 ){
-						for(int i=0;i< r.nextInt(2)+1;i++){
+						for(int i=0;i< r.nextInt(2)+Scorebar.getInstance().getlevel();i++){
 							AddPassenger();
 						}
 					}
