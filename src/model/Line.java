@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import logic.GameLogic;
 import logic.LineController;
 import logic.Scorebar;
 import screen.GameScreen;
@@ -187,6 +188,7 @@ public class Line implements IDrawable{
 				//System.out.println(InputUtility.isMouseLeftDown());
 				if(InputUtility.isMouseLeftDown()){ // catch clickig event for select line then extends/create
 					System.out.println("mouse down in Line");
+					boolean isCreate = points.isEmpty() ? true : false;
 					if(append){
 						if(isl1)points.addAll(l1);
 						else points.addAll(l2);
@@ -205,6 +207,7 @@ public class Line implements IDrawable{
 					s1.addLine(color);
 					s2.addLine(color);
 					addStationTypeToLine(s1,s2);
+					if(isCreate)GameLogic.addTransportToLine(this);
 					break;
 				}
 				
@@ -326,6 +329,7 @@ public class Line implements IDrawable{
 	
 	public boolean addTransporter(){
 		if(points.isEmpty()){
+			System.out.println("line is empty cannot add transporter");
 			return false;
 		}
 		Transporter tran;

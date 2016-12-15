@@ -31,7 +31,7 @@ public class GameLogic {
 	private boolean isClickedStation;
 	private Station prevStation;
 	private Station clickStation;
-	private Item item;
+	private static Item item;
 	private int preindex=-1,index1=-1,status,prestatus;
 	public static boolean isGameOver;
 	private Thread controller;
@@ -49,6 +49,7 @@ public class GameLogic {
 		playSound(Scorebar.getInstance().getNumberOfCrowded());
 		creatingFailCount = 0;
 		item = new Item();
+		
 		controller = new Thread(new Runnable() {
 			
 			@Override
@@ -298,14 +299,12 @@ public class GameLogic {
 								}
 								Line L;
 								if(check == 0 && LineController.getInstance().getIsUsed()[index1] == false && prevStation != clickStation){
+									// TODO add transporter to new line
 									System.out.println("cre");
 									L = new Line(LineController.getInstance().getColors()[index1]);
 									L.addPoint(prevStation, clickStation, true);
 									LineHolder.getInstance().addLine(L);
-//									if(LineController.getInstance().getIsUsed()[index1] == true){
-//										System.out.println("created line");
-//										LineHolder.getInstance().getLines().add(L);
-//									}
+									System.out.println("this condition");
 								}
 								
 								
@@ -331,12 +330,13 @@ public class GameLogic {
 			}
 	
 		}
-	
-	private void addTransportToLine(Line l){
-		if(item.canUse())
+
+
+	public static void addTransportToLine(Line l){
+		if(item.canUse()){
 			if(l.addTransporter()) 
 				item.useItem();
-		
+		}
 	}
 	private void playSound(int status){
 		
