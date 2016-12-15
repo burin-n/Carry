@@ -88,7 +88,7 @@ public class Scorebar {
 				week++;
 				LineController.getInstance().getItem().addItem();
 				// change level
-				if(week == 3 ) level ++;
+				if(week == 7 ) level ++;
 				else if(week == 13) level++;
 				else if(week == 18) level++;
 				else if(week == 22) level++;
