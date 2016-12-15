@@ -18,7 +18,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 public class Scorebar {
-	private static int level = 1;
+	private static int level = 0;
 	private static Scorebar instance = new Scorebar();
 	private static int score,time,day=0,week=1;
 	private String[] days = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
@@ -88,11 +88,8 @@ public class Scorebar {
 				week++;
 				LineController.getInstance().getItem().addItem();
 				// change level
-				if(week == 7 ) level ++;
-				else if(week == 13) level++;
-				else if(week == 18) level++;
-				else if(week == 22) level++;
-				//else if(week > 22 && (day-1)%3==0 ) level++;	
+				if(week%4 == 0 && level<6) level++;
+					
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText(null);
 				alert.setTitle(null);
